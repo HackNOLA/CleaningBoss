@@ -1,0 +1,16 @@
+{
+    "cSpell.words": ["Enumify", "ferpa", "Mailgun", "meteormethod"],
+    "[html]": {
+      "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "editor.formatOnSave": true,
+    "html.format.indentHandlebars": true,
+    "files.associations": {
+      "*.html": "handlebars"
+    },
+    "html.format.templating": true,
+    "html.format.wrapAttributesIndentSize": null,
+    "html.format.wrapAttributes": "force",
+    "files.insertFinalNewline": true
+  }
+  
