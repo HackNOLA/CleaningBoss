@@ -19,11 +19,13 @@ export default function AuthContainer() {
               left: 0,
               top: 0,
               height: "auto",
+              textShadowColor: "#1A2DDA",
+              textShadowRadius: 15,
               transform: [{ translateX: 0 }, { translateY: 0 }],
             },
           ]}
         >
-          Cleaning boss
+          Cleaning Boss
         </Text>
       </View>
     </>
@@ -35,10 +37,7 @@ const stylesheet = StyleSheet.create({
     position: "absolute",
     width: "auto",
     height: "auto",
-    left: "auto",
-    right: 46,
-    top: "auto",
-    bottom: 521,
+    paddingTop: 100,
     transform: [{ translateX: 0 }, { translateY: 0 }, { rotate: "0deg" }],
     shadowColor: "rgb(0, 0, 0)",
     shadowOffset: {

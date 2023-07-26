@@ -20,8 +20,9 @@ const stylesheet = StyleSheet.create({
   style_or: {
     // position: "absolute",
     backgroundColor: "#ffffff",
-    height: "40%",
+    height: "45%",
     width: "80%",
+    top: "15%",
     borderRadius: 20,
     shadowColor: "#bfbfbf", // Light shadow color
     shadowOffset: {
