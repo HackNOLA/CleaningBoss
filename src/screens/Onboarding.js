@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function App() {
+export default function Onboarding() {
   return (
     <View style={stylesheet.background}>
       <LinearGradient

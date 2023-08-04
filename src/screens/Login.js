@@ -10,10 +10,10 @@ import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome, Fontisto } from "@expo/vector-icons";
 
 import { useFonts } from "@expo-google-fonts/dev";
-import AuthContainer from "../components/AuthContainer";
-import NeumorphicInput from "../components/Input";
-import LoginImage from "../components/LoginImage";
-import TextLogo from "../components/TextLogo";
+import AuthContainer from "../common/components/AuthContainer";
+import NeumorphicInput from "../common/components/Input";
+import LoginImage from "../common/components/LoginImage";
+import TextLogo from "../common/components/TextLogo";
 import { useNavigation } from "@react-navigation/native";
 
 export default function App() {
