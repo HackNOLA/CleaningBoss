@@ -10,9 +10,7 @@ import {
 
 export default function NeumorphicInput({ children, ...props }) {
   return (
-    <>
-      <TextInput style={[stylesheet.input]} placeholder={props.placeholder} />
-    </>
+    <TextInput style={[stylesheet.input]} placeholder={props.placeholder} />
   );
 }
 

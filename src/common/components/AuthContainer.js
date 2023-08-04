@@ -1,6 +1,19 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableHighlight,
+} from "react-native";
 import { Svg, Path } from "react-native-svg";
+import { LinearGradient } from "expo-linear-gradient";
+import { FontAwesome, Fontisto } from "@expo/vector-icons";
+
+import { useFonts } from "@expo-google-fonts/dev";
+import NeumorphicInput from "./Input";
+import LoginImage from "./LoginImage";
+import TextLogo from "./TextLogo";
 
 export default function AuthContainer({ children }) {
   return (
@@ -13,6 +26,106 @@ export default function AuthContainer({ children }) {
     >
       <View style={[stylesheet.style_or]}>{children}</View>
     </View>
+  );
+}
+
+function Auth() {
+  return (
+    <AuthContainer>
+      {/* Email */}
+      <View>
+        <View style={[stylesheet.pd, { paddingTop: 50 }]} />
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            paddingLeft: 20,
+            alignItems: "baseline",
+          }}
+        >
+          <Fontisto name="email" size={24} color="black" />
+          <View style={{ padding: 5 }} />
+          <NeumorphicInput placeholder="Email" />
+        </View>
+      </View>
+      {/* Email */}
+      {/* Password */}
+      <View>
+        <View style={[stylesheet.pd]} />
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            paddingLeft: 24,
+            alignItems: "baseline",
+          }}
+        >
+          <FontAwesome name="lock" size={26} color="black" />
+          <View style={{ padding: 5 }} />
+          <NeumorphicInput placeholder=" Password" />
+        </View>
+      </View>
+      {/* Password */}
+      {/* Forgot Password */}
+      <View
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <View style={[stylesheet.pd]} />
+        <Text style={[stylesheet.style_Forgot_Password_]}>
+          Forgot Password?
+        </Text>
+      </View>
+      {/* Forgot Password */}
+      {/* Login */}
+      <View
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <View style={[stylesheet.pd]} />
+        <TouchableHighlight
+          style={{
+            backgroundColor: "#23E342",
+            borderRadius: 20,
+            width: 100,
+            height: 30,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text style={{ color: "white", fontWeight: "bold" }}>Login</Text>
+        </TouchableHighlight>
+      </View>
+      {/* Login */}
+      {/* Signup */}
+      <View
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingTop: 15,
+        }}
+      >
+        <TouchableHighlight
+          style={{
+            borderRadius: 20,
+            width: 100,
+            height: 30,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text style={{ color: "#23E342", fontWeight: "bold" }}>Signup</Text>
+        </TouchableHighlight>
+      </View>
+      {/* Signupå */}
+    </AuthContainer>
   );
 }
 
@@ -60,5 +173,13 @@ const stylesheet = StyleSheet.create({
     bottom: "auto",
     transform: [{ translateX: 0 }, { translateY: 0 }, { rotate: "0deg" }],
     backgroundColor: "rgba(255, 255, 255, 1)",
+  },
+  background: {
+    display: "flex",
+    flex: 1,
+  },
+  style_Forgot_Password_: {
+    fontSize: 14,
+    color: "black",
   },
 });
