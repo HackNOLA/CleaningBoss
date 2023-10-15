@@ -8,6 +8,8 @@ import {
   useToastController,
   XStack,
   YStack,
+  Input, 
+  Text
 } from '@my/ui'
 import { ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
 import React, { useState } from 'react'
@@ -21,35 +23,22 @@ export function HomeScreen() {
   return (
     <YStack f={1} jc="center" ai="center" p="$4" space>
       <YStack space="$4" maw={600}>
-        <H1 ta="center">Welcome to Tamagui.</H1>
-        <Paragraph ta="center">
-          Here's a basic starter to show navigating from one screen to another. This screen uses the
-          same code on Next.js and React Native.
-        </Paragraph>
-
-        <Separator />
-        <Paragraph ta="center">
-          Made by{' '}
-          <Anchor color="$color12" href="https://twitter.com/natebirdman" target="_blank">
-            @natebirdman
-          </Anchor>
-          ,{' '}
-          <Anchor
-            color="$color12"
-            href="https://github.com/tamagui/tamagui"
-            target="_blank"
-            rel="noreferrer"
-          >
-            give it a ⭐️
-          </Anchor>
-        </Paragraph>
+        <Input placeholder="Username" />
+        <Input placeholder="Password" />
+        <Button
+          onPress={() => {
+            console.log('pressed')
+          }}
+          borderColor={"black"}
+        >Sign in</Button>
+        <Paragraph>Don't have an account? <Anchor href="/signup">Sign up</Anchor></Paragraph>
       </YStack>
 
-      <XStack>
+      {/* <XStack>
         <Button {...linkProps}>Link to user</Button>
-      </XStack>
+      </XStack> */}
 
-      <SheetDemo />
+      {/* <SheetDemo /> */}
     </YStack>
   )
 }

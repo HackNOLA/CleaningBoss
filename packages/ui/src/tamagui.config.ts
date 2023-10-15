@@ -60,7 +60,14 @@ export const config = createTamagui({
     body: bodyFont,
     heading: headingFont,
   },
-  themes,
+  themes: {
+    light: {
+      background: '#fff'
+    },
+    dark: {
+      background: '#fff'
+    }
+  },
   tokens,
   media: createMedia({
     xs: { maxWidth: 660 },

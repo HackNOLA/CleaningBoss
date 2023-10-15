@@ -1,13 +1,13 @@
-import { HomeScreen } from 'app/features/home/screen'
+import { Signup } from 'app/features/signup'
 import Head from 'next/head'
 
 export default function Page() {
   return (
     <>
       <Head>
-        <title>Cleaning Boss</title>
+        <title>Sign Up</title>
       </Head>
-      <HomeScreen />
+      <Signup />
     </>
   )
 }
