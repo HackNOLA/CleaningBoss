@@ -1,11 +1,18 @@
-import { HomeScreen } from 'app/features/home/screen'
-import { XStack, YStack, Paragraph, Input, Button, Anchor} from 'tamagui'
-import { Dimensions } from 'react-native'
+import {
+    Button,
+    Paragraph,
+    useToastController,
+    YStack,
+    Input, 
+  } from '@my/ui'
+  import React, { useState } from 'react'
+  import { useLink } from 'solito/link'
 import { Stack, Link } from 'expo-router'
+import { Dimensions } from 'react-native'
 
 export default function Screen() {
-  const { width, height } = Dimensions.get('window');
-  
+    const { width, height } = Dimensions.get('window');
+
   return (
     <>
       <Stack.Screen
@@ -14,7 +21,7 @@ export default function Screen() {
           headerShown: false
         }}
       />
-      <YStack top={height / 2} padding={40} space="$4" maw={400}>
+       <YStack top={height / 2} padding={40} space="$4" maw={400}>
         <Input placeholder="Username" />
         <Input placeholder="Password" />
         <Button
@@ -27,9 +34,9 @@ export default function Screen() {
             console.log('pressed')
           }}
           borderColor={"black"}
-        >Sign in</Button>
+        >Sign Up</Button>
         <YStack alignItems='center' space="$4" maw={600}>
-        <Paragraph>Don't have an account? <Link  href="/signup">Sign up</Link></Paragraph>
+        <Paragraph>Already have an account? <Link  href="/">Sign in</Link></Paragraph>
         </YStack>
       </YStack>
 

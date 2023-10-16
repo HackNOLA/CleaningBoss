@@ -10,6 +10,7 @@ export default function HomeLayout() {
     InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
   })
   const scheme = useColorScheme()
+  
 
   if (!loaded) {
     return null
