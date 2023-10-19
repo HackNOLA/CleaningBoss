@@ -1,4 +1,4 @@
-import { Signup } from 'app/features/signup'
+import { Signup } from 'app/features/auth/signup'
 import Head from 'next/head'
 
 export default function Page() {
