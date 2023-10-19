@@ -18,11 +18,11 @@ export default function HomeLayout() {
   }
   return (
     <Provider>
-      {/* <ClerkProvider publishableKey={"pk_test_Zmx1ZW50LXBpZy01Ny5jbGVyay5hY2NvdW50cy5kZXYk"}> */}
+      <ClerkProvider publishableKey={"pk_test_Zmx1ZW50LXBpZy01Ny5jbGVyay5hY2NvdW50cy5kZXYk"}>
       <ThemeProvider value={scheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack />
       </ThemeProvider>
-      {/* </ClerkProvider> */}
+      </ClerkProvider>
     </Provider>
   )
 }
