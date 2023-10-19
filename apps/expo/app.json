@@ -33,7 +33,8 @@
     "extra": {
       "eas": {
         "projectId": "[your_project_id]"
-      }
+      },
+      "clerkPublishableKey": "pk_test_Zmx1ZW50LXBpZy01Ny5jbGVyay5hY2NvdW50cy5kZXYk"
     }
   }
 }

@@ -1,7 +1,6 @@
-import { HomeScreen } from 'app/features/home/screen'
 import { XStack, YStack, Paragraph, Input, Button, Anchor} from 'tamagui'
 import { Dimensions } from 'react-native'
-import { Stack, Link } from 'expo-router'
+import { Stack } from 'expo-router'
 
 export default function Screen() {
   const { width, height } = Dimensions.get('window');
@@ -29,7 +28,7 @@ export default function Screen() {
           borderColor={"black"}
         >Sign in</Button>
         <YStack alignItems='center' space="$4" maw={600}>
-        <Paragraph>Don't have an account? <Link  href="/signup">Sign up</Link></Paragraph>
+        <Paragraph>Don't have an account? </Paragraph>
         </YStack>
       </YStack>
 

@@ -23,14 +23,14 @@ export function HomeScreen() {
   return (
     <YStack f={1} jc="center" ai="center" p="$4" space>
       <YStack space="$4" maw={600}>
-        <Input placeholder="Username" />
-        <Input placeholder="Password" />
+        {/* <Input placeholder="Username" />
+        <Input placeholder="Password" /> */}
         <Button
           onPress={() => {
             console.log('pressed')
           }}
           borderColor={"black"}
-        >Sign in</Button>
+        ><Anchor href="/signin">Sign in</Anchor></Button>
         <Paragraph>Don't have an account? <Anchor href="/signup">Sign up</Anchor></Paragraph>
       </YStack>
 
