@@ -1,17 +1,49 @@
-import { Button, Paragraph, useToastController, YStack, Input, Toast } from '@my/ui'
-import React, { useState } from 'react'
+import {
+  Button,
+  Paragraph,
+  useToastController,
+  YStack,
+  Input,
+  Toast,
+  H3,
+  XStack,
+  useToastState,
+} from '@my/ui'
+import React, { useState, useEffect } from 'react'
 import { useSignUp } from '@clerk/clerk-expo'
 import { Stack, Link, router } from 'expo-router'
-import { Dimensions } from 'react-native'
+import { Alert, Dimensions, View } from 'react-native'
 
 export default function Screen() {
   const { width, height } = Dimensions.get('window')
   const { isLoaded, signUp, setActive } = useSignUp()
-  const [emailAddress, setEmailAddress] = React.useState('')
-  const [password, setPassword] = React.useState('')
-  const [pendingVerification, setPendingVerification] = React.useState(false)
-  const [code, setCode] = React.useState('')
-  const { show } = useToastController()
+  const [emailAddress, setEmailAddress] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmedPassword, setConfirmedPassword] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [organiztion, setOrganization] = useState('')
+  const [pendingVerification, setPendingVerification] = useState(false)
+  const [code, setCode] = useState('')
+  const [bgColor, setBgColor] = useState('red' as any)
+  const [stepOneFinished, setStepOneFinished] = useState(false)
+  const [stepTwoFinished, setStepTwoFinished] = useState(false)
+  const [native, setNative] = React.useState(false)
+  const toast = useToastController()
+
+  useEffect(() => {}, [isLoaded, stepOneFinished, stepTwoFinished])
+
+  const reset = () => {
+    setEmailAddress('')
+    setPassword('')
+    setConfirmedPassword('')
+    setFirstName('')
+    setLastName('')
+    setOrganization('')
+    setPendingVerification(false)
+    setStepOneFinished(false)
+    setCode('')
+  }
 
   // start the sign up process.
   const onSignUpPress = async () => {
@@ -19,21 +51,46 @@ export default function Screen() {
       return
     }
 
+    if (!firstName || !lastName || !organiztion) {
+      toast.show('Hold on!', {
+        message: 'You must fill out all fields to continue.',
+        toastType: 'info',
+        native: false,
+      })
+    }
+
+    if (lastName && firstName && organiztion && !stepOneFinished) {
+      setStepOneFinished(true)
+      return
+    }
+    if (emailAddress && password && confirmedPassword) {
+      setStepTwoFinished(true)
+    }
+
+    if (password !== confirmedPassword) {
+      toast.show('Hold on!', {
+        message: 'Passwords do not match',
+        toastType: 'info',
+        native: false,
+      })
+      return
+    }
+
     try {
-      await signUp.create({
+      const user = await signUp.create({
         emailAddress,
         password,
       })
-
+      console.log({ user, organiztion })
       // send the email.
       await signUp.prepareEmailAddressVerification({ strategy: 'email_code' })
 
       // change the UI to our pending section.
       setPendingVerification(true)
     } catch (err: any) {
-      show({
+      toast.show('Wait!', {
         title: 'Error',
-        message: err.message,
+        message: err.errors[0].message,
         duration: 4000,
         viewport: 'screen',
       })
@@ -53,6 +110,12 @@ export default function Screen() {
       })
 
       await setActive({ session: completeSignUp.createdSessionId })
+      toast.show('Success!', {
+        title: 'Success',
+        message: 'You have successfully signed up!',
+        duration: 4000,
+        viewport: 'screen',
+      })
       router.replace('dashboard')
     } catch (err: any) {
       console.error(JSON.stringify(err, null, 2))
@@ -69,34 +132,103 @@ export default function Screen() {
       />
       <>
         {!pendingVerification && (
-          <YStack top={height / 2} padding={40} space="$4" maw={400}>
-            <Input
-              autoCapitalize="none"
-              value={emailAddress}
-              placeholder="Email..."
-              onChangeText={(email) => setEmailAddress(email)}
-            />
-            <Input
-              value={password}
-              placeholder="Password..."
-              placeholderTextColor="#000"
-              secureTextEntry={true}
-              onChangeText={(password) => setPassword(password)}
-            />
-            <Button
-              backgroundColor={'#86C562'}
-              shadowColor={'black'}
-              shadowOpacity={0.5}
-              shadowRadius={5}
-              shadowOffset={{ width: 0, height: 0 }}
-              onPress={onSignUpPress}
-              borderColor={'black'}
+          <YStack top={height / 3} padding={40} space="$4" maw={400}>
+            <XStack
+              space="$4"
+              justifyContent="space-between"
+              alignItems="center"
+              style={{ marginBottom: 20 }}
             >
-              Sign Up
-            </Button>
+              <H3>Create an Account</H3>
+              <XStack>
+                {!stepOneFinished && <Paragraph>Step 1/2</Paragraph>}
+                {stepOneFinished && (
+                  <YStack alignItems="center">
+                    <Button onPress={reset}>Reset</Button>
+                    <Paragraph>Step 2/2</Paragraph>
+                  </YStack>
+                )}
+              </XStack>
+            </XStack>
+            {!stepOneFinished && (
+              <YStack space="$4">
+                <Input
+                  autoCapitalize="none"
+                  value={firstName}
+                  placeholder="First Name..."
+                  onChangeText={(firstName) => setFirstName(firstName)}
+                />
+                <Input
+                  autoCapitalize="none"
+                  value={lastName}
+                  placeholder="Last Name..."
+                  onChangeText={(lastName) => setLastName(lastName)}
+                />
+                <Input
+                  autoCapitalize="none"
+                  value={organiztion}
+                  placeholder="Your Organization's Name..."
+                  onChangeText={(organiztion) => setOrganization(organiztion)}
+                />
+              </YStack>
+            )}
+            {stepOneFinished && (
+              <YStack space="$4">
+                <Input
+                  autoCapitalize="none"
+                  value={emailAddress}
+                  placeholder="Email..."
+                  onChangeText={(email) => setEmailAddress(email)}
+                />
+                <Input
+                  value={password}
+                  placeholder="Password..."
+                  placeholderTextColor="#000"
+                  secureTextEntry={true}
+                  onChangeText={(password) => setPassword(password)}
+                />
+                <Input
+                  value={confirmedPassword}
+                  placeholder="Confirm Password..."
+                  placeholderTextColor="#000"
+                  secureTextEntry={true}
+                  onChangeText={(confirmedPassword) => setConfirmedPassword(confirmedPassword)}
+                />
+              </YStack>
+            )}
+
+            <>
+              <Button
+                backgroundColor={'#67c962'}
+                shadowColor={'black'}
+                shadowOpacity={0.5}
+                shadowRadius={5}
+                shadowOffset={{ width: 0, height: 0 }}
+                onPress={onSignUpPress}
+                borderRadius={50}
+                textProps={{ color: 'white' }}
+              >
+                CONTINUE
+              </Button>
+            </>
+
+            <XStack space="$2" justifyContent="center">
+              <YStack alignItems="center" space="$4" maw={600}>
+                <Paragraph>or</Paragraph>
+                <XStack space="$2">
+                  <Button padding={5} circular={true}></Button>
+                  <View style={{ width: 10 }}></View>
+                  <Button padding={5} circular={true}></Button>
+                </XStack>
+              </YStack>
+            </XStack>
             <YStack alignItems="center" space="$4" maw={600}>
               <Paragraph>
-                Already have an account? <Link href="/">Sign in</Link>
+                Already have an account?{' '}
+                <Link style={{ color: 'blue', textDecorationLine: 'underline' }} href="/">
+                  {' '}
+                  Log In
+                </Link>
               </Paragraph>
             </YStack>
             <Toast></Toast>
@@ -112,7 +244,42 @@ export default function Screen() {
             </Button>
           </YStack>
         )}
+        <CurrentToast bgColor={bgColor} />
       </>
     </>
+  )
+}
+
+const CurrentToast = ({ bgColor }) => {
+  const currentToast = useToastState()
+
+  if (!currentToast || currentToast.isHandledNatively) return null
+  return (
+    <Toast
+      key={currentToast.id}
+      duration={currentToast.duration}
+      enterStyle={{ opacity: 0, scale: 0.5, y: -25 }}
+      exitStyle={{ opacity: 0, scale: 1, y: -20 }}
+      shadowColor={'black'}
+      shadowOpacity={0.5}
+      shadowRadius={5}
+      shadowOffset={{ width: 0, height: 0 }}
+      y={0}
+      opacity={1}
+      scale={1}
+      viewportName={currentToast.viewportName}
+      width={Dimensions.get('window').width}
+      borderRadius={0}
+      backgroundColor={bgColor}
+    >
+      <YStack>
+        <Toast.Title fontWeight={'bold'} color={'white'}>
+          {currentToast.title}
+        </Toast.Title>
+        {!!currentToast.message && (
+          <Toast.Description color={'white'}>{currentToast.message}</Toast.Description>
+        )}
+      </YStack>
+    </Toast>
   )
 }
