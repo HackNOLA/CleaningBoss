@@ -13,6 +13,12 @@ import React, { useState, useEffect } from 'react'
 import { useSignUp } from '@clerk/clerk-expo'
 import { Stack, Link, router } from 'expo-router'
 import { Alert, Dimensions, View } from 'react-native'
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  'https://jqlnugxsnwftfvzsqfvv.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
+)
 
 export default function Screen() {
   const { width, height } = Dimensions.get('window')
@@ -31,7 +37,12 @@ export default function Screen() {
   const [native, setNative] = React.useState(false)
   const toast = useToastController()
 
-  useEffect(() => {}, [isLoaded, stepOneFinished, stepTwoFinished])
+  useEffect(() => {
+    const getData = async () => {
+      console.log(error)
+    }
+    getData()
+  }, [isLoaded, stepOneFinished, stepTwoFinished])
 
   const reset = () => {
     setEmailAddress('')
@@ -81,9 +92,11 @@ export default function Screen() {
         emailAddress,
         password,
       })
+
       console.log({ user, organiztion })
       // send the email.
       await signUp.prepareEmailAddressVerification({ strategy: 'email_code' })
+      setBgColor('green')
 
       // change the UI to our pending section.
       setPendingVerification(true)
@@ -109,6 +122,10 @@ export default function Screen() {
         code,
       })
 
+      const { error } = await supabase
+        .from('users')
+        .insert({ id: 3, first_name: firstName, last_name: lastName, email: emailAddress })
+      console.log(error)
       await setActive({ session: completeSignUp.createdSessionId })
       toast.show('Success!', {
         title: 'Success',
