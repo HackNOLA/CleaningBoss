@@ -9,10 +9,13 @@ import {
   useToastState,
   Toast,
 } from '@my/ui'
-import { Dimensions, View } from 'react-native'
+import { Dimensions, View, LogBox } from 'react-native'
 import { Stack, Link, router } from 'expo-router'
 import { useSignIn, useAuth } from '@clerk/clerk-expo'
 import { useState, useEffect } from 'react'
+
+LogBox.ignoreLogs(['Warning: ...']) // Ignore log notification by message
+LogBox.ignoreAllLogs() //Ignore all log notifications
 
 export default function Screen() {
   const { width, height } = Dimensions.get('window')
@@ -81,13 +84,12 @@ export default function Screen() {
           secureTextEntry={true}
           onChangeText={(password) => setPassword(password)}
         />
-        <View style={{ height: 5 }}></View>
+        <View style={{ height: 2 }}></View>
         <XStack space="$2" justifyContent="flex-end">
           <Link style={{ color: 'blue', fontSize: 16 }} href="/forgot-password">
             Forgot Password?
           </Link>
         </XStack>
-        <View style={{ height: 10 }}></View>
         <Button
           backgroundColor={'#67c962'}
           shadowColor={'black'}

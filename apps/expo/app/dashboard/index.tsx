@@ -148,7 +148,7 @@ export default function Dash() {
           )
         })}
       </Tab.Navigator>
-      <View style={{ backgroundColor: 'white', height: 5 }} />
+      {/* <View style={{ backgroundColor: 'white', height: 5 }} /> */}
     </>
   )
 }
@@ -160,9 +160,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tabBar: {
-    height: 110,
+    height: 80,
     position: 'absolute',
-    borderRadius: 16,
+    // borderRadius: 16,
     width: '100%',
   },
   btn: {
