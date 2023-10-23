@@ -56,9 +56,9 @@ const TabButton = (props) => {
         <View style={styles.btn}>
           <Animatable.View ref={circleRef} style={styles.circle} />
           {item.icon !== 'users' ? (
-            <FontAwesome size={20} name={item.icon} color={focused ? 'black' : 'black'} />
+            <FontAwesome size={22} name={item.icon} color={focused ? 'black' : 'black'} />
           ) : (
-            <Feather size={20} name={item.icon} color={focused ? 'black' : 'black'} />
+            <Feather size={22} name={item.icon} color={focused ? 'black' : 'black'} />
           )}
         </View>
         <Animatable.Text ref={textRef} style={styles.text}>
@@ -73,8 +73,15 @@ function Screen() {
   const { width, height } = Dimensions.get('window')
   return (
     <>
-      <YStack top={height / 3} padding={40} space="$4" maw={400}>
-        <Paragraph>Dashboard</Paragraph>
+      <YStack
+        top={height / 3}
+        padding={40}
+        space="$4"
+        maw={400}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Paragraph>Screen</Paragraph>
       </YStack>
     </>
   )
@@ -86,8 +93,21 @@ export default function Dash() {
     <>
       <Stack.Screen
         options={{
-          title: 'Home',
-          headerShown: false,
+          title: '',
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#555FD0',
+          },
+          headerLeft: () => (
+            <>
+              <Text color={'white'}>Logo</Text>
+            </>
+          ),
+          headerRight: () => (
+            <TouchableOpacity onPress={() => router.back()}>
+              <Feather name="settings" size={24} color="white" />
+            </TouchableOpacity>
+          ),
         }}
       />
       <Tab.Navigator
