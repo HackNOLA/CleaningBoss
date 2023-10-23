@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Paragraph, YStack, Text } from 'tamagui'
+import { Paragraph, YStack, Text, Button } from 'tamagui'
 import { Stack, Link, router } from 'expo-router'
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
@@ -56,9 +56,27 @@ const TabButton = (props) => {
         <View style={styles.btn}>
           <Animatable.View ref={circleRef} style={styles.circle} />
           {item.icon !== 'users' ? (
-            <FontAwesome size={22} name={item.icon} color={focused ? 'black' : 'black'} />
+            <View
+              style={[
+                styles.iconWrapper,
+                {
+                  backgroundColor: focused ? '#67c962' : 'transparent',
+                },
+              ]}
+            >
+              <FontAwesome size={22} name={item.icon} color={focused ? 'white' : 'black'} />
+            </View>
           ) : (
-            <Feather size={22} name={item.icon} color={focused ? 'black' : 'black'} />
+            <View
+              style={[
+                styles.iconWrapper,
+                {
+                  backgroundColor: focused ? '#67c962' : 'transparent',
+                },
+              ]}
+            >
+              <Feather size={22} name={item.icon} color={focused ? 'white' : 'black'} />
+            </View>
           )}
         </View>
         <Animatable.Text ref={textRef} style={styles.text}>
@@ -162,6 +180,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FF6B6B',
     borderRadius: 25,
+  },
+  iconWrapper: {
+    borderRadius: 50,
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   text: {
     fontSize: 10,
