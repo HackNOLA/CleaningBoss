@@ -110,7 +110,7 @@ export default function Dash() {
           )
         })}
       </Tab.Navigator>
-      <View style={{ backgroundColor: 'white', height: 20 }} />
+      <View style={{ backgroundColor: 'white', height: 5 }} />
     </>
   )
 }
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tabBar: {
-    height: 80,
+    height: 110,
     position: 'absolute',
     borderRadius: 16,
     width: '100%',
