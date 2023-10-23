@@ -8,9 +8,9 @@ import { FontAwesome, Feather } from '@expo/vector-icons'
 
 const TabArr = [
   { route: 'Home', label: 'Home', icon: 'home', component: Screen },
-  { route: 'Calendar', label: 'Search', icon: 'calendar-plus-o', component: Screen },
-  { route: 'Locations', label: 'Add', icon: 'building-o', component: Screen },
-  { route: 'Users', label: 'Like', icon: 'users', component: Screen },
+  { route: 'Calendar', label: 'Calendar', icon: 'calendar-plus-o', component: Screen },
+  { route: 'Locations', label: 'Locations', icon: 'building-o', component: Screen },
+  { route: 'Users', label: 'Users', icon: 'users', component: Screen },
 ]
 
 const Tab = createBottomTabNavigator()
