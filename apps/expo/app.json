@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "[yourprojectsname]",
-    "slug": "[yourprojectsname]",
+    "name": "Cleaning Boss",
+    "slug": "cleaning-boss",
     "scheme": "[yourprojectsname]",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -21,18 +21,18 @@
       "bundleIdentifier": "com.[yourprojectsname].app"
     },
     "android": {
+       
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      },
-      "package": "com.[yourprojectsname].app"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "[your_project_id]"
+        "projectId": "d928102e-ae2c-4b76-b0d6-db0a3c559ad1"
       },
       "clerkPublishableKey": "pk_test_Zmx1ZW50LXBpZy01Ny5jbGVyay5hY2NvdW50cy5kZXYk"
     }
