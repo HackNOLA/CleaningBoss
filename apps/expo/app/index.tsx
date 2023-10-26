@@ -28,7 +28,7 @@ export default function Screen() {
 
   useEffect(() => {
     if (isSignedIn) {
-      router.replace('dashboard')
+      router.replace('bottomnav')
     }
   }, [isSignedIn])
 
