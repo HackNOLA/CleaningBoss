@@ -128,7 +128,7 @@ function Screen() {
   )
 }
 
-export default function Dash() {
+export default function Dashboard() {
   const { width, height } = Dimensions.get('window')
   return (
     <>
