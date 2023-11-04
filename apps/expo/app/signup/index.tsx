@@ -28,7 +28,8 @@ export default function Screen() {
   const [confirmedPassword, setConfirmedPassword] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [organiztion, setOrganization] = useState('')
+  const [organization, setOrganization] = useState('')
+  const [joinCode, setJoinCode] = useState('' as any)
   const [pendingVerification, setPendingVerification] = useState(false)
   const [code, setCode] = useState('')
   const [bgColor, setBgColor] = useState('red' as any)
@@ -62,7 +63,7 @@ export default function Screen() {
       return
     }
 
-    if (!firstName || !lastName || !organiztion) {
+    if (!firstName || !lastName || !organization) {
       toast.show('Hold on!', {
         message: 'You must fill out all fields to continue.',
         toastType: 'info',
@@ -70,7 +71,7 @@ export default function Screen() {
       })
     }
 
-    if (lastName && firstName && organiztion && !stepOneFinished) {
+    if (lastName && firstName && organization && !stepOneFinished) {
       setStepOneFinished(true)
       return
     }
@@ -93,7 +94,7 @@ export default function Screen() {
         password,
       })
 
-      console.log({ user, organiztion })
+      // console.log({ user, organization })
       // send the email.
       await signUp.prepareEmailAddressVerification({ strategy: 'email_code' })
       setBgColor('green')
@@ -122,9 +123,17 @@ export default function Screen() {
         code,
       })
 
-      const { error } = await supabase
-        .from('users')
-        .insert({ id: 3, first_name: firstName, last_name: lastName, email: emailAddress })
+      const role = organization !== '' && joinCode === '' ? 'admin' : 'user'
+      const { error } = await supabase.from('users').insert({
+        first_name: firstName,
+        last_name: lastName,
+        email: emailAddress,
+        role: role,
+      })
+
+      // const { data } = await supabase.from('users').select() // Correct
+      // organization !== '' && joinCode === '' ?
+
       console.log(error)
       await setActive({ session: completeSignUp.createdSessionId })
       toast.show('Success!', {
@@ -149,7 +158,7 @@ export default function Screen() {
       />
       <>
         {!pendingVerification && (
-          <YStack top={height / 3} padding={40} space="$4" maw={400}>
+          <YStack top={height / 4} padding={40} space="$4" maw={400}>
             <XStack
               space="$4"
               justifyContent="space-between"
@@ -183,9 +192,16 @@ export default function Screen() {
                 />
                 <Input
                   autoCapitalize="none"
-                  value={organiztion}
+                  value={organization}
                   placeholder="Your Organization's Name..."
-                  onChangeText={(organiztion) => setOrganization(organiztion)}
+                  onChangeText={(organization) => setOrganization(organization)}
+                />
+                <Paragraph>or</Paragraph>
+                <Input
+                  autoCapitalize="none"
+                  value={joinCode}
+                  placeholder="Join Code..."
+                  onChangeText={(joinCode) => setJoinCode(joinCode)}
                 />
               </YStack>
             )}
