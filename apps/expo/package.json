@@ -7,7 +7,8 @@
     "start": "expo start --dev-client",
     "android": "npx expo run:android",
     "ios": "npx expo run:ios",
-    "eject": "npx expo eject"
+    "eject": "npx expo eject",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@babel/runtime": "^7.18.9",
@@ -48,7 +49,10 @@
     "@expo/metro-config": "^0.3.21",
     "@tamagui/babel-plugin": "latest",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
+    "eslint": "^8.53.0",
+    "eslint-config-universe": "^12.0.0",
     "metro-minify-terser": "^0.74.1",
+    "prettier": "^3.0.3",
     "typescript": "^4.9.4"
   },
   "resolutions": {

@@ -1,17 +1,15 @@
-import { useEffect, useRef } from 'react'
-import { Text } from 'tamagui'
+import { FontAwesome, Feather } from '@expo/vector-icons'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Stack, router } from 'expo-router'
+import React, { useEffect, useRef } from 'react'
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { FontAwesome, Feather } from '@expo/vector-icons'
-import React from 'react'
+import { Text } from 'tamagui'
 
-import Dashboard from '../screens/dashboard'
 import Calendar from '../screens/calendar'
+import Dashboard from '../screens/dashboard'
 import Locations from '../screens/locations'
 import Users from '../screens/users'
-
 
 const TabArr = [
   { route: 'Home', label: 'Dashboard', icon: 'home', component: Dashboard },
@@ -95,7 +93,7 @@ const TabButton = (props) => {
 }
 
 export default function Dash() {
-  const { width, height } = Dimensions.get('window')
+  Dimensions.get('window')
   return (
     <>
       <Stack.Screen
@@ -107,7 +105,7 @@ export default function Dash() {
           },
           headerLeft: () => (
             <>
-              <Text color={'white'}>Logo</Text>
+              <Text color="white">Logo</Text>
             </>
           ),
           headerRight: () => (

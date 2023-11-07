@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { useSignIn, useAuth } from '@clerk/clerk-react'
-
-import { Input, Button, Toast, H3, XStack, useToastState, YStack } from '@my/ui'
-
-import { Stack, Link, router } from 'expo-router'
-
-import { Alert, Dimensions, View } from 'react-native'
+import { useAuth } from '@clerk/clerk-react'
+import { Button, Toast, XStack, YStack } from '@my/ui'
+import { Stack, router } from 'expo-router'
+import React from 'react'
+import { Alert, View } from 'react-native'
 
 export default function Signout() {
   const { isLoaded, signOut } = useAuth()
