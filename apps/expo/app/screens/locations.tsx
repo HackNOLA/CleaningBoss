@@ -1,7 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 import React, { useEffect } from 'react'
-import { Dimensions } from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 import { Paragraph, YStack } from 'tamagui'
+import MapView from 'react-native-maps';
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -29,9 +30,16 @@ export default function Locations() {
 
   return (
     <>
-      <YStack top={height / 3} padding={40} space="$4" justifyContent="center" alignItems="center">
-        <Paragraph>Locations</Paragraph>
+      <YStack paddingBottom={800} justifyContent="center" alignItems="center">
+        <MapView style={styles.map} />
       </YStack>
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  map: {
+    width: '100%',
+    height: '500%',
+  },
+});
