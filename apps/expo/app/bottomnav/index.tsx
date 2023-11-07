@@ -5,21 +5,19 @@ import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { FontAwesome, Feather } from '@expo/vector-icons'
-import { createClient } from '@supabase/supabase-js'
 import React from 'react'
 
-import Screen from '../screens/dashboard'
+import Dashboard from '../screens/dashboard'
+import Calendar from '../screens/calendar'
+import Locations from '../screens/locations'
+import Users from '../screens/users'
 
-const supabase = createClient(
-  'https://jqlnugxsnwftfvzsqfvv.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
-)
 
 const TabArr = [
-  { route: 'Home', label: 'Home', icon: 'home', component: Screen },
-  { route: 'Calendar', label: 'Calendar', icon: 'calendar-plus-o', component: Screen },
-  { route: 'Locations', label: 'Locations', icon: 'building-o', component: Screen },
-  { route: 'Users', label: 'Users', icon: 'users', component: Screen },
+  { route: 'Home', label: 'Dashboard', icon: 'home', component: Dashboard },
+  { route: 'Calendar', label: 'Calendar', icon: 'calendar-plus-o', component: Calendar },
+  { route: 'Locations', label: 'Locations', icon: 'building-o', component: Locations },
+  { route: 'Users', label: 'Users', icon: 'users', component: Users },
 ]
 
 const Tab = createBottomTabNavigator()
