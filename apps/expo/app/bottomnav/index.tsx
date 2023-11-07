@@ -1,11 +1,14 @@
-import { useState, useEffect, useRef } from 'react'
-import { Paragraph, YStack, Text, Button } from 'tamagui'
-import { Stack, Link, router } from 'expo-router'
+import { useEffect, useRef } from 'react'
+import { Text } from 'tamagui'
+import { Stack, router } from 'expo-router'
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { FontAwesome, Feather } from '@expo/vector-icons'
 import { createClient } from '@supabase/supabase-js'
+import React from 'react'
+
+import Screen from '../screens/dashboard'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -46,13 +49,13 @@ const TabButton = (props) => {
 
   useEffect(() => {
     if (focused) {
-      viewRef.current.animate(animate1)
-      circleRef.current.animate(circle1)
-      textRef.current.transitionTo({ scale: 1 })
+      viewRef.current?.animate(animate1)
+      circleRef.current?.animate(circle1)
+      textRef.current?.transitionTo({ scale: 1 })
     } else {
-      viewRef.current.animate(animate2)
-      circleRef.current.animate(circle2)
-      textRef.current.transitionTo({ scale: 0 })
+      viewRef.current?.animate(animate2)
+      circleRef.current?.animate(circle2)
+      textRef.current?.transitionTo({ scale: 0 })
     }
   }, [focused])
 
@@ -90,41 +93,6 @@ const TabButton = (props) => {
         </Animatable.Text>
       </Animatable.View>
     </TouchableOpacity>
-  )
-}
-
-function Screen() {
-  const { width, height } = Dimensions.get('window')
-
-  useEffect(() => {
-    const fetchCities = async () => {
-      const { data, error } = await supabase
-        .from('users')
-        .select('id')
-        .eq('email', 'akin@operationspark.org')
-      console.log(data)
-    }
-    // check to see if user's org exist
-    // if not, create org
-    // if so,
-    // check to see if user's role is admin
-
-    fetchCities()
-  }, [])
-
-  return (
-    <>
-      <YStack
-        top={height / 3}
-        padding={40}
-        space="$4"
-        maw={400}
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Paragraph>Screen</Paragraph>
-      </YStack>
-    </>
   )
 }
 
