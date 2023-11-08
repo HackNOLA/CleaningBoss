@@ -9,6 +9,30 @@ import { ToggleGroup, YStack } from '@my/ui'
 export default function Page() {
   const { signedIn }: any = useAuth()
   const [page, setPage] = useState(0)
+  const [title, setTitle] = useState('Cleaning Boss')
+
+  useEffect(() => {
+    switchTitle(page)
+  }, [page])
+
+  const switchTitle = (page: number) => {
+    switch (page) {
+      case 0:
+        setTitle('Dashboard')
+        break
+      case 1:
+        setTitle('Calendar')
+        break
+      case 2:
+        setTitle('Locations')
+        break
+      case 3:
+        setTitle('Users')
+        break
+      default:
+        setTitle('Cleaning Boss')
+    }
+  }
 
   return (
     <>
@@ -19,7 +43,7 @@ export default function Page() {
       { !signedIn && <>
       </> } */}
       {/* <Dashboard /> */}
-      <TopBar />
+      <TopBar title={title} />
       <div className="flex justify-center	items-center p-4">
         {page === 0 && <></>}
         {page === 1 && <></>}
@@ -39,12 +63,12 @@ export default function Page() {
  * v0 by Vercel.
  * @see https://v0.dev/t/we15CCHfj08
  */
-function TopBar() {
+function TopBar({ title = 'Cleaning Boss' }) {
   const router = useRouter()
   return (
     <div className="flex items-center justify-between p-4 bg-[#4E5DDE] h-20">
       <div className="flex items-center space-x-2">
-        <span className="text-lg font-bold text-black dark:text-white">Cleaning Boss</span>
+        <span className="text-lg font-bold text-black dark:text-white">{title}</span>
       </div>
       <div className="flex items-center space-x-4">
         <svg
