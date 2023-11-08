@@ -38,6 +38,18 @@ export default function Page() {
     <>
       <Head>
         <title>Cleaning Boss</title>
+        <style>
+          {`
+          .item {
+            /* Your header styles */
+            transition: opacity 0.3s ease; /* Add a transition effect for a smooth fade */
+          }
+
+          .fade {
+            opacity: 0; /* Adjust the opacity value to control the fading effect */
+          }
+          `}
+        </style>
       </Head>
       {/* { signedIn && <HomeScreen /> }
       { !signedIn && <>

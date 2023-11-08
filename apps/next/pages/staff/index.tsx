@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input, Card, XStack, YStack, Text, View, Button, Image } from '@my/ui'
 
 interface User {
@@ -53,6 +53,20 @@ const UserCard = ({ user }: { user: User }) => (
 const StaffPage = () => {
   const [searchTerm, setSearchTerm] = useState('')
 
+  const [scrollPosition, setScrollPosition] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const position = window.scrollY
+      setScrollPosition(position)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value)
   }
@@ -62,11 +76,11 @@ const StaffPage = () => {
   )
 
   return (
-    <YStack paddingTop={200}>
+    <YStack height={'100ch'} paddingTop={160}>
       <YStack
         // justifyContent="center"
         // alignItems="center"
-        style={{ position: 'fixed', right: 20, left: 20, top: 140 }}
+        style={{ position: 'fixed', top: 120, zIndex: 1 }}
       >
         <XStack
           space="$3"
@@ -77,6 +91,7 @@ const StaffPage = () => {
           width={350}
           height={50}
           padding={8}
+          className={scrollPosition > 20 ? 'fade' : 'item'}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +110,11 @@ const StaffPage = () => {
             onChange={handleSearchChange}
           />
         </XStack>
-        <XStack justifyContent="space-between" alignItems="baseline">
+        <XStack
+          className={scrollPosition > 20 ? 'fade' : 'item'}
+          justifyContent="space-between"
+          alignItems="baseline"
+        >
           <XStack paddingTop={40} space="$2" justifyContent="center" alignItems="center">
             <Button onPress={() => console.log('Filter users')} unstyled={true}>
               {filterIcon}
@@ -109,7 +128,7 @@ const StaffPage = () => {
           </Button>
         </XStack>
       </YStack>
-      <YStack space="$4" top={40}>
+      <YStack space="$4" paddingTop={145}>
         {filteredUsers.map((user) => (
           <UserCard key={user.id} user={user} />
         ))}
