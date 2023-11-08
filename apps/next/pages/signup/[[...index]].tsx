@@ -8,6 +8,7 @@ import {
   H3,
   XStack,
   useToastState,
+  Anchor,
 } from '@my/ui'
 import React, { useState, useEffect } from 'react'
 import { useSignUp } from '@clerk/clerk-react'
@@ -15,6 +16,7 @@ import { useRouter } from 'next/router'
 import { Alert, Dimensions, View } from 'react-native'
 import { createClient } from '@supabase/supabase-js'
 import { Link } from 'solito/link'
+import Image from 'next/image'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -153,8 +155,9 @@ export default function Screen() {
   return (
     <>
       <>
+        <Image src={'/auth_splash.png'} width={600} height={200} />
         {!pendingVerification && (
-          <YStack top={height / 4} padding={40} space="$4" maw={400}>
+          <YStack padding={40} space="$4" maw={400}>
             <XStack
               space="$4"
               justifyContent="space-between"
@@ -166,7 +169,7 @@ export default function Screen() {
                 {!stepOneFinished && <Paragraph>Step 1/2</Paragraph>}
                 {stepOneFinished && (
                   <YStack alignItems="center">
-                    <Button onPress={reset}>Reset</Button>
+                    {/* <Button onPress={reset}>Reset</Button> */}
                     <Paragraph>Step 2/2</Paragraph>
                   </YStack>
                 )}
@@ -247,10 +250,10 @@ export default function Screen() {
             <YStack alignItems="center" space="$4" maw={600}>
               <Paragraph>
                 Already have an account?{' '}
-                <Link style={{ color: 'blue', textDecorationLine: 'underline' }} href="/">
+                <Anchor style={{ color: 'blue', textDecorationLine: 'underline' }} href="/">
                   {' '}
                   Log In
-                </Link>
+                </Anchor>
               </Paragraph>
             </YStack>
             <Toast></Toast>
