@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dimensions } from 'react-native'
+import { Calendar, LocaleConfig } from 'react-native-calendars'
 import { Paragraph, YStack } from 'tamagui'
 
 const supabase = createClient(
@@ -8,7 +9,8 @@ const supabase = createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
 )
 
-export default function Calendar() {
+export default function CalendarScreen() {
+  const [selected, setSelected] = useState('')
   const { height } = Dimensions.get('window')
 
   useEffect(() => {
@@ -29,8 +31,15 @@ export default function Calendar() {
 
   return (
     <>
-      <YStack top={height / 3} padding={40} space="$4" justifyContent="center" alignItems="center">
-        <Paragraph>Calendar</Paragraph>
+      <YStack padding={40} justifyContent="center" alignItems="center">
+        <Calendar
+          onDayPress={(day) => {
+            setSelected(day.dateString)
+          }}
+          markedDates={{
+            [selected]: { selected: true, disableTouchEvent: true, selectedColor: 'orange' },
+          }}
+        />
       </YStack>
     </>
   )

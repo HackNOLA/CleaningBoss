@@ -40,14 +40,12 @@ export default function Dashboard() {
     <>
       <YStack paddingBottom={800} justifyContent="center" alignItems="center">
         <MapView style={styles.map} />
-        {cardArr.map((item, index) => {
+        {cardArr.map((item) => {
           return (
             <Card>
               <Paragraph>{item.header}</Paragraph>
               <Card.Header />
-              <Button icon={item.icon}>
-                Hello world
-              </Button>
+              <Button icon={item.icon} />
               <Card.Footer />
               <Paragraph>{item.text}</Paragraph>
               <Card.Background />

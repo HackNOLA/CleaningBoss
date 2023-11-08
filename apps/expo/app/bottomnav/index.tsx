@@ -6,14 +6,14 @@ import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import { Text } from 'tamagui'
 
-import Calendar from '../screens/calendar'
+import CalendarScreen from '../screens/calendar'
 import Dashboard from '../screens/dashboard'
 import Locations from '../screens/locations'
 import Users from '../screens/users'
 
 const TabArr = [
   { route: 'Home', label: 'Dashboard', icon: 'home', component: Dashboard },
-  { route: 'Calendar', label: 'Calendar', icon: 'calendar-plus-o', component: Calendar },
+  { route: 'Calendar', label: 'Calendar', icon: 'calendar-plus-o', component: CalendarScreen },
   { route: 'Locations', label: 'Locations', icon: 'building-o', component: Locations },
   { route: 'Users', label: 'Users', icon: 'users', component: Users },
 ]
