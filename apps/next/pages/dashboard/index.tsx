@@ -18,7 +18,7 @@ export default function Page() {
   const switchTitle = (page: number) => {
     switch (page) {
       case 0:
-        setTitle('Dashboard')
+        setTitle('Cleaning Boss')
         break
       case 1:
         setTitle('Calendar')
