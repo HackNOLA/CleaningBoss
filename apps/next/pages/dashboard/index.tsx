@@ -44,10 +44,25 @@ export default function Page() {
       </> } */}
       {/* <Dashboard /> */}
       <TopBar title={title} />
-      <div className="flex justify-center	items-center p-4">
-        {page === 0 && <></>}
-        {page === 1 && <></>}
-        {page === 2 && <></>}
+      <div
+        style={{ height: '100ch' }}
+        className="flex justify-center	items-center p-4 bg-[#F2F2F2] "
+      >
+        {page === 0 && (
+          <>
+            <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}></div>
+          </>
+        )}
+        {page === 1 && (
+          <>
+            <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}></div>
+          </>
+        )}
+        {page === 2 && (
+          <>
+            <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}></div>
+          </>
+        )}
         {page === 3 && (
           <>
             <StaffPage />
@@ -66,7 +81,7 @@ export default function Page() {
 function TopBar({ title = 'Cleaning Boss' }) {
   const router = useRouter()
   return (
-    <div className="flex items-center justify-between p-4 bg-[#4E5DDE] h-20">
+    <div className="flex items-center justify-between p-4 bg-[#4E5DDE] h-20 fixed w-full">
       <div className="flex items-center space-x-2">
         <span className="text-lg font-bold text-black dark:text-white">{title}</span>
       </div>
@@ -118,15 +133,18 @@ function TopBar({ title = 'Cleaning Boss' }) {
 function BottomNav({ page, setPage }) {
   return (
     <>
-      <div className="fixed bottom-0 left-0 right-0 h-24 bg-white  shadow-lg flex items-center justify-around">
+      <div
+        style={{ zIndex: 99 }}
+        className="fixed bottom-0 left-0 right-0 h-24 bg-white  shadow-lg flex items-center justify-around"
+      >
         <Link href="#">
-          <div className="flex flex-col items-center justify-center text-center">
+          <div className="flex flex-col items-center justify-center text-center z-2">
             <div
               style={{ backgroundColor: page === 0 ? '#33CC4B' : 'transparent' }}
               onClick={() => setPage(0)}
               className={`w-10 h-10 rounded-full bg-[${
                 page === 0 ? '#33CC4B' : 'transparent'
-              }] flex items-center justify-center`}
+              }] flex items-center justify-center  z-4`}
             >
               <svg
                 className={` w-6 h-6 text-${page === 0 ? 'white' : 'black'}`}

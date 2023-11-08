@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Input, XStack, YStack, Text, View, Button } from '@my/ui'
+import { Input, Card, XStack, YStack, Text, View, Button, Image } from '@my/ui'
 
 interface User {
   id: number
@@ -9,17 +9,45 @@ interface User {
 }
 
 const users: User[] = [
-  { id: 1, name: 'John Doe', email: 'johndoe@example.com', phone: '123-456-7890' },
-  { id: 2, name: 'Jane Smith', email: 'janesmith@example.com', phone: '123-456-7890' },
-  { id: 3, name: 'Bob Johnson', email: 'bobjohnson@example.com', phone: '123-456-7890' },
-  { id: 4, name: 'Alice Williams', email: 'alicewilliams@example.com', phone: '123-456-7890' },
+  { id: 1, name: 'John Doe', email: 'johndoe@example.com', phone: '(123)-456-7890' },
+  { id: 2, name: 'Jane Smith', email: 'janesmith@example.com', phone: '(123)-456-7890' },
+  { id: 3, name: 'Bob Johnson', email: 'bobjohnson@example.com', phone: '(123)-456-7890' },
+  { id: 4, name: 'Joe Fraiser', email: 'alicewilliams@example.com', phone: '(123)-456-7890' },
+  { id: 5, name: 'Cotton Berry', email: 'alicewilliams@example.com', phone: '(123)-456-7890' },
+  { id: 6, name: 'Will Williams', email: 'alicewilliams@example.com', phone: '(123)-456-7890' },
+  { id: 7, name: 'Havy Ngyuen', email: 'alicewilliams@example.com', phone: '(123)-456-7890' },
 ]
 
 const UserCard = ({ user }: { user: User }) => (
-  <div>
-    <h3>{user.name}</h3>
-    <p>{user.email}</p>
-  </div>
+  <Card className="load-hidden" backgroundColor={'white'} width={350}>
+    <XStack>
+      <Card.Header>
+        <Image
+          zIndex={0}
+          source={{
+            uri: 'https://source.unsplash.com/random',
+          }}
+          width={50}
+          height={50}
+          borderRadius={40}
+          alt="avatar"
+        />
+      </Card.Header>
+      <YStack top={16}>
+        <XStack width={250} justifyContent="space-between">
+          <Text fontSize={14} fontWeight="bold">
+            {user.name}
+          </Text>
+
+          <Text color={'blue'} fontSize={14}>
+            {'Cleaner'}
+          </Text>
+        </XStack>
+        <Text>{user.email}</Text>
+        <Text>{user.phone}</Text>
+      </YStack>
+    </XStack>
+  </Card>
 )
 
 const StaffPage = () => {
@@ -34,7 +62,7 @@ const StaffPage = () => {
   )
 
   return (
-    <div>
+    <YStack paddingTop={200}>
       <XStack
         space="$3"
         alignItems="center"
@@ -44,6 +72,7 @@ const StaffPage = () => {
         width={350}
         height={50}
         padding={8}
+        style={{ position: 'sticky' }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +92,7 @@ const StaffPage = () => {
         />
       </XStack>
       <XStack justifyContent="space-between" alignItems="baseline">
-        <XStack paddingTop={20} space="$2" justifyContent="center" alignItems="center">
+        <XStack paddingTop={40} space="$2" justifyContent="center" alignItems="center">
           <Button onPress={() => console.log('Filter users')} unstyled={true}>
             {filterIcon}
           </Button>
@@ -75,10 +104,12 @@ const StaffPage = () => {
           {plusIcon}
         </Button>
       </XStack>
-      {/* {filteredUsers.map((user) => (
-        <UserCard key={user.id} user={user} />
-      ))} */}
-    </div>
+      <YStack space="$4" paddingTop={40}>
+        {filteredUsers.map((user) => (
+          <UserCard key={user.id} user={user} />
+        ))}
+      </YStack>
+    </YStack>
   )
 }
 
