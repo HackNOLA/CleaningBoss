@@ -78,9 +78,8 @@ const StaffPage = () => {
   return (
     <YStack height={'100ch'} paddingTop={160}>
       <YStack
-        // justifyContent="center"
-        // alignItems="center"
-        style={{ position: 'fixed', top: 120, zIndex: 1 }}
+      // justifyContent="center"
+      // alignItems="center"
       >
         <XStack
           space="$3"
@@ -128,7 +127,7 @@ const StaffPage = () => {
           </Button>
         </XStack>
       </YStack>
-      <YStack space="$4" paddingTop={145}>
+      <YStack space="$4" paddingTop={60}>
         {filteredUsers.map((user) => (
           <UserCard key={user.id} user={user} />
         ))}

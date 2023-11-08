@@ -93,7 +93,10 @@ export default function Page() {
 function TopBar({ title = 'Cleaning Boss' }) {
   const router = useRouter()
   return (
-    <div className="flex items-center justify-between p-4 bg-[#4E5DDE] h-20 fixed w-full">
+    <div
+      style={{ display: 'flex' }}
+      className="flex items-center justify-between p-4 bg-[#4E5DDE] h-20 fixed w-full"
+    >
       <div className="flex items-center space-x-2">
         <span className="text-lg font-bold text-black dark:text-white">{title}</span>
       </div>
