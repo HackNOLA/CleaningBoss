@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 import React, { useEffect } from 'react'
 import { Dimensions, StyleSheet } from 'react-native'
-import { Paragraph, YStack } from 'tamagui'
-import MapView from 'react-native-maps';
+import MapView from 'react-native-maps'
+import { YStack } from 'tamagui'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '500%',
   },
-});
+})

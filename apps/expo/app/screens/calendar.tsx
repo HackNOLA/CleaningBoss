@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 import React, { useEffect, useState } from 'react'
 import { Dimensions } from 'react-native'
-import { Calendar, LocaleConfig } from 'react-native-calendars'
-import { Paragraph, YStack } from 'tamagui'
+import { Calendar } from 'react-native-calendars'
+import { YStack } from 'tamagui'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
