@@ -18,6 +18,7 @@
     "@react-navigation/native": "^6.1.6",
     "@supabase/supabase-js": "^2.38.2",
     "@types/react-native": "^0.71.3",
+    "@types/xdate": "^0.8.32",
     "app": "0.0.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "burnt": "^0.12.1",

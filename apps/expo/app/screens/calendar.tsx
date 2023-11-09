@@ -1,46 +1,106 @@
-import { createClient } from '@supabase/supabase-js'
-import React, { useEffect, useState } from 'react'
-import { Dimensions } from 'react-native'
-import { Calendar } from 'react-native-calendars'
-import { YStack } from 'tamagui'
+import React, { useRef, useCallback } from 'react'
+import { StyleSheet } from 'react-native'
+import {
+  ExpandableCalendar,
+  AgendaList,
+  CalendarProvider,
+  WeekCalendar,
+} from 'react-native-calendars'
 
-const supabase = createClient(
-  'https://jqlnugxsnwftfvzsqfvv.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
-)
+import AgendaItem from '../AgendaItem'
+import { agendaItems, getMarkedDates } from '../AgendaItems'
+import testIDs from '../testIDs'
+import { getTheme, themeColor, lightThemeColor } from '../theme'
 
-export default function CalendarScreen() {
-  const [selected, setSelected] = useState('')
-  const { height } = Dimensions.get('window')
+const rightArrowIcon = require('../../assets/next.png')
+const leftArrowIcon = require('../../assets/previous.png')
+const ITEMS: any[] = agendaItems
 
-  useEffect(() => {
-    const fetchCities = async () => {
-      const { data } = await supabase
-        .from('users')
-        .select('id')
-        .eq('email', 'akin@operationspark.org')
-      console.log(data)
-    }
-    // check to see if user's org exist
-    // if not, create org
-    // if so,
-    // check to see if user's role is admin
+interface Props {
+  weekView?: boolean
+}
 
-    fetchCities()
+const ExpandableCalendarScreen = (props: Props) => {
+  const { weekView } = props
+  const marked = useRef(getMarkedDates())
+  const theme = useRef(getTheme())
+  const todayBtnTheme = useRef({
+    todayButtonTextColor: themeColor,
+  })
+
+  // const onDateChanged = useCallback((date, updateSource) => {
+  //   console.log('ExpandableCalendarScreen onDateChanged: ', date, updateSource);
+  // }, []);
+
+  // const onMonthChange = useCallback(({dateString}) => {
+  //   console.log('ExpandableCalendarScreen onMonthChange: ', dateString);
+  // }, []);
+
+  const renderItem = useCallback(({ item }: any) => {
+    return <AgendaItem item={item} />
   }, [])
 
   return (
-    <>
-      <YStack padding={40} justifyContent="center" alignItems="center">
-        <Calendar
-          onDayPress={(day) => {
-            setSelected(day.dateString)
-          }}
-          markedDates={{
-            [selected]: { selected: true, disableTouchEvent: true, selectedColor: 'orange' },
-          }}
+    <CalendarProvider
+      date={ITEMS[1]?.title}
+      // onDateChanged={onDateChanged}
+      // onMonthChange={onMonthChange}
+      showTodayButton
+      // disabledOpacity={0.6}
+      theme={todayBtnTheme.current}
+      // todayBottomMargin={16}
+    >
+      {weekView ? (
+        <WeekCalendar
+          testID={testIDs.weekCalendar.CONTAINER}
+          firstDay={1}
+          markedDates={marked.current}
         />
-      </YStack>
-    </>
+      ) : (
+        <ExpandableCalendar
+          testID={testIDs.expandableCalendar.CONTAINER}
+          // horizontal={false}
+          // hideArrows
+          // disablePan
+          // hideKnob
+          // initialPosition={ExpandableCalendar.positions.OPEN}
+          // calendarStyle={styles.calendar}
+          // headerStyle={styles.header} // for horizontal only
+          // disableWeekScroll
+          theme={theme.current}
+          // disableAllTouchEventsForDisabledDays
+          firstDay={1}
+          markedDates={marked.current}
+          leftArrowImageSource={leftArrowIcon}
+          rightArrowImageSource={rightArrowIcon}
+          // animateScroll
+          // closeOnDayPress={false}
+        />
+      )}
+      <AgendaList
+        sections={ITEMS}
+        renderItem={renderItem}
+        // scrollToNextEvent
+        sectionStyle={styles.section}
+        // dayFormat={'yyyy-MM-d'}
+      />
+    </CalendarProvider>
   )
 }
+
+export default ExpandableCalendarScreen
+
+const styles = StyleSheet.create({
+  calendar: {
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  header: {
+    backgroundColor: 'lightgrey',
+  },
+  section: {
+    backgroundColor: lightThemeColor,
+    color: 'grey',
+    textTransform: 'capitalize',
+  },
+})
