@@ -9,7 +9,7 @@ import {
   XStack,
   YStack,
   Input,
-  Text,
+  Image,
   useToastState,
   Toast,
   H3,
@@ -74,7 +74,7 @@ export function HomeScreen() {
 
   return (
     <>
-      <YStack top={height / 3} padding={40} space="$4" maw={400}>
+      <YStack padding={40} space="$4" maw={400}>
         <H3>Log In to Your Account</H3>
         <Input
           value={emailAddress}
@@ -89,9 +89,9 @@ export function HomeScreen() {
         />
         <View style={{ height: 2 }}></View>
         <View space="$2" justifyContent="flex-end">
-          <Link style={{ color: 'blue', fontSize: 16 }} href="/forgot-password">
+          <Anchor style={{ color: 'blue', fontSize: 16 }} href="/forgot-password">
             Forgot Password?
-          </Link>
+          </Anchor>
         </View>
         <Button
           backgroundColor={'#67c962'}
@@ -116,10 +116,10 @@ export function HomeScreen() {
         <YStack alignItems="center" space="$4" maw={600}>
           <Paragraph>
             New to our app?
-            <Link style={{ color: 'blue', textDecorationLine: 'underline' }} href="/signup">
+            <Anchor style={{ color: 'blue', textDecorationLine: 'underline' }} href="/signup">
               {' '}
               Sign Up
-            </Link>
+            </Anchor>
           </Paragraph>
         </YStack>
         <CurrentToast bgColor={'green'} />
