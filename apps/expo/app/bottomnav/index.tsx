@@ -1,22 +1,21 @@
-import { useState, useEffect, useRef } from 'react'
-import { Paragraph, YStack, Text, Button } from 'tamagui'
-import { Stack, Link, router } from 'expo-router'
+import { FontAwesome, Feather } from '@expo/vector-icons'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { Stack, router } from 'expo-router'
+import React, { useEffect, useRef } from 'react'
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { FontAwesome, Feather } from '@expo/vector-icons'
-import { createClient } from '@supabase/supabase-js'
+import { Text } from 'tamagui'
 
-const supabase = createClient(
-  'https://jqlnugxsnwftfvzsqfvv.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
-)
+import CalendarScreen from '../screens/calendar'
+import Dashboard from '../screens/dashboard'
+import Locations from '../screens/locations'
+import Users from '../screens/users'
 
 const TabArr = [
-  { route: 'Home', label: 'Home', icon: 'home', component: Screen },
-  { route: 'Calendar', label: 'Calendar', icon: 'calendar-plus-o', component: Screen },
-  { route: 'Locations', label: 'Locations', icon: 'building-o', component: Screen },
-  { route: 'Users', label: 'Users', icon: 'users', component: Screen },
+  { route: 'Home', label: 'Dashboard', icon: 'home', component: Dashboard },
+  { route: 'Calendar', label: 'Calendar', icon: 'calendar-plus-o', component: CalendarScreen },
+  { route: 'Locations', label: 'Locations', icon: 'building-o', component: Locations },
+  { route: 'Users', label: 'Users', icon: 'users', component: Users },
 ]
 
 const Tab = createBottomTabNavigator()
@@ -46,13 +45,13 @@ const TabButton = (props) => {
 
   useEffect(() => {
     if (focused) {
-      viewRef.current.animate(animate1)
-      circleRef.current.animate(circle1)
-      textRef.current.transitionTo({ scale: 1 })
+      viewRef.current?.animate(animate1)
+      circleRef.current?.animate(circle1)
+      textRef.current?.transitionTo({ scale: 1 })
     } else {
-      viewRef.current.animate(animate2)
-      circleRef.current.animate(circle2)
-      textRef.current.transitionTo({ scale: 0 })
+      viewRef.current?.animate(animate2)
+      circleRef.current?.animate(circle2)
+      textRef.current?.transitionTo({ scale: 0 })
     }
   }, [focused])
 
@@ -93,43 +92,8 @@ const TabButton = (props) => {
   )
 }
 
-function Screen() {
-  const { width, height } = Dimensions.get('window')
-
-  useEffect(() => {
-    const fetchCities = async () => {
-      const { data, error } = await supabase
-        .from('users')
-        .select('id')
-        .eq('email', 'akin@operationspark.org')
-      console.log(data)
-    }
-    // check to see if user's org exist
-    // if not, create org
-    // if so,
-    // check to see if user's role is admin
-
-    fetchCities()
-  }, [])
-
-  return (
-    <>
-      <YStack
-        top={height / 3}
-        padding={40}
-        space="$4"
-        maw={400}
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Paragraph>Screen</Paragraph>
-      </YStack>
-    </>
-  )
-}
-
 export default function Dash() {
-  const { width, height } = Dimensions.get('window')
+  Dimensions.get('window')
   return (
     <>
       <Stack.Screen
@@ -141,7 +105,7 @@ export default function Dash() {
           },
           headerLeft: () => (
             <>
-              <Text color={'white'}>Logo</Text>
+              <Text color="white">Logo</Text>
             </>
           ),
           headerRight: () => (

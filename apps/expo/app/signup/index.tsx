@@ -1,3 +1,4 @@
+import { useSignUp } from '@clerk/clerk-expo'
 import {
   Button,
   Paragraph,
@@ -9,11 +10,10 @@ import {
   XStack,
   useToastState,
 } from '@my/ui'
-import React, { useState, useEffect } from 'react'
-import { useSignUp } from '@clerk/clerk-expo'
-import { Stack, Link, router } from 'expo-router'
-import { Alert, Dimensions, View } from 'react-native'
 import { createClient } from '@supabase/supabase-js'
+import { Stack, Link, router } from 'expo-router'
+import React, { useState, useEffect } from 'react'
+import { Dimensions, View } from 'react-native'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -21,7 +21,7 @@ const supabase = createClient(
 )
 
 export default function Screen() {
-  const { width, height } = Dimensions.get('window')
+  const { height } = Dimensions.get('window')
   const { isLoaded, signUp, setActive } = useSignUp()
   const [emailAddress, setEmailAddress] = useState('')
   const [password, setPassword] = useState('')
@@ -128,7 +128,7 @@ export default function Screen() {
         first_name: firstName,
         last_name: lastName,
         email: emailAddress,
-        role: role,
+        role,
       })
 
       // const { data } = await supabase.from('users').select() // Correct
@@ -217,14 +217,14 @@ export default function Screen() {
                   value={password}
                   placeholder="Password..."
                   placeholderTextColor="#000"
-                  secureTextEntry={true}
+                  secureTextEntry
                   onChangeText={(password) => setPassword(password)}
                 />
                 <Input
                   value={confirmedPassword}
                   placeholder="Confirm Password..."
                   placeholderTextColor="#000"
-                  secureTextEntry={true}
+                  secureTextEntry
                   onChangeText={(confirmedPassword) => setConfirmedPassword(confirmedPassword)}
                 />
               </YStack>
@@ -232,8 +232,8 @@ export default function Screen() {
 
             <>
               <Button
-                backgroundColor={'#67c962'}
-                shadowColor={'black'}
+                backgroundColor="#67c962"
+                shadowColor="black"
                 shadowOpacity={0.5}
                 shadowRadius={5}
                 shadowOffset={{ width: 0, height: 0 }}
@@ -249,9 +249,9 @@ export default function Screen() {
               <YStack alignItems="center" space="$4" maw={600}>
                 <Paragraph>or</Paragraph>
                 <XStack space="$2">
-                  <Button padding={5} circular={true}></Button>
-                  <View style={{ width: 10 }}></View>
-                  <Button padding={5} circular={true}></Button>
+                  <Button padding={5} circular />
+                  <View style={{ width: 10 }} />
+                  <Button padding={5} circular />
                 </XStack>
               </YStack>
             </XStack>
@@ -264,7 +264,7 @@ export default function Screen() {
                 </Link>
               </Paragraph>
             </YStack>
-            <Toast></Toast>
+            <Toast />
           </YStack>
         )}
         {pendingVerification && (
@@ -293,7 +293,7 @@ const CurrentToast = ({ bgColor }) => {
       duration={currentToast.duration}
       enterStyle={{ opacity: 0, scale: 0.5, y: -25 }}
       exitStyle={{ opacity: 0, scale: 1, y: -20 }}
-      shadowColor={'black'}
+      shadowColor="black"
       shadowOpacity={0.5}
       shadowRadius={5}
       shadowOffset={{ width: 0, height: 0 }}
@@ -306,11 +306,11 @@ const CurrentToast = ({ bgColor }) => {
       backgroundColor={bgColor}
     >
       <YStack>
-        <Toast.Title fontWeight={'bold'} color={'white'}>
+        <Toast.Title fontWeight="bold" color="white">
           {currentToast.title}
         </Toast.Title>
         {!!currentToast.message && (
-          <Toast.Description color={'white'}>{currentToast.message}</Toast.Description>
+          <Toast.Description color="white">{currentToast.message}</Toast.Description>
         )}
       </YStack>
     </Toast>
