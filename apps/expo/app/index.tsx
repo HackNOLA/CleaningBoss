@@ -1,3 +1,4 @@
+import { useSignIn, useAuth } from '@clerk/clerk-expo'
 import {
   XStack,
   YStack,
@@ -9,10 +10,9 @@ import {
   useToastState,
   Toast,
 } from '@my/ui'
-import { Dimensions, View, LogBox } from 'react-native'
 import { Stack, Link, router } from 'expo-router'
-import { useSignIn, useAuth } from '@clerk/clerk-expo'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Dimensions, View, LogBox } from 'react-native'
 
 LogBox.ignoreLogs(['Warning: ...']) // Ignore log notification by message
 LogBox.ignoreAllLogs() //Ignore all log notifications
@@ -81,18 +81,18 @@ export default function Screen() {
         <Input
           value={password}
           placeholder="Password..."
-          secureTextEntry={true}
+          secureTextEntry
           onChangeText={(password) => setPassword(password)}
         />
-        <View style={{ height: 2 }}></View>
+        <View style={{ height: 2 }} />
         <XStack space="$2" justifyContent="flex-end">
           <Link style={{ color: 'blue', fontSize: 16 }} href="/forgot-password">
             Forgot Password?
           </Link>
         </XStack>
         <Button
-          backgroundColor={'#67c962'}
-          shadowColor={'black'}
+          backgroundColor="#67c962"
+          shadowColor="black"
           borderRadius={50}
           onPress={onSignInPress}
           textProps={{ color: 'white' }}
@@ -104,9 +104,9 @@ export default function Screen() {
           <YStack alignItems="center" space="$4" maw={600}>
             <Paragraph>or</Paragraph>
             <XStack space="$2">
-              <Button padding={5} circular={true}></Button>
-              <View style={{ width: 10 }}></View>
-              <Button padding={5} circular={true}></Button>
+              <Button padding={5} circular />
+              <View style={{ width: 10 }} />
+              <Button padding={5} circular />
             </XStack>
           </YStack>
         </XStack>
@@ -135,7 +135,7 @@ const CurrentToast = ({ bgColor }) => {
       duration={currentToast.duration}
       enterStyle={{ opacity: 0, scale: 0.5, y: -25 }}
       exitStyle={{ opacity: 0, scale: 1, y: -20 }}
-      shadowColor={'black'}
+      shadowColor="black"
       shadowOpacity={0.5}
       shadowRadius={5}
       shadowOffset={{ width: 0, height: 0 }}
@@ -148,11 +148,11 @@ const CurrentToast = ({ bgColor }) => {
       backgroundColor={bgColor}
     >
       <YStack>
-        <Toast.Title fontWeight={'bold'} color={'white'}>
+        <Toast.Title fontWeight="bold" color="white">
           {currentToast.title}
         </Toast.Title>
         {!!currentToast.message && (
-          <Toast.Description color={'white'}>{currentToast.message}</Toast.Description>
+          <Toast.Description color="white">{currentToast.message}</Toast.Description>
         )}
       </YStack>
     </Toast>
