@@ -2,7 +2,9 @@ import { createClient } from '@supabase/supabase-js'
 import React, { useEffect } from 'react'
 import { Dimensions, StyleSheet } from 'react-native'
 import MapView from 'react-native-maps'
-import { YStack } from 'tamagui'
+import { YStack, View, Input, Button, XStack } from 'tamagui'
+
+import Card from './components/card'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -20,26 +22,35 @@ export default function Locations() {
         .eq('email', 'akin@operationspark.org')
       console.log(data)
     }
-    // check to see if user's org exist
-    // if not, create org
-    // if so,
-    // check to see if user's role is admin
 
     fetchCities()
   }, [])
 
   return (
-    <>
-      <YStack paddingBottom={800} justifyContent="center" alignItems="center">
+    <View>
+      <YStack display="flex" justifyContent="center" alignItems="center" paddingBottom={70}>
         <MapView style={styles.map} />
+        <View height={15} />
+        <XStack alignItems="center" space="$10">
+          <Input flex={1} size="$4" placeholder="Search" />
+          <Button size="$4">Go</Button>
+        </XStack>
+        <View height={15} />
+
+        {/* <View position="absolute" top={100} justifyContent="center" alignItems="center" /> */}
+        <YStack space="$4">
+          <Card title="Staffed" icon="users" info="224 of 338 hours scheduled" />
+          <Card title="Completed" icon="check-circle" info="4 out of 6 jobs completed" />
+          <Card title="Hours" icon="clock" info="224h worked out of 338h scheduled" />
+        </YStack>
       </YStack>
-    </>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   map: {
     width: '100%',
-    height: '500%',
+    height: 280,
   },
 })
