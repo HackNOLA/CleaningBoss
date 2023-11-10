@@ -1,9 +1,8 @@
-import { Feather } from '@expo/vector-icons'
 import { createClient } from '@supabase/supabase-js'
 import React, { useEffect, useState } from 'react'
 import { Dimensions, StyleSheet } from 'react-native'
 import MapView from 'react-native-maps'
-import { YStack, Text, View, XStack } from 'tamagui'
+import { YStack, View, XStack } from 'tamagui'
 
 import Card from './components/card'
 import SegmentedControl from './components/segementedcontrol'
