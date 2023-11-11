@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Input, Card, XStack, YStack, Text, View, Button, Image } from '@my/ui'
+import { useRouter } from 'next/router'
 
 interface User {
   id: number
@@ -54,6 +55,8 @@ const StaffPage = () => {
   const [searchTerm, setSearchTerm] = useState('')
 
   const [scrollPosition, setScrollPosition] = useState(0)
+
+  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -122,7 +125,7 @@ const StaffPage = () => {
               Filter
             </Text>
           </XStack>
-          <Button onPress={() => console.log('Add user')} unstyled={true}>
+          <Button onPress={() => router.replace('adduser')} unstyled={true}>
             {plusIcon}
           </Button>
         </XStack>
