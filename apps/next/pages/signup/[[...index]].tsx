@@ -146,7 +146,7 @@ export default function Screen() {
         duration: 4000,
         viewport: 'screen',
       })
-      router.replace('bottomnav')
+      router.replace('dashboard')
     } catch (err: any) {
       console.error(JSON.stringify(err, null, 2))
     }
