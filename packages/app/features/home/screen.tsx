@@ -19,7 +19,7 @@ import React, { useState, useEffect } from 'react'
 import { Dimensions, View } from 'react-native'
 import { Link, useLink } from 'solito/link'
 import { useRouter } from 'solito/router'
-import { useAuth, useSignIn } from '@clerk/clerk-react'
+import { useAuth, useSignIn } from '@clerk/nextjs'
 
 export function HomeScreen() {
   const router = useRouter()

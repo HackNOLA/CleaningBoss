@@ -4,15 +4,27 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Link } from 'solito/link'
 import StaffPage from 'pages/staff'
+import Dashboard from './screen'
+import Script from 'next/script'
 import { ToggleGroup, YStack } from '@my/ui'
 
 export default function Page() {
   const { signedIn }: any = useAuth()
   const [page, setPage] = useState(0)
   const [title, setTitle] = useState('Cleaning Boss')
+  const [scrollPosition, setScrollPosition] = useState(0)
 
   useEffect(() => {
     switchTitle(page)
+    const handleScroll = () => {
+      const position = window.scrollY
+      setScrollPosition(position)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [page])
 
   const switchTitle = (page: number) => {
@@ -38,6 +50,7 @@ export default function Page() {
     <>
       <Head>
         <title>Cleaning Boss</title>
+        <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet" />
         <style>
           {`
           .item {
@@ -47,6 +60,38 @@ export default function Page() {
 
           .fade {
             opacity: 0; /* Adjust the opacity value to control the fading effect */
+          }
+
+          .mapboxgl-ctrl-geocoder  {
+            display: flex !important;
+            // position: fixed !important;
+            align-items: center !important;
+          }
+
+          li {
+            list-style: none;
+            background-color: #fff;
+            padding: 0.5rem;
+          }
+
+          svg {
+            width: 32px !important;
+          }
+
+          .mapboxgl-ctrl-geocoder--input {
+            width: 100% !important;
+            border-radius: 0.375rem !important;
+            border: 1px solid #E5E5E5 !important;
+            padding: 0.5rem !important;
+            font-size: 0.875rem !important;
+            line-height: 1.25rem !important;
+            color: #4B5563 !important;
+            background-color: #F9FAFB !important;
+          }
+
+          .mapboxgl-ctrl-geocoder--pin-right {
+            display: flex !important;
+            justify-content: center !important;
           }
           `}
         </style>
@@ -62,7 +107,9 @@ export default function Page() {
       >
         {page === 0 && (
           <>
-            <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}></div>
+            <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}>
+              <Dashboard />
+            </div>
           </>
         )}
         {page === 1 && (
@@ -81,7 +128,7 @@ export default function Page() {
           </>
         )}
       </div>
-      <BottomNav page={page} setPage={setPage} />
+      {scrollPosition < 20 && <BottomNav page={page} setPage={setPage} />}
     </>
   )
 }
