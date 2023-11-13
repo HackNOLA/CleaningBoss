@@ -1,10 +1,9 @@
+import { Feather } from '@expo/vector-icons'
 import { createClient } from '@supabase/supabase-js'
 import React, { useEffect } from 'react'
 import { Dimensions, StyleSheet } from 'react-native'
 import MapView from 'react-native-maps'
-import { YStack, View, Input, Button, XStack } from 'tamagui'
-
-import Card from './components/card'
+import { YStack, View, Input, Button, XStack, Image, Text } from 'tamagui'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -13,6 +12,7 @@ const supabase = createClient(
 
 export default function Locations() {
   const { height } = Dimensions.get('window')
+  const icon = 'Users'
 
   useEffect(() => {
     const fetchCities = async () => {
@@ -32,16 +32,41 @@ export default function Locations() {
         <MapView style={styles.map} />
         <View height={15} />
         <XStack alignItems="center" space="$10">
-          <Input flex={1} size="$4" placeholder="Search" />
+          <Input flex={1} size="$4" placeholder="Search Location" />
           <Button size="$4">Go</Button>
         </XStack>
         <View height={15} />
-
-        {/* <View position="absolute" top={100} justifyContent="center" alignItems="center" /> */}
-        <YStack space="$4">
-          <Card title="Staffed" icon="users" info="224 of 338 hours scheduled" />
-          <Card title="Completed" icon="check-circle" info="4 out of 6 jobs completed" />
-          <Card title="Hours" icon="clock" info="224h worked out of 338h scheduled" />
+        <YStack>
+          <View
+            shadowOffset={{ width: 0, height: 0 }}
+            shadowOpacity={0.1}
+            shadowRadius={10}
+            borderRadius={10}
+            width={350}
+            height={95}
+            backgroundColor="white"
+          >
+            <YStack space="$2" justifyContent="flex-start" alignItems="flex-start">
+              <YStack>
+                <Image
+                  source={{
+                    uri: 'https://placekitten.com/200/300',
+                    width: 100,
+                    height: 95,
+                  }}
+                />
+                <XStack alignContent='center'>
+                <Feather
+                  style={{ color: 'blue' }}
+                  padding={5}
+                  name="user"
+                  size={18}
+                  color="black"
+                />
+                </XStack>
+              </YStack>
+            </YStack>
+          </View>
         </YStack>
       </YStack>
     </View>
