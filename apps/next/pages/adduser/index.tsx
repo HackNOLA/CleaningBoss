@@ -4,24 +4,25 @@ import { Input, Card, XStack, YStack, Text, View, Button, Image, Select } from '
 import TopBar from 'components/topbar'
 import Selection from 'components/select'
 import Radio from 'components/radiogroup'
+import { on } from 'events'
 
 const AddAUser: NextPage = () => {
   const [scrollPosition, setScrollPosition] = useState(0)
   const [language, setLanguage] = useState('')
-  const [passwordOptions, setPasswordOptions] = useState([
-    { label: 'Set for User', value: 'auto' },
-    // { label: 'Send Email', value: 'custom' },
-    // { label: "Don't set", value: 'custom' },
-  ])
-  const [userTypes, setUserTypes] = useState([
-    { label: 'Cleaner', value: 'cleaner' },
-    { label: 'Supervisor', value: 'cleaner' },
-    { label: 'Admin', value: 'admin' },
-  ])
-
-  const [timeTrialOptions, setTimeTrialOptions] = useState([
-    { label: 'No', value: 'No' },
-    { label: 'Yes', value: 'Yes' },
+  const [password, setPassword] = useState('')
+  const [userType, setUserType] = useState('')
+  const [calculateDriveTimes, setCalculateDriveTimes] = useState('')
+  const [timeTrialOption, setTimeTrialOption] = useState('')
+  const [locationSet, setLocationSet] = useState(false)
+  const [locations, setLocations] = useState([])
+  const [availability, setAvailability] = useState([
+    { day: 'Mon', selected: false },
+    { day: 'Tue', selected: false },
+    { day: 'Wed', selected: false },
+    { day: 'Thu', selected: false },
+    { day: 'Fri', selected: false },
+    { day: 'Sat', selected: false },
+    { day: 'Sun', selected: false },
   ])
 
   useEffect(() => {
@@ -38,6 +39,32 @@ const AddAUser: NextPage = () => {
 
   const onSelectLanguage = (language: string) => {
     setLanguage(language)
+  }
+
+  const onSelectPassword = (password: string) => {
+    setPassword(password)
+  }
+
+  const onSelectUserType = (userType: string) => {
+    setUserType(userType)
+  }
+
+  const onSelectCalculateDriveTimes = (calculateDriveTimes: string) => {
+    setCalculateDriveTimes(calculateDriveTimes)
+  }
+
+  const onSelectTimeTrialOption = (timeTrialOption: string) => {
+    setTimeTrialOption(timeTrialOption)
+  }
+
+  const setAvailabilitySlot = (day: string) => {
+    const newAvailability = availability.map((slot) => {
+      if (slot.day === day) {
+        slot.selected = !slot.selected
+      }
+      return slot
+    })
+    setAvailability(newAvailability)
   }
 
   return (
@@ -74,7 +101,6 @@ const AddAUser: NextPage = () => {
         </YStack>
         <YStack space="$2" alignItems="flex-start">
           <Text fontSize={16}>Language</Text>
-
           <Selection
             items={['English', 'Espanol', 'Francios']}
             onChange={onSelectLanguage}
@@ -82,25 +108,69 @@ const AddAUser: NextPage = () => {
             placeholder="Tap to Select Language"
           />
         </YStack>
-        {/* <Radio items={passwordOptions} onChange={() => {}} selectedVal={'cleaner'} /> */}
         <YStack space="$2" alignItems="flex-start">
           <Text fontSize={16}>Password</Text>
-          <Input width={320} placeholder="Set Password" />
+          <Input onChangeText={onSelectPassword} width={320} placeholder="Set Password" />
         </YStack>
-        <YStack space="$2" alignItems="flex-start">
-          <Text fontSize={16}>User Type</Text>
+        <YStack space="$2" alignItems="flex-start" width={'100%'}>
+          <Text fontSize={16}>Select the account type:</Text>
+          <Radio
+            items={['admin', 'cleaner', 'manager']}
+            onChange={onSelectUserType}
+            selectedVal={userType}
+          />
         </YStack>
-        <YStack space="$2" alignItems="flex-start">
+        <YStack space="$2" alignItems="flex-start" width={'100%'}>
           <Text fontSize={16}>Calculate Drive Times Between Shifts</Text>
+          <Selection
+            items={['Yes', 'No']}
+            onChange={onSelectCalculateDriveTimes}
+            value={calculateDriveTimes}
+            placeholder="No"
+          />
         </YStack>
-        <YStack space="$2" alignItems="flex-start">
+        <YStack space="$2" alignItems="flex-start" width={'100%'}>
           <Text fontSize={16}>Require Time Trials</Text>
+          <Selection
+            items={['Yes', 'No']}
+            onChange={onSelectTimeTrialOption}
+            value={timeTrialOption}
+            placeholder="No"
+          />
         </YStack>
-        <YStack space="$2" alignItems="flex-start">
+        <XStack space="$2" justifyContent="space-between">
           <Text fontSize={16}>Locations</Text>
-        </YStack>
+          <Image width={32} height={32} source={{ uri: '/plus.svg' }} />
+          {locationSet && (
+            <Input
+              width={320}
+              placeholder="Address"
+              onChangeText={(location) => {
+                locations.push(location)
+                setLocations(locations)
+              }}
+            />
+          )}
+        </XStack>
         <YStack space="$2" alignItems="flex-start">
           <Text fontSize={16}>Availability</Text>
+          <XStack space="$2" justifyContent="center">
+            {availability.map((slot, i) => (
+              <Button
+                onPress={() => {
+                  setAvailabilitySlot(slot.day)
+                }}
+                key={`${i}`}
+                width={50}
+                height={50}
+                circular={true}
+                borderColor={slot.selected ? '#3373CC' : '#000000'}
+                borderWidth={slot.selected ? 3 : 1}
+              >
+                <Text color="black">{slot.day}</Text>
+              </Button>
+            ))}
+          </XStack>
         </YStack>
       </YStack>
 
