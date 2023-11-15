@@ -1,7 +1,7 @@
 import { Select } from '@my/ui' // or '@tamagui/select'
 export default function Selection({ items, onChange, value, placeholder, ...props }: any) {
   return (
-    <Select onValueChange={onChange} defaultValue={items[0]}>
+    <Select onValueChange={onChange}>
       <Select.Trigger>
         <Select.Value placeholder={placeholder} />
       </Select.Trigger>

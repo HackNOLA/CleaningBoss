@@ -2,9 +2,10 @@
 
 import { createClient } from '@supabase/supabase-js'
 import React, { useEffect, useState } from 'react'
-import { YStack, View, XStack } from '@my/ui'
+import { YStack, View, XStack, Toast } from '@my/ui'
 import Card from 'components/card'
 import SegmentedControl from 'components/segmentedcontrol'
+import { CurrentToast } from 'components/CurrentToast'
 import Map from 'components/map'
 
 const supabase = createClient(
@@ -16,27 +17,30 @@ export default function Dashboard() {
   const segments = ['Yesterday', 'Today', 'Tomorrow', 'Custom'] // Define your segments
 
   const [selectedSegment, setSelectedSegment] = useState(0)
+  // const [bgColor, setBgColor] = useState('green' as any)
 
   const handleSegmentChange = (index) => {
     setSelectedSegment(index)
   }
 
-  useEffect(() => {
-    const fetchCities = async () => {
-      const { data } = await supabase
-        .from('users')
-        .select('id')
-        .eq('email', 'akin@operationspark.org')
-      console.log(data)
-    }
+  // useEffect(() => {
+  //   const fetchCities = async () => {
+  //     const { data } = await supabase
+  //       .from('users')
+  //       .select('id')
+  //       .eq('email', 'akin@operationspark.org')
+  //     console.log(data)
+  //   }
 
-    fetchCities()
-  }, [])
+  //   fetchCities()
+  // }, [])
 
   return (
     <View>
       <YStack display="flex" justifyContent="center" alignItems="center" paddingBottom={0}>
         <View height={80} />
+        <Toast />
+        {/* <CurrentToast bgColor={'green'} /> */}
         <View justifyContent="center" alignItems="center">
           <Map />
         </View>
