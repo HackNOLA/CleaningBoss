@@ -23,17 +23,17 @@ export default function Dashboard() {
     setSelectedSegment(index)
   }
 
-  useEffect(() => {
-    const fetchCities = async () => {
-      const { data } = await supabase
-        .from('users')
-        .select('id')
-        .eq('email', 'akin@operationspark.org')
-      console.log(data)
-    }
+  // useEffect(() => {
+  //   const fetchCities = async () => {
+  //     const { data } = await supabase
+  //       .from('users')
+  //       .select('id')
+  //       .eq('email', 'akin@operationspark.org')
+  //     console.log(data)
+  //   }
 
-    fetchCities()
-  }, [])
+  //   fetchCities()
+  // }, [])
 
   return (
     <View>

@@ -170,6 +170,7 @@ const AddAUser: NextPage = () => {
       location: locations,
       availability: availability,
       subscribed: true,
+      has_password: false,
     }
 
     console.log(user)
@@ -271,10 +272,10 @@ const AddAUser: NextPage = () => {
               placeholder="Tap to Select Language"
             />
           </YStack>
-          <YStack space="$2" alignItems="flex-start">
+          {/* <YStack space="$2" alignItems="flex-start">
             <Text fontSize={16}>Password</Text>
             <Input onChangeText={onSelectPassword} width={320} placeholder="Set Password" />
-          </YStack>
+          </YStack> */}
           <YStack space="$2" alignItems="flex-start" width={'100%'}>
             <Text fontSize={16}>Calculate Drive Times Between Shifts</Text>
             <Selection
