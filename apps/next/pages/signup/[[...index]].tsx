@@ -7,16 +7,16 @@ import {
   Toast,
   H3,
   XStack,
-  useToastState,
   Anchor,
 } from '@my/ui'
 import React, { useState, useEffect } from 'react'
-import { useSignUp } from '@clerk/clerk-react'
+import { useSignUp, useAuth } from '@clerk/clerk-react'
 import { useRouter } from 'next/router'
 import { Alert, Dimensions, View } from 'react-native'
 import { createClient } from '@supabase/supabase-js'
 import { Link } from 'solito/link'
 import Image from 'next/image'
+import { CurrentToast } from '../../components/CurrentToast'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -26,6 +26,7 @@ const supabase = createClient(
 export default function Screen() {
   const { width, height } = Dimensions.get('window')
   const { isLoaded, signUp, setActive } = useSignUp()
+  const { isSignedIn, user } = useAuth()
   const [emailAddress, setEmailAddress] = useState('')
   const [password, setPassword] = useState('')
   const [confirmedPassword, setConfirmedPassword] = useState('')
@@ -42,12 +43,11 @@ export default function Screen() {
   const toast = useToastController()
   const router = useRouter()
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     console.log(error)
-  //   }
-  //   getData()
-  // }, [isLoaded, stepOneFinished, stepTwoFinished])
+  useEffect(() => {
+    if (isSignedIn) {
+      router.replace('dashboard')
+    }
+  }, [isSignedIn])
 
   const reset = () => {
     setEmailAddress('')
@@ -134,6 +134,7 @@ export default function Screen() {
         email: emailAddress,
         role: role,
       })
+      router.replace('dashboard')
 
       // const { data } = await supabase.from('users').select() // Correct
       // organization !== '' && joinCode === '' ?
@@ -256,55 +257,34 @@ export default function Screen() {
                 </Anchor>
               </Paragraph>
             </YStack>
-            <Toast></Toast>
+            {/* <Toast></Toast> */}
           </YStack>
         )}
         {pendingVerification && (
-          <YStack top={height / 2} padding={40} space="$4" maw={400}>
+          <YStack padding={40} space="$4" maw={400}>
+            <Paragraph>
+              We sent a verification code to{' '}
+              <Paragraph fontWeight={'bold'}>{emailAddress}</Paragraph>
+            </Paragraph>
             <YStack>
               <Input value={code} placeholder="Code..." onChangeText={(code) => setCode(code)} />
             </YStack>
-            <Button onPress={onPressVerify}>
-              <Paragraph>Verify Email</Paragraph>
+            <Button
+              backgroundColor={'#67c962'}
+              shadowColor={'black'}
+              shadowOpacity={0.5}
+              shadowRadius={5}
+              shadowOffset={{ width: 0, height: 0 }}
+              onPress={onPressVerify}
+              borderRadius={50}
+              textProps={{ color: 'white' }}
+            >
+              <Paragraph color={'white'}>Verify Email</Paragraph>
             </Button>
           </YStack>
         )}
         <CurrentToast bgColor={bgColor} />
       </>
     </>
-  )
-}
-
-const CurrentToast = ({ bgColor }) => {
-  const currentToast = useToastState()
-
-  if (!currentToast || currentToast.isHandledNatively) return null
-  return (
-    <Toast
-      key={currentToast.id}
-      duration={currentToast.duration}
-      enterStyle={{ opacity: 0, scale: 0.5, y: -25 }}
-      exitStyle={{ opacity: 0, scale: 1, y: -20 }}
-      shadowColor={'black'}
-      shadowOpacity={0.5}
-      shadowRadius={5}
-      shadowOffset={{ width: 0, height: 0 }}
-      y={0}
-      opacity={1}
-      scale={1}
-      viewportName={currentToast.viewportName}
-      width={Dimensions.get('window').width}
-      borderRadius={0}
-      backgroundColor={bgColor}
-    >
-      <YStack>
-        <Toast.Title fontWeight={'bold'} color={'white'}>
-          {currentToast.title}
-        </Toast.Title>
-        {!!currentToast.message && (
-          <Toast.Description color={'white'}>{currentToast.message}</Toast.Description>
-        )}
-      </YStack>
-    </Toast>
   )
 }
