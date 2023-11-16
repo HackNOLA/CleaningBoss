@@ -122,7 +122,7 @@ const AddAUser: NextPage = () => {
     return [...Array(quantity)].map((_, i) => {
       if (availability[i]?.selected) {
         return (
-          <YStack key={`${i}`} space="$2" alignItems="flex-start">
+          <YStack key={`${i}`} space="$2" alignItems="flex-start" paddingBottom={20}>
             <Text fontSize={16}>{availability[i].day}</Text>
             <XStack space="$4" alignItems="flex-end">
               <Input
@@ -341,16 +341,7 @@ const AddAUser: NextPage = () => {
           </YStack>
         </YStack>
       )}
-      {pendingVerification && (
-        <YStack top={height / 2} padding={40} space="$4" maw={400}>
-          <YStack>
-            <Input value={code} placeholder="Code..." onChangeText={(code) => setCode(code)} />
-          </YStack>
-          <Button onPress={onPressVerify}>
-            <Text>Verify Email</Text>
-          </Button>
-        </YStack>
-      )}
+
       {scrollPosition < 20 && (
         <div
           style={{ zIndex: 99 }}

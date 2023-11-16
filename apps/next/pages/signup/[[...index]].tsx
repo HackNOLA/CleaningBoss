@@ -9,7 +9,7 @@ import {
   XStack,
   Anchor,
 } from '@my/ui'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useSignUp, useAuth } from '@clerk/clerk-react'
 import { useRouter } from 'next/router'
 import { Alert, Dimensions, View } from 'react-native'
@@ -17,6 +17,9 @@ import { createClient } from '@supabase/supabase-js'
 import { Link } from 'solito/link'
 import Image from 'next/image'
 import { CurrentToast } from '../../components/CurrentToast'
+import { v4 as uuidv4 } from 'uuid'
+import { UserContext } from 'context/usercontext'
+import { OrgContext } from 'context/orgcontext'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -26,7 +29,7 @@ const supabase = createClient(
 export default function Screen() {
   const { width, height } = Dimensions.get('window')
   const { isLoaded, signUp, setActive } = useSignUp()
-  const { isSignedIn, user } = useAuth()
+  const { isSignedIn } = useAuth()
   const [emailAddress, setEmailAddress] = useState('')
   const [password, setPassword] = useState('')
   const [confirmedPassword, setConfirmedPassword] = useState('')
@@ -42,6 +45,8 @@ export default function Screen() {
   const [native, setNative] = React.useState(false)
   const toast = useToastController()
   const router = useRouter()
+  const { activeUser, setEmail } = useContext(UserContext)
+  const { setOrgName } = useContext(OrgContext)
 
   useEffect(() => {
     if (isSignedIn) {
@@ -128,26 +133,35 @@ export default function Screen() {
       })
 
       const role = organization !== '' && joinCode === '' ? 'admin' : 'user'
-      const { error } = await supabase.from('users').insert({
+      const { error: userError } = await supabase.from('users').insert({
         first_name: firstName,
         last_name: lastName,
         email: emailAddress,
         role: role,
+        has_password: true,
       })
+      const { error: orgError } = await supabase.from('company').insert({
+        name: organization,
+        join_code: uuidv4().slice(0, 8),
+      })
+
+      setOrgName(organization)
+      setEmail(emailAddress)
+
       router.replace('dashboard')
 
       // const { data } = await supabase.from('users').select() // Correct
       // organization !== '' && joinCode === '' ?
 
-      console.log(error)
+      console.log(userError, orgError)
       await setActive({ session: completeSignUp.createdSessionId })
+      router.replace('/dashboard')
       toast.show('Success!', {
         title: 'Success',
         message: 'You have successfully signed up!',
         duration: 4000,
         viewport: 'screen',
       })
-      router.replace('dashboard')
     } catch (err: any) {
       console.error(JSON.stringify(err, null, 2))
     }
@@ -156,7 +170,7 @@ export default function Screen() {
   return (
     <>
       <>
-        <Image src={'/auth_splash.png'} width={600} height={200} />
+        <Image src={'/auth_splash.png'} width={600} height={200} alt="splash" />
         {!pendingVerification && (
           <YStack padding={40} space="$4" maw={400}>
             <XStack
