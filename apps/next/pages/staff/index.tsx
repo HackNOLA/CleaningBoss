@@ -1,6 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Input, Card, XStack, YStack, Text, View, Button, Image } from '@my/ui'
 import { useRouter } from 'next/router'
+import { createClient } from '@supabase/supabase-js'
+import { OrgContext } from 'context/orgcontext'
+
+const supabase = createClient(
+  'https://jqlnugxsnwftfvzsqfvv.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
+)
 
 interface User {
   id: number
@@ -8,16 +15,6 @@ interface User {
   email: string
   phone: string
 }
-
-const users: User[] = [
-  { id: 1, name: 'John Doe', email: 'johndoe@example.com', phone: '(123)-456-7890' },
-  { id: 2, name: 'Jane Smith', email: 'janesmith@example.com', phone: '(123)-456-7890' },
-  { id: 3, name: 'Bob Johnson', email: 'bobjohnson@example.com', phone: '(123)-456-7890' },
-  { id: 4, name: 'Joe Fraiser', email: 'alicewilliams@example.com', phone: '(123)-456-7890' },
-  { id: 5, name: 'Cotton Berry', email: 'alicewilliams@example.com', phone: '(123)-456-7890' },
-  { id: 6, name: 'Will Williams', email: 'alicewilliams@example.com', phone: '(123)-456-7890' },
-  { id: 7, name: 'Havy Ngyuen', email: 'alicewilliams@example.com', phone: '(123)-456-7890' },
-]
 
 const UserCard = ({ user }: { user: User }) => (
   <Card className="load-hidden" backgroundColor={'white'} width={350}>
@@ -37,11 +34,11 @@ const UserCard = ({ user }: { user: User }) => (
       <YStack top={16}>
         <XStack width={250} justifyContent="space-between">
           <Text fontSize={14} fontWeight="bold">
-            {user.name}
+            {`${user.first_name} ${user.last_name}`}
           </Text>
 
           <Text color={'blue'} fontSize={14}>
-            {'Cleaner'}
+            {user.role}
           </Text>
         </XStack>
         <Text>{user.email}</Text>
@@ -56,9 +53,22 @@ const StaffPage = () => {
 
   const [scrollPosition, setScrollPosition] = useState(0)
 
+  const [users, setUsers] = useState([])
+
+  const { org } = useContext(OrgContext)
+
   const router = useRouter()
 
   useEffect(() => {
+    org && console.log(org)
+
+    const fetchOrg = async () => {
+      const { data } = await supabase.from('users').select().eq('id_company', org?.id)
+      setUsers(data)
+      console.log(data)
+    }
+    fetchOrg()
+
     const handleScroll = () => {
       const position = window.scrollY
       setScrollPosition(position)
@@ -75,7 +85,7 @@ const StaffPage = () => {
   }
 
   const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase())
+    user.first_name.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   return (

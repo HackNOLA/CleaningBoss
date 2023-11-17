@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import {
   Input,
   Card,
@@ -19,6 +19,7 @@ import { createClient } from '@supabase/supabase-js'
 import { CurrentToast } from 'components/CurrentToast'
 import { useSignUp } from '@clerk/nextjs'
 import { useRouter } from 'next/router'
+import { OrgContext } from 'context/orgcontext'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -55,6 +56,7 @@ const AddAUser: NextPage = () => {
   const [bgColor, setBgColor] = useState('green' as any)
   const toast = useToastController()
   const router = useRouter()
+  const { org } = useContext(OrgContext)
 
   useEffect(() => {
     //if a day is selected, make input field appear to select time range for that day
@@ -171,6 +173,7 @@ const AddAUser: NextPage = () => {
       availability: availability,
       subscribed: true,
       has_password: false,
+      id_company: org?.id,
     }
 
     console.log(user)
