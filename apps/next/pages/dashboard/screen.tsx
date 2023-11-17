@@ -46,7 +46,6 @@ export default function Dashboard() {
       }
     }
     if (activeUser['id']) {
-      console.log(activeUser)
       return
     }
     getUserInfo()
@@ -71,7 +70,6 @@ export default function Dashboard() {
         .select()
         .eq('id', activeUser?.id_company)
 
-      console.log(foundOrg)
       setOrg(foundOrg[0])
       return
     }

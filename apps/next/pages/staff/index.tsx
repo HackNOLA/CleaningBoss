@@ -60,12 +60,9 @@ const StaffPage = () => {
   const router = useRouter()
 
   useEffect(() => {
-    org && console.log(org)
-
     const fetchOrg = async () => {
       const { data } = await supabase.from('users').select().eq('id_company', org?.id)
       setUsers(data)
-      console.log(data)
     }
     fetchOrg()
 

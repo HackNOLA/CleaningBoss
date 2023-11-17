@@ -4,7 +4,7 @@ import {
   useToastController,
   YStack,
   Input,
-  Toast,
+  View,
   H3,
   XStack,
   Anchor,
@@ -12,7 +12,6 @@ import {
 import React, { useState, useEffect, useContext } from 'react'
 import { useSignUp, useAuth } from '@clerk/clerk-react'
 import { useRouter } from 'next/router'
-import { Alert, Dimensions, View } from 'react-native'
 import { createClient } from '@supabase/supabase-js'
 import { Link } from 'solito/link'
 import Image from 'next/image'
@@ -27,7 +26,6 @@ const supabase = createClient(
 )
 
 export default function Screen() {
-  const { width, height } = Dimensions.get('window')
   const { isLoaded, signUp, setActive } = useSignUp()
   const { isSignedIn } = useAuth()
   const [emailAddress, setEmailAddress] = useState('')
