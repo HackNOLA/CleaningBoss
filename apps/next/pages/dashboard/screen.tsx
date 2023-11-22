@@ -36,7 +36,7 @@ export default function Dashboard() {
       if (clerkId) {
         setCookie('userId', clerkId, {
           maxAge: 30 * 24 * 60 * 60,
-          path: '/',
+          domain: 'cleaningboss-dev.vercel.app',
         })
         setClerkId(clerkId)
         getUserId(clerkId)
@@ -45,7 +45,7 @@ export default function Dashboard() {
         await getUserId(getCookie('userId'))
       }
     }
-    if (activeUser['id']) {
+    if (activeUser?.id) {
       return
     }
     getUserInfo()

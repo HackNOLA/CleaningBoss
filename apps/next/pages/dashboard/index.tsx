@@ -3,6 +3,8 @@ import { SignIn, useAuth } from '@clerk/nextjs'
 import { useEffect, useState } from 'react'
 import { Link } from 'solito/link'
 import StaffPage from 'pages/staff'
+import Locations from 'pages/locations'
+import Calendar from 'pages/calendar'
 import Dashboard from './screen'
 import Script from 'next/script'
 import { ToggleGroup, YStack } from '@my/ui'
@@ -100,7 +102,7 @@ export default function Page() {
       { !signedIn && <>
       </> } */}
       {/* <Dashboard /> */}
-      <TopBar title={title} />
+      {scrollPosition < 20 && <TopBar title={title} />}
       <div
         style={{ height: '100ch' }}
         className="flex justify-center	items-center p-4 bg-[#F2F2F2] "
@@ -114,13 +116,15 @@ export default function Page() {
         )}
         {page === 1 && (
           <>
-            <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}></div>
+            <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}>
+              <Calendar />
+            </div>
           </>
         )}
         {page === 2 && (
-          <>
-            <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}></div>
-          </>
+          <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}>
+            <Locations />
+          </div>
         )}
         {page === 3 && (
           <>

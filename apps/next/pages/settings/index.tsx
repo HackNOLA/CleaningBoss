@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useSignIn, useAuth } from '@clerk/clerk-react'
+import { useSignIn, useAuth } from '@clerk/nextjs'
 
 import { Input, Button, Toast, H3, XStack, useToastState, YStack, View } from '@my/ui'
 

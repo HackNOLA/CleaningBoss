@@ -10,7 +10,7 @@ import {
   Anchor,
 } from '@my/ui'
 import React, { useState, useEffect, useContext } from 'react'
-import { useSignUp, useAuth } from '@clerk/clerk-react'
+import { useSignUp, useAuth } from '@clerk/nextjs'
 import { useRouter } from 'next/router'
 import { createClient } from '@supabase/supabase-js'
 import { Link } from 'solito/link'

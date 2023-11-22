@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
             publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
           >
             <Head>
-              <title>Tamagui Example App</title>
+              <title>Cleaning Boss</title>
               <meta name="description" content="Tamagui, Solito, Expo & Next.js" />
               <link rel="icon" href="/favicon.ico" />
             </Head>
