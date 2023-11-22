@@ -3,52 +3,122 @@ import { Input, Card, XStack, YStack, Text, View, Button, Image } from '@my/ui'
 import { useRouter } from 'next/router'
 import { createClient } from '@supabase/supabase-js'
 import { OrgContext } from 'context/orgcontext'
-
+import Calendar from 'components/calendar'
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
 )
 
-interface User {
+interface Task {
   id: number
-  name: string
-  email: string
-  phone: string
+  time: string
+  location: string
+  day: string
+  activeCleaners: number
+  totalCleaners: number
 }
 
-const UserCard = ({ user }: { user: User }) => (
-  <Card className="load-hidden" backgroundColor={'white'} width={350}>
+const tasks = [
+  {
+    id: 1,
+    time: '8:00 am - 3:30 pm',
+    location: 'Main Office',
+    day: 'Monday, November 1st, 2023',
+    activeCleaners: 5,
+    totalCleaners: 5,
+  },
+  {
+    id: 2,
+    time: '8:00 am - 3:30 pm',
+    location: 'Main Office',
+    day: 'Monday, November 1st, 2023',
+    activeCleaners: 5,
+    totalCleaners: 5,
+  },
+  {
+    id: 3,
+    time: '8:00 am - 3:30 pm',
+    location: 'Main Office',
+    day: 'Monday, November 1st, 2023',
+    activeCleaners: 5,
+    totalCleaners: 5,
+  },
+  {
+    id: 4,
+    time: '8:00 am - 3:30 pm',
+    location: 'Main Office',
+    day: 'Monday, November 1st, 2023',
+    activeCleaners: 5,
+    totalCleaners: 5,
+  },
+  {
+    id: 5,
+    time: '8:00 am - 3:30 pm',
+    location: 'Main Office',
+    day: 'Monday, November 1st, 2023',
+    activeCleaners: 5,
+    totalCleaners: 5,
+  },
+  {
+    id: 6,
+    time: '8:00 am - 3:30 pm',
+    location: 'Main Office',
+    day: 'Monday, November 1st, 2023',
+    activeCleaners: 5,
+    totalCleaners: 5,
+  },
+]
+
+const TaskCard = ({ task }: { task: Task }) => (
+  <Card width={350} className="load-hidden" backgroundColor={'white'}>
     <XStack>
-      <Card.Header>
-        <Image
-          zIndex={0}
-          source={{
-            uri: 'https://source.unsplash.com/random',
-          }}
-          width={50}
-          height={50}
-          borderRadius={40}
-          alt="avatar"
-        />
-      </Card.Header>
+      <YStack
+        borderTopLeftRadius={10}
+        borderBottomLeftRadius={10}
+        backgroundColor={'blue'}
+        width={10}
+        height={80}
+      ></YStack>
+      <Card.Header></Card.Header>
       <YStack top={16}>
         <XStack width={250} justifyContent="space-between">
           <Text fontSize={14} fontWeight="bold">
-            {`${user.first_name} ${user.last_name}`}
+            {`${task.location}`}
           </Text>
 
-          <Text color={'blue'} fontSize={14}>
-            {user.role}
-          </Text>
+          {/* <Text color={'blue'} fontSize={14}>
+          </Text> */}
         </XStack>
-        <Text>{user.email}</Text>
-        <Text>{user.phone}</Text>
+        <XStack width={250} justifyContent="space-between">
+          <YStack>
+            <Text fontSize={14} color={'slategray'} width={250} paddingRight={12} numberOfLines={2}>
+              {task.time}
+            </Text>
+            <Text fontSize={14} color={'slategray'} width={250} paddingRight={12} numberOfLines={2}>
+              {task.day}
+            </Text>
+          </YStack>
+          <XStack space="$0" alignItems="center" justifyContent="space-evenly" paddingRight={12}>
+            <View
+              backgroundColor={'#94DAA0'}
+              width={36}
+              height={24}
+              borderRadius={12}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Text fontSize={14} color={'slategray'}>
+                {`${task.activeCleaners}/${task.totalCleaners}`}
+              </Text>
+            </View>
+          </XStack>
+        </XStack>
       </YStack>
     </XStack>
   </Card>
 )
 
-const StaffPage = () => {
+const Locations = () => {
   const [searchTerm, setSearchTerm] = useState('')
 
   const [scrollPosition, setScrollPosition] = useState(0)
@@ -60,71 +130,49 @@ const StaffPage = () => {
   const router = useRouter()
 
   useEffect(() => {
-    const fetchOrg = async () => {
-      const { data } = await supabase.from('users').select().eq('id_company', org?.id)
-      setUsers(data)
-    }
-    fetchOrg()
-
-    const handleScroll = () => {
-      const position = window.scrollY
-      setScrollPosition(position)
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
+    // const fetchOrg = async () => {
+    //   const { data } = await supabase.from('users').select().eq('id_company', org?.id)
+    //   setUsers(data)
+    // }
+    // fetchOrg()
+    // const handleScroll = () => {
+    //   const position = window.scrollY
+    //   setScrollPosition(position)
+    // }
+    // window.addEventListener('scroll', handleScroll)
+    // return () => {
+    //   window.removeEventListener('scroll', handleScroll)
+    // }
   }, [])
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value)
   }
 
-  const filteredUsers = users.filter((user) =>
-    user.first_name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredTasks = tasks.filter((task) =>
+    task.location.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   return (
-    <YStack height={'100ch'} paddingTop={160}>
-      <YStack
-      // justifyContent="center"
-      // alignItems="center"
-      >
-        <XStack
-          space="$3"
-          alignItems="center"
-          borderColor={'slategray'}
-          borderWidth={1}
-          borderRadius={5}
-          width={350}
-          height={50}
-          padding={8}
-          className={scrollPosition > 20 ? 'fade' : 'item'}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            x="0px"
-            y="0px"
-            width="24"
-            height="24"
-            viewBox="0 0 50 50"
-          >
-            <path d="M 21 3 C 11.601563 3 4 10.601563 4 20 C 4 29.398438 11.601563 37 21 37 C 24.355469 37 27.460938 36.015625 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.679688 27.421875 38 23.878906 38 20 C 38 10.601563 30.398438 3 21 3 Z M 21 7 C 28.199219 7 34 12.800781 34 20 C 34 27.199219 28.199219 33 21 33 C 13.800781 33 8 27.199219 8 20 C 8 12.800781 13.800781 7 21 7 Z"></path>
-          </svg>
-          <input
-            value={searchTerm}
-            // borderColor={'transparent'}
-            placeholder="Search User"
-            onChange={handleSearchChange}
-          />
-        </XStack>
+    <View backgroundColor={'#F2F2F2'}>
+      <YStack display="flex" justifyContent="center" alignItems="center" paddingBottom={0}>
+        <View paddingTop={80}>
+          {/* <Map /> */}
+          <Calendar />
+        </View>
         <XStack
           className={scrollPosition > 20 ? 'fade' : 'item'}
           justifyContent="space-between"
           alignItems="baseline"
+          width={340}
         >
-          <XStack paddingTop={40} space="$2" justifyContent="center" alignItems="center">
+          <XStack
+            paddingBottom={20}
+            paddingTop={20}
+            space="$2"
+            justifyContent="center"
+            alignItems="center"
+          >
             <Button onPress={() => console.log('Filter users')} unstyled={true}>
               {filterIcon}
             </Button>
@@ -136,13 +184,13 @@ const StaffPage = () => {
             {plusIcon}
           </Button>
         </XStack>
+        <YStack space="$4">
+          {filteredTasks.map((task) => (
+            <TaskCard key={task.id} task={task} />
+          ))}
+        </YStack>
       </YStack>
-      <YStack space="$4" paddingTop={60}>
-        {filteredUsers.map((user) => (
-          <UserCard key={user.id} user={user} />
-        ))}
-      </YStack>
-    </YStack>
+    </View>
   )
 }
 
@@ -224,4 +272,4 @@ const plusIcon = (
   </svg>
 )
 
-export default StaffPage
+export default Locations

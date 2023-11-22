@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import {
   Input,
   Card,
@@ -19,6 +19,7 @@ import { createClient } from '@supabase/supabase-js'
 import { CurrentToast } from 'components/CurrentToast'
 import { useSignUp } from '@clerk/nextjs'
 import { useRouter } from 'next/router'
+import { OrgContext } from 'context/orgcontext'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -55,6 +56,7 @@ const AddAUser: NextPage = () => {
   const [bgColor, setBgColor] = useState('green' as any)
   const toast = useToastController()
   const router = useRouter()
+  const { org } = useContext(OrgContext)
 
   useEffect(() => {
     //if a day is selected, make input field appear to select time range for that day
@@ -122,7 +124,7 @@ const AddAUser: NextPage = () => {
     return [...Array(quantity)].map((_, i) => {
       if (availability[i]?.selected) {
         return (
-          <YStack key={`${i}`} space="$2" alignItems="flex-start">
+          <YStack key={`${i}`} space="$2" alignItems="flex-start" paddingBottom={20}>
             <Text fontSize={16}>{availability[i].day}</Text>
             <XStack space="$4" alignItems="flex-end">
               <Input
@@ -171,6 +173,7 @@ const AddAUser: NextPage = () => {
       availability: availability,
       subscribed: true,
       has_password: false,
+      id_company: org?.id,
     }
 
     console.log(user)
@@ -341,16 +344,7 @@ const AddAUser: NextPage = () => {
           </YStack>
         </YStack>
       )}
-      {pendingVerification && (
-        <YStack top={height / 2} padding={40} space="$4" maw={400}>
-          <YStack>
-            <Input value={code} placeholder="Code..." onChangeText={(code) => setCode(code)} />
-          </YStack>
-          <Button onPress={onPressVerify}>
-            <Text>Verify Email</Text>
-          </Button>
-        </YStack>
-      )}
+
       {scrollPosition < 20 && (
         <div
           style={{ zIndex: 99 }}

@@ -1,12 +1,16 @@
 'use client'
 
 import { createClient } from '@supabase/supabase-js'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { YStack, View, XStack, Toast } from '@my/ui'
 import Card from 'components/card'
 import SegmentedControl from 'components/segmentedcontrol'
 import { CurrentToast } from 'components/CurrentToast'
 import Map from 'components/map'
+import { OrgContext } from 'context/orgcontext'
+import { UserContext } from 'context/usercontext'
+import { useAuth } from '@clerk/nextjs'
+import { setCookie, getCookie } from 'cookies-next'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -17,23 +21,78 @@ export default function Dashboard() {
   const segments = ['Yesterday', 'Today', 'Tomorrow', 'Custom'] // Define your segments
 
   const [selectedSegment, setSelectedSegment] = useState(0)
+
+  const { email, activeUser, setActiveUser, setClerkId } = useContext(UserContext)
+  const { orgName, setOrg } = useContext(OrgContext)
+  const { userId: clerkId } = useAuth()
   // const [bgColor, setBgColor] = useState('green' as any)
 
   const handleSegmentChange = (index) => {
     setSelectedSegment(index)
   }
 
-  // useEffect(() => {
-  //   const fetchCities = async () => {
-  //     const { data } = await supabase
-  //       .from('users')
-  //       .select('id')
-  //       .eq('email', 'akin@operationspark.org')
-  //     console.log(data)
-  //   }
+  useEffect(() => {
+    const getUserInfo = async () => {
+      if (clerkId) {
+        setCookie('userId', clerkId, {
+          maxAge: 30 * 24 * 60 * 60,
+          domain: 'cleaningboss-dev.vercel.app',
+        })
+        setClerkId(clerkId)
+        getUserId(clerkId)
+      } else {
+        setClerkId(getCookie('userId'))
+        await getUserId(getCookie('userId'))
+      }
+    }
+    if (activeUser?.id) {
+      return
+    }
+    getUserInfo()
+  }, [activeUser])
 
-  //   fetchCities()
-  // }, [])
+  const getUserId = async (clerkId) => {
+    const { data } = await supabase.from('users').select('id').eq('email', email)
+    if (data?.length === 0) {
+      const { data } = await supabase.from('users').select().eq('clerk_id', clerkId)
+      setActiveUser(data[0])
+      checkOrg(data[0])
+    } else {
+      setActiveUser(data[0])
+      checkOrg(data[0])
+    }
+  }
+
+  const checkOrg = async (activeUser) => {
+    if (activeUser?.id_company) {
+      const { data: foundOrg } = await supabase
+        .from('company')
+        .select()
+        .eq('id', activeUser?.id_company)
+
+      setOrg(foundOrg[0])
+      return
+    }
+    await updateOrg(activeUser?.id)
+  }
+
+  const updateOrg = async (id_user) => {
+    const { data } = await supabase.from('company').select().eq('name', orgName)
+    const foundOrg = data[0]
+
+    if (foundOrg) {
+      const employee_count = foundOrg.employee_count + 1
+      await supabase.from('company').update({ id_creator: id_user, employee_count }).eq('name', org)
+      const { data } = await supabase
+        .from('users')
+        .update({ id_company: foundOrg.id, clerk_id: userId })
+        .eq('email', activeUser)
+
+      setOrg(data[0])
+    }
+
+    console.log(activeUser, orgName)
+  }
 
   return (
     <View>

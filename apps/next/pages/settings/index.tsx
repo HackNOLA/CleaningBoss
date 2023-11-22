@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { useSignIn, useAuth } from '@clerk/clerk-react'
+import { useSignIn, useAuth } from '@clerk/nextjs'
 
-import { Input, Button, Toast, H3, XStack, useToastState, YStack } from '@my/ui'
+import { Input, Button, Toast, H3, XStack, useToastState, YStack, View } from '@my/ui'
 
 import { useRouter } from 'next/router'
-
-import { Alert, Dimensions, View } from 'react-native'
 
 export default function Signout() {
   const router = useRouter()

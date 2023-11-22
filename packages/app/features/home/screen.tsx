@@ -27,7 +27,7 @@ const supabase = createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
 )
 
-export function HomeScreen() {
+export function HomeScreen({ setEmail }) {
   const router = useRouter()
   const linkProps = useLink({
     href: '/user/nate',
@@ -61,7 +61,7 @@ export function HomeScreen() {
     }
 
     const { data } = await supabase.from('users').select('has_password').eq('email', emailAddress)
-    if (data && !hasPassword && !userFound) {
+    if (data[0] && !hasPassword && !userFound) {
       console.log(data)
       const hasPassword = data[0].has_password
       setHasPassword(hasPassword)
@@ -129,13 +129,14 @@ export function HomeScreen() {
 
       console.log(error)
       await signUpActive({ session: completeSignUp.createdSessionId })
+      router.replace('dashboard')
+
       toast.show('Success!', {
         title: 'Success',
         message: 'You have successfully signed up!',
         duration: 4000,
         viewport: 'screen',
       })
-      router.replace('dashboard')
     } catch (err: any) {
       console.error(JSON.stringify(err, null, 2))
     }
@@ -147,6 +148,7 @@ export function HomeScreen() {
         identifier: emailAddress,
         password,
       })
+      setEmail(emailAddress)
       setBgColor('green')
       toast.show('Success!', {
         title: 'Success',
@@ -158,7 +160,10 @@ export function HomeScreen() {
       // This indicates the user is signed in
       await setActive({ session: completeSignIn.createdSessionId })
     } catch (err: any) {
-      console.log(JSON.stringify(err, null, 2))
+      console.log(err)
+      if (!err.errors) {
+        return
+      }
       toast.show('Wait!', {
         title: 'Error',
         message: err.errors[0].message,
@@ -181,6 +186,7 @@ export function HomeScreen() {
             />
             {hasPassword && (
               <>
+                <View style={{ height: 16 }}></View>
                 <Input
                   value={password}
                   placeholder="Password..."
@@ -268,13 +274,13 @@ export function HomeScreen() {
             </Button>
           </YStack>
         )}
-        <CurrentToast bgColor={'green'} />
+        <CurrentToast />
       </YStack>
     </>
   )
 }
 
-const CurrentToast = ({ bgColor }) => {
+const CurrentToast = () => {
   const currentToast = useToastState()
 
   if (!currentToast || currentToast.isHandledNatively) return null
@@ -294,7 +300,7 @@ const CurrentToast = ({ bgColor }) => {
       viewportName={currentToast.viewportName}
       width={Dimensions.get('window').width}
       borderRadius={0}
-      backgroundColor={bgColor}
+      backgroundColor={'green'}
     >
       <YStack>
         <Toast.Title fontWeight={'bold'} color={'white'}>
