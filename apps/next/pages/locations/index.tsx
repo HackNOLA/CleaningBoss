@@ -217,7 +217,7 @@ const Locations = () => {
               Filter
             </Text>
           </XStack>
-          <Button onPress={() => router.replace('adduser')} unstyled={true}>
+          <Button onPress={() => router.replace('addlocation')} unstyled={true}>
             {plusIcon}
           </Button>
         </XStack>

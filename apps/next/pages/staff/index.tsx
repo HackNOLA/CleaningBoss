@@ -81,6 +81,8 @@ const StaffPage = () => {
     setSearchTerm(event.target.value)
   }
 
+  if (!users) return <div>Loading...</div>
+
   const filteredUsers = users.filter((user) =>
     user.first_name.toLowerCase().includes(searchTerm.toLowerCase())
   )

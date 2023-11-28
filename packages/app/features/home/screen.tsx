@@ -98,6 +98,7 @@ export function HomeScreen({ setEmail }) {
         message: 'You have been signed in!',
         duration: 4000,
         viewport: 'screen',
+        backgroundColor: '#72CE7F',
       })
       // This is an important step,
       // This indicates the user is signed in
@@ -136,6 +137,7 @@ export function HomeScreen({ setEmail }) {
         message: 'You have successfully signed up!',
         duration: 4000,
         viewport: 'screen',
+        backgroundColor: '#72CE7F',
       })
     } catch (err: any) {
       console.error(JSON.stringify(err, null, 2))
@@ -155,6 +157,7 @@ export function HomeScreen({ setEmail }) {
         message: 'You have been signed in!',
         duration: 4000,
         viewport: 'screen',
+        backgroundColor: '#72CE7F',
       })
       // This is an important step,
       // This indicates the user is signed in
