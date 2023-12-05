@@ -113,7 +113,7 @@ const LocationCard = ({ location }: { location: Location }) => (
               />
             </svg>
             <Text color={'blue'} fontSize={14}>
-              {`${location.staffAmount}`}
+              {`${location.staffAmount || 0}`}
             </Text>
           </XStack>
 
@@ -121,7 +121,7 @@ const LocationCard = ({ location }: { location: Location }) => (
           </Text> */}
         </XStack>
         <Text fontSize={14} color={'slategray'} width={250} paddingRight={12} numberOfLines={2}>
-          {location.address}
+          {location.address1}
         </Text>
       </YStack>
     </XStack>
@@ -133,26 +133,27 @@ const Locations = () => {
 
   const [scrollPosition, setScrollPosition] = useState(0)
 
-  const [users, setUsers] = useState([])
+  const [locations, setLocations] = useState([])
 
   const { org } = useContext(OrgContext)
 
   const router = useRouter()
 
   useEffect(() => {
-    // const fetchOrg = async () => {
-    //   const { data } = await supabase.from('users').select().eq('id_company', org?.id)
-    //   setUsers(data)
-    // }
-    // fetchOrg()
-    // const handleScroll = () => {
-    //   const position = window.scrollY
-    //   setScrollPosition(position)
-    // }
-    // window.addEventListener('scroll', handleScroll)
-    // return () => {
-    //   window.removeEventListener('scroll', handleScroll)
-    // }
+    const fetchLocations = async () => {
+      const { data } = await supabase.from('location').select().eq('id_company', org?.id)
+      console.log(data)
+      setLocations(data)
+    }
+    fetchLocations()
+    const handleScroll = () => {
+      const position = window.scrollY
+      setScrollPosition(position)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -217,7 +218,7 @@ const Locations = () => {
               Filter
             </Text>
           </XStack>
-          <Button onPress={() => router.replace('adduser')} unstyled={true}>
+          <Button onPress={() => router.replace('addlocation')} unstyled={true}>
             {plusIcon}
           </Button>
         </XStack>

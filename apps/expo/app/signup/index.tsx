@@ -141,6 +141,7 @@ export default function Screen() {
         message: 'You have successfully signed up!',
         duration: 4000,
         viewport: 'screen',
+        backgroundColor: '#72CE7F',
       })
       router.replace('bottomnav')
     } catch (err: any) {
