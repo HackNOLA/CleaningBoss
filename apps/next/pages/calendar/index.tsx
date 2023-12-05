@@ -180,7 +180,7 @@ const Locations = () => {
               Filter
             </Text>
           </XStack>
-          <Button onPress={() => router.replace('adduser')} unstyled={true}>
+          <Button onPress={() => router.replace('addjob')} unstyled={true}>
             {plusIcon}
           </Button>
         </XStack>
