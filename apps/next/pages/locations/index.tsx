@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Input, Card, XStack, YStack, Text, View, Button, Image } from '@my/ui'
 import { useRouter } from 'next/router'
 import { createClient } from '@supabase/supabase-js'
@@ -156,7 +156,7 @@ const Locations = () => {
     }
   }, [])
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = (event) => {
     setSearchTerm(event.target.value)
   }
 
