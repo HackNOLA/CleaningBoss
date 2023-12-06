@@ -160,7 +160,9 @@ const Locations = () => {
     setSearchTerm(event.target.value)
   }
 
-  if (!locations) return null
+  if (!locations) {
+    return <div>Loading...</div>
+  }
 
   const filteredLocations = locations.filter((location) =>
     location.name.toLowerCase().includes(searchTerm.toLowerCase())
