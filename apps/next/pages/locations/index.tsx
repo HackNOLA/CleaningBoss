@@ -160,6 +160,8 @@ const Locations = () => {
     setSearchTerm(event.target.value)
   }
 
+  if (!locations) return null
+
   const filteredLocations = locations.filter((location) =>
     location.name.toLowerCase().includes(searchTerm.toLowerCase())
   )
@@ -167,7 +169,7 @@ const Locations = () => {
   return (
     <View backgroundColor={'#F2F2F2'}>
       <YStack display="flex" justifyContent="center" alignItems="center" paddingBottom={0}>
-        <View paddingTop={80} paddingBottom={20}>
+        <View paddingTop={80}>
           <Map />
         </View>
         <XStack
