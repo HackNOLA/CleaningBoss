@@ -37,7 +37,7 @@ const AddJob: NextPage = () => {
   const [scrollPosition, setScrollPosition] = useState(0)
   const [JobDescription, setJobDescription] = useState('')
   const [shiftHours, onSelectShiftHours] = useState('')
-  const [location, onSelectLocationn] = useState('')
+  const [location, setLocation] = useState('')
   const [shiftTimeline, setShiftTimeline] = useState('')
   const [shiftInTime, setShiftInTime] = useState('')
   const [shiftOutTime, setShiftOutTime] = useState('')
@@ -66,36 +66,8 @@ const AddJob: NextPage = () => {
   }, [scrollPosition])
 
   const onSelectLocation = (location: string) => {
-    setLanguage(location)
+    setLocation(location)
   }
-
-  const onSelectPassword = (password: string) => {
-    setPassword(password)
-  }
-
-  const onSelectUserType = (userType: string) => {
-    setUserType(userType)
-  }
-
-  const onSelectCalculateDriveTimes = (calculateDriveTimes: string) => {
-    setCalculateDriveTimes(calculateDriveTimes)
-  }
-
-  const onSelectTimeTrialOption = (timeTrialOption: string) => {
-    setTimeTrialOption(timeTrialOption)
-  }
-
-  const setAvailabilitySlot = (day: string) => {
-    const newAvailability = availability.map((slot) => {
-      if (slot.day === day) {
-        slot.selected = !slot.selected
-      }
-      return slot
-    })
-    setAvailability(newAvailability)
-  }
-
-
 
   const dayTimeSetter = (quantity: any) => {
     //if a day is selected, make input field appear to select time range for that day
@@ -141,16 +113,14 @@ const AddJob: NextPage = () => {
   const submitUser = async () => {
     const user = {
       job_description: JobDescription,
-      last_name: lastName,
-      email: emailAddress,
-      language: language,
-      role: userType,
-      time_trialed: timeTrialOption === 'Yes' ? true : false,
-      location: locations,
-      availability: availability,
-      subscribed: true,
-      has_password: false,
-      id_company: org?.id,
+      shiftHours:shiftHours,
+      location:location,
+      shiftTimeline:shiftTimeline,
+      shiftInTime:shiftInTime,
+      shiftOutTime:shiftOutTime,
+      assignCleaners:assignCleaners,
+      notes:notes,
+      //time_trialed: timeTrialOption === 'Yes' ? true : false,
     }
 
     console.log(user)
