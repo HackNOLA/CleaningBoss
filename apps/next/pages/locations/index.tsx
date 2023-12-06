@@ -169,8 +169,8 @@ const Locations = () => {
   return (
     <View backgroundColor={'#F2F2F2'}>
       <YStack display="flex" justifyContent="center" alignItems="center" paddingBottom={0}>
-        <View paddingTop={80}>
-          <Map />
+        <View paddingTop={80} paddingBottom={40}>
+          <Map markers={locations} />
         </View>
         <XStack
           space="$3"
