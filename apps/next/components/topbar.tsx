@@ -153,7 +153,7 @@ function ListItemDemo1({ anchorEl, open, onClose: handleClose, setIsOpen }) {
           zIndex: 3001, // or more than the
         }}
       >
-        <MenuItem onClick={() => router.replace('/manage-checklist')}>Manage Checklists</MenuItem>
+        <MenuItem onClick={() => router.replace('/checklist/manage')}>Manage Checklists</MenuItem>
         {/* <MenuItem onClick={() => setIsOpen(false)}>My account</MenuItem> */}
         <MenuItem onClick={() => router.replace('/addlocation')}>Add Location</MenuItem>
       </Menu>

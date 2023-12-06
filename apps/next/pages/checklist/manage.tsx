@@ -338,7 +338,7 @@ function ListItemDemo1({ anchorEl, open, onClose: handleClose, setIsOpen }) {
           zIndex: 3001, // or more than the
         }}
       >
-        <MenuItem onClick={() => router.replace('/edit-checklist')}>Edit Checklist</MenuItem>
+        <MenuItem onClick={() => router.replace('/checklist/edit')}>Edit Checklist</MenuItem>
         {/* <MenuItem onClick={() => setIsOpen(false)}>My account</MenuItem> */}
         <MenuItem onClick={() => console.log('delete checklist')}>Delete Checklist</MenuItem>
       </Menu>
