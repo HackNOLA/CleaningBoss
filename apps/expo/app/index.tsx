@@ -42,12 +42,12 @@ export default function Screen() {
         identifier: emailAddress,
         password,
       })
-      setBgColor('green')
       toast.show('Success!', {
         title: 'Success',
         message: 'You have been signed in!',
         duration: 4000,
         viewport: 'screen',
+        backgroundColor: '#72CE7F',
       })
       // This is an important step,
       // This indicates the user is signed in

@@ -1,18 +1,6 @@
 import type { NextPage } from 'next'
 import { useState, useEffect, useContext } from 'react'
-import {
-  Input,
-  Card,
-  XStack,
-  YStack,
-  Text,
-  View,
-  Button,
-  Image,
-  Select,
-  Toast,
-  useToastController,
-} from '@my/ui'
+import { Input, XStack, YStack, Text, View, Button, Image, useToastController } from '@my/ui'
 import TopBar from 'components/topbar'
 import Selection from 'components/select'
 import { createClient } from '@supabase/supabase-js'
@@ -186,6 +174,7 @@ const AddAUser: NextPage = () => {
       message: 'You have successfully added a user!',
       duration: 4000,
       viewport: 'screen',
+      backgroundColor: '#72CE7F',
     })
 
     router.replace('dashboard')
@@ -210,6 +199,7 @@ const AddAUser: NextPage = () => {
         message: 'You have successfully signed up!',
         duration: 4000,
         viewport: 'screen',
+        backgroundColor: '#72CE7F',
       })
       router.replace('dashboard')
     } catch (err: any) {
@@ -352,7 +342,14 @@ const AddAUser: NextPage = () => {
         >
           <YStack space="$2" alignItems="center">
             <XStack space="$4">
-              <Button borderColor={'#33CC4B'} width={150} borderRadius={50}>
+              <Button
+                onPress={() => {
+                  router.replace('dashboard')
+                }}
+                borderColor={'#33CC4B'}
+                width={150}
+                borderRadius={50}
+              >
                 <Text fontSize={16}>Cancel</Text>
               </Button>
               <Button
