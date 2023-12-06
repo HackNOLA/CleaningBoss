@@ -102,7 +102,7 @@ export default function Page() {
       { !signedIn && <>
       </> } */}
       {/* <Dashboard /> */}
-      {scrollPosition < 20 && <TopBar title={title} />}
+      {scrollPosition < 20 && <TopBar page={page} title={title} />}
       <div
         style={{ height: '100ch' }}
         className="flex justify-center	items-center p-4 bg-[#F2F2F2] "

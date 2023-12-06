@@ -92,9 +92,9 @@ const Map = ({ address }) => {
   }, [])
 
   return (
-    <main>
+    <>
       <div style={{ width: '400px', height: '300px' }} ref={mapContainer} />
-    </main>
+    </>
   )
 }
 
