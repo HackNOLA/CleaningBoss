@@ -32,6 +32,8 @@
     "react-native": "0.71.14",
     "react-native-web": "^0.18.12",
     "react-native-web-lite": "latest",
+    "react-slick": "^0.29.0",
+    "slick-carousel": "^1.8.1",
     "vercel": "latest"
   },
   "devDependencies": {
