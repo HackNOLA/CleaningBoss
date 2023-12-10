@@ -7,9 +7,9 @@ import Calendar from 'components/calendar'
 import TopBar from 'components/topbar'
 import { CurrentToast } from 'components/CurrentToast'
 import type { NextPage } from 'next'
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import Slider from 'react-slick'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -29,44 +29,43 @@ const slides = [
   {
     id: 1,
     image: './photo.svg',
-    name: 'John Smith'
+    name: 'John Smith',
   },
   {
     id: 2,
     image: './photo.svg',
-    name: 'John Smith'
+    name: 'John Smith',
   },
   {
     id: 3,
     image: './photo.svg',
-    name: 'John Smith'
+    name: 'John Smith',
   },
   {
     id: 4,
     image: './photo.svg',
-    name: 'John Smith'
+    name: 'John Smith',
   },
   {
     id: 5,
     image: './photo.svg',
-    name: 'John Smith'
+    name: 'John Smith',
   },
   {
     id: 6,
     image: './photo.svg',
-    name: 'John Smith'
+    name: 'John Smith',
   },
   {
     id: 7,
     image: './photo.svg',
-    name: 'John Smith'
+    name: 'John Smith',
   },
   {
     id: 8,
     image: './photo.svg',
-    name: 'John Smith'
+    name: 'John Smith',
   },
-
 ]
 
 const tasks = [
@@ -125,7 +124,7 @@ const tasks = [
   },
 ]
 
-const TaskCard = ({ task }: { task: Task }) => (
+const TaskCard = ({ task }) => (
   <Card width={350} className="load-hidden" backgroundColor={'white'}>
     <XStack>
       <YStack
@@ -137,28 +136,27 @@ const TaskCard = ({ task }: { task: Task }) => (
       ></YStack>
       <Card.Header></Card.Header>
       <YStack top={16}>
-        
         <XStack width={250} justifyContent="space-between">
           <YStack width={200}>
             <Text fontSize={14} fontWeight="bold">
               {`${task.location}`}
             </Text>
-              
-              <Text fontSize={14} color={'slategray'} width={250} paddingRight={12} numberOfLines={2}>
-                {task.day}
-              </Text>
+
+            <Text fontSize={14} color={'slategray'} width={250} paddingRight={12} numberOfLines={2}>
+              {task.day}
+            </Text>
           </YStack>
-          <YStack space="$0" alignItems="center" direction="column" paddingRight={10} alignItems="flex-end">
-             <YStack>
-                <Text fontSize={14} color={'slategray'}>
-                 From: {task.time_from}
-               </Text>
-              </YStack>
-              <YStack>
-               <Text fontSize={14} color={'slategray'}>
+          <YStack space="$0" paddingRight={10} alignItems="flex-end">
+            <YStack>
+              <Text fontSize={14} color={'slategray'}>
+                From: {task.time_from}
+              </Text>
+            </YStack>
+            <YStack>
+              <Text fontSize={14} color={'slategray'}>
                 To: {task.time_from}
-                </Text>
-              </YStack>
+              </Text>
+            </YStack>
           </YStack>
         </XStack>
         <XStack width={250} justifyContent="space-between" paddingTop={10}>
@@ -175,21 +173,19 @@ const TaskCard = ({ task }: { task: Task }) => (
 )
 
 const SlideCard = ({ slide }: { slide: Slide }) => (
-  <div className={"cleaner"}>
+  <div className={'cleaner'}>
     <img src={slide.image} alt="Slide 1" />
-    <Text fontSize={16}>
-      {slide.name}
-    </Text>
+    <Text fontSize={16}>{slide.name}</Text>
   </div>
 )
 
- const slider_settings = {
-    dots: false,
-    infinite: true,
-    speed: 1000,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-  };
+const slider_settings = {
+  dots: false,
+  infinite: true,
+  speed: 1000,
+  slidesToShow: 5,
+  slidesToScroll: 1,
+}
 
 const AssignCleaner = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -229,16 +225,16 @@ const AssignCleaner = () => {
   )
 
   const filterIcon = (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path
-      d="M9.5 16H23.5M6 9H27M13 23H20"
-      stroke="#4E5DDE"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>
-)
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M9.5 16H23.5M6 9H27M13 23H20"
+        stroke="#4E5DDE"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  )
 
   const plusIcon = (
     <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -309,65 +305,54 @@ const AssignCleaner = () => {
     <YStack justifyContent="center" alignItems="center">
       <View width={'100%'}>{scrollPosition < 20 && <TopBar title="Assign Cleaners" />}</View>
       <CurrentToast bgColor={bgColor} />
-        <View backgroundColor={'#F2F2F2'}>
-          <YStack display="flex" justifyContent="center" alignItems="center" paddingBottom={0}>
-            <View paddingTop={80}>
-              {/* <Map /> */}
-            </View>
+      <View backgroundColor={'#F2F2F2'}>
+        <YStack display="flex" justifyContent="center" alignItems="center" paddingBottom={0}>
+          <View paddingTop={80}>{/* <Map /> */}</View>
+          <XStack
+            className={scrollPosition > 20 ? 'fade' : 'item'}
+            justifyContent="space-between"
+            alignItems="baseline"
+            width={340}
+          >
             <XStack
-              className={scrollPosition > 20 ? 'fade' : 'item'}
+              paddingBottom={20}
+              paddingTop={20}
+              paddingLeft={20}
+              fontColor={'#33CC4B'}
+              space="$2"
               justifyContent="space-between"
-              alignItems="baseline"
-              width={340}
+              width={'100%'}
+              alignItems="center"
             >
-              <XStack
-                paddingBottom={20}
-                paddingTop={20}
-                paddingLeft={20}
-                fontColor={'#33CC4B'}
-                space="$2"
-                justifyContent="space-between"
-                width={'100%'}
-                alignItems="center"
-              >
-                
-                <Text fontSize={16}>
-                  Available Shifts
-                </Text>
-                <Button onPress={() => router.replace('addjob')} unstyled={true}>
-                  {plusIcon}
-                </Button>
-              </XStack>
+              <Text fontSize={16}>Available Shifts</Text>
+              <Button onPress={() => router.replace('addjob')} unstyled={true}>
+                {plusIcon}
+              </Button>
             </XStack>
-            <YStack space="$4">
-              {filteredTasks.map((task) => (
-                <TaskCard key={task.id} task={task} />
-              ))}
-            </YStack>
+          </XStack>
+          <YStack space="$4">
+            {filteredTasks.map((task) => (
+              <TaskCard key={task.id} task={task} />
+            ))}
           </YStack>
-        </View>
-        {scrollPosition < 30 && (
+        </YStack>
+      </View>
+      {scrollPosition < 30 && (
         <div
           style={{ zIndex: 99 }}
           className="fixed bottom-0 left-0 right-0 h-24 bg-white  shadow-lg flex items-center justify-around"
         >
-
           <YStack space="$2" width={'100%'} alignItems="center">
-            <Slider 
-            style={{width:'100%'}}
-            width={'100%'}
-            {...slider_settings}>
-            {slides.map((slide) => (
+            <Slider style={{ width: '100%' }} width={'100%'} {...slider_settings}>
+              {slides.map((slide) => (
                 <SlideCard key={slide.id} slide={slide} />
               ))}
             </Slider>
           </YStack>
         </div>
       )}
-        </YStack>
+    </YStack>
   )
 }
-
-
 
 export default AssignCleaner
