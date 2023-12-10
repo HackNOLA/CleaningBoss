@@ -8,6 +8,7 @@ import { CurrentToast } from 'components/CurrentToast'
 import { useSignUp } from '@clerk/nextjs'
 import { useRouter } from 'next/router'
 import { OrgContext } from 'context/orgcontext'
+import { CldUploadWidget } from 'next-cloudinary';
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -250,7 +251,16 @@ const AddAUser: NextPage = () => {
               <YStack space="$2" alignItems="flex-start">
                 <XStack space="$2">
                   <Image width={32} height={32} source={{ uri: '/plus.svg' }} />
-                  <Text fontSize={16}>Upload Photo</Text>
+                  <CldUploadWidget uploadPreset="y31wzwjk">
+                    {({ open }) => {
+                      return (
+                        <button onClick={() => open()}>
+                          <Text fontSize={16}>Upload Photo</Text>
+                        </button>
+                      );
+                    }}
+                  </CldUploadWidget>
+
                 </XStack>
               </YStack>
             </XStack>
