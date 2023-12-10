@@ -10,7 +10,7 @@ import Map from 'components/map'
 import { OrgContext } from 'context/orgcontext'
 import { UserContext } from 'context/usercontext'
 import { useAuth } from '@clerk/nextjs'
-import { setCookie, getCookie, deleteCookie } from 'cookies-next'
+import { setCookie, deleteCookie } from 'cookies-next'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -43,7 +43,11 @@ export default function Dashboard() {
       }
     }
     if (activeUser) {
-      console.log('activeUser', activeUser)
+      deleteCookie('activeUser')
+      setCookie('activeUser', activeUser, {
+        maxAge: 30 * 24 * 60 * 60,
+        // domain: 'cleaningboss-dev.vercel.app',
+      })
       checkOrg(activeUser)
       return
     }
