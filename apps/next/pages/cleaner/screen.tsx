@@ -10,7 +10,7 @@ import Map from 'components/map'
 import { OrgContext } from 'context/orgcontext'
 import { UserContext } from 'context/usercontext'
 import { useAuth } from '@clerk/nextjs'
-import { setCookie, getCookie } from 'cookies-next'
+import { setCookie, deleteCookie } from 'cookies-next'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -34,34 +34,25 @@ export default function Dashboard() {
   useEffect(() => {
     const getUserInfo = async () => {
       if (clerkId) {
+        console.log('clerkId', clerkId)
+        deleteCookie('userId')
         setCookie('userId', clerkId, {
           maxAge: 30 * 24 * 60 * 60,
           domain: 'cleaningboss-dev.vercel.app',
         })
-        setClerkId(clerkId)
-        getUserId(clerkId)
-      } else {
-        setClerkId(getCookie('userId'))
-        await getUserId(getCookie('userId'))
       }
     }
-    if (activeUser?.id) {
+    if (activeUser) {
+      deleteCookie('activeUser')
+      setCookie('activeUser', activeUser, {
+        maxAge: 30 * 24 * 60 * 60,
+        // domain: 'cleaningboss-dev.vercel.app',
+      })
+      checkOrg(activeUser)
       return
     }
     getUserInfo()
   }, [activeUser])
-
-  const getUserId = async (clerkId) => {
-    const { data } = await supabase.from('users').select('id').eq('email', email)
-    if (data?.length === 0) {
-      const { data } = await supabase.from('users').select().eq('clerk_id', clerkId)
-      setActiveUser(data[0])
-      checkOrg(data[0])
-    } else {
-      setActiveUser(data[0])
-      checkOrg(data[0])
-    }
-  }
 
   const checkOrg = async (activeUser) => {
     if (activeUser?.id_company) {
@@ -91,7 +82,7 @@ export default function Dashboard() {
       setOrg(data[0])
     }
 
-    console.log(activeUser, orgName)
+    // console.log(activeUser, orgName)
   }
 
   return (

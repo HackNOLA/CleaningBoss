@@ -6,6 +6,8 @@ import StaffPage from 'pages/staff'
 import Locations from 'pages/locations'
 import Calendar from 'pages/calendar'
 import Dashboard from './screen'
+import CleanerDash from 'pages/cleaner/screen'
+import TimeSheet from 'pages/cleaner/timesheets'
 import { UserContext } from 'context/usercontext'
 import TopBar from 'components/topbar'
 import { getCookie } from 'cookies-next'
@@ -174,7 +176,7 @@ export default function Page() {
           {page === 0 && (
             <>
               <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}>
-                <Dashboard />
+                <CleanerDash />
               </div>
             </>
           )}
@@ -187,13 +189,8 @@ export default function Page() {
           )}
           {page === 2 && (
             <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}>
-              <Locations />
+              <TimeSheet />
             </div>
-          )}
-          {page === 3 && (
-            <>
-              <StaffPage />
-            </>
           )}
         </div>
       )}
