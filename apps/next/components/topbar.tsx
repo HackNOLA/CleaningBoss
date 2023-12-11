@@ -81,7 +81,7 @@ const AssignJob = () => {
     <div
       onClick={() => {
         console.log('clicked')
-        router.replace('/assignjob')
+        router.replace('/assigncleaner')
       }}
     >
       <svg
