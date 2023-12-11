@@ -27,7 +27,7 @@ const supabase = createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
 )
 
-export function HomeScreen({ setEmail }) {
+export function HomeScreen({ setEmail, setActiveUser }) {
   const router = useRouter()
   const linkProps = useLink({
     href: '/user/nate',
@@ -46,6 +46,7 @@ export function HomeScreen({ setEmail }) {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [pendingVerification, setPendingVerification] = useState(false)
   const [code, setCode] = useState('')
+  const [foundUser, setFoundUser] = useState(null)
   const toast = useToastController()
   const { signUp, setActive: signUpActive } = useSignUp()
 
@@ -60,11 +61,12 @@ export function HomeScreen({ setEmail }) {
       return
     }
 
-    const { data } = await supabase.from('users').select('has_password').eq('email', emailAddress)
+    const { data } = await supabase.from('users').select().eq('email', emailAddress)
     if (data[0] && !hasPassword && !userFound) {
       console.log(data)
       const hasPassword = data[0].has_password
       setHasPassword(hasPassword)
+      setActiveUser(data[0])
       setUserFound(true)
       return
     }

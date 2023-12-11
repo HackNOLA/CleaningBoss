@@ -8,7 +8,7 @@ import { useContext } from 'react'
 
 export default function Page() {
   const { signedIn }: any = useAuth()
-  const { setEmail } = useContext(UserContext)
+  const { setEmail, setActiveUser } = useContext(UserContext)
 
   return (
     <>
@@ -20,7 +20,7 @@ export default function Page() {
       </> } */}
       <div className="min-h-screen">
         <Image src={'/auth_splash.png'} width={600} height={200} />
-        <HomeScreen setEmail={setEmail} />
+        <HomeScreen setEmail={setEmail} setActiveUser={setActiveUser} />
       </div>
     </>
   )
