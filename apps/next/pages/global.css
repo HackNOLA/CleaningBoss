@@ -4,3 +4,17 @@
 .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline{
   border-color: #111860 !important;
 }
+.cusborder {
+    border-radius: 10px;
+	border-left: 10px solid #1a2dda;
+    padding: 10px;
+	box-shadow: 0px 0px 40px -10px #ccc;
+}
+.slick-list {
+    width: 320px;
+	margin: auto !important;
+
+}
+.slick-slide img {
+    margin: auto;
+}

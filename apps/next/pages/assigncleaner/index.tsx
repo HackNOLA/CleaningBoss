@@ -28,43 +28,48 @@ interface Task {
 const slides = [
   {
     id: 1,
-    image: './photo.svg',
+    image: './Photocleint.png',
     name: 'John Smith'
   },
   {
     id: 2,
-    image: './photo.svg',
+    image: './Photocleint.png',
     name: 'John Smith'
   },
   {
     id: 3,
-    image: './photo.svg',
+    image: './Photocleint.png',
     name: 'John Smith'
   },
   {
     id: 4,
-    image: './photo.svg',
+    image: './Photocleint.png',
     name: 'John Smith'
   },
   {
     id: 5,
-    image: './photo.svg',
+    image: './Photocleint.png',
     name: 'John Smith'
   },
   {
     id: 6,
-    image: './photo.svg',
+    image: './Photocleint.png',
     name: 'John Smith'
   },
   {
     id: 7,
-    image: './photo.svg',
+    image: './Photocleint.png',
     name: 'John Smith'
   },
   {
     id: 8,
-    image: './photo.svg',
+    image: './Photocleint.png',
     name: 'John Smith'
+  },
+
+  {
+    id: 9,
+    image: './chevron-right.png',
   },
 
 ]
@@ -140,29 +145,29 @@ const TaskCard = ({ task }: { task: Task }) => (
         
         <XStack width={250} justifyContent="space-between">
           <YStack width={200}>
-            <Text fontSize={14} fontWeight="bold">
+            <Text fontSize={16} fontWeight="600" color="#111860" line-height="19.2">
               {`${task.location}`}
             </Text>
               
-              <Text fontSize={14} color={'slategray'} width={250} paddingRight={12} numberOfLines={2}>
+              <Text fontSize={16} color={'slategray'} fontWeight="400" width={250} paddingRight={12} numberOfLines={2} color="#363A63" line-height="19.2">
                 {task.day}
               </Text>
           </YStack>
           <YStack space="$0" alignItems="center" direction="column" paddingRight={10} alignItems="flex-end">
              <YStack>
-                <Text fontSize={14} color={'slategray'}>
+                <Text fontSize={14} color={'slategray'} color="#3A4ADF" line-height="16.8" fontWeight="400">
                  From: {task.time_from}
                </Text>
               </YStack>
               <YStack>
-               <Text fontSize={14} color={'slategray'}>
+               <Text fontSize={14} color={'slategray'} color="#3A4ADF" line-height="16.8" fontWeight="400">
                 To: {task.time_from}
                 </Text>
               </YStack>
           </YStack>
         </XStack>
         <XStack width={250} justifyContent="space-between" paddingTop={10}>
-          <Text fontSize={14} fontWeight="bold">
+          <Text fontSize={14} fontWeight="400"  color="#111860" line-height="19.2">
             There is 1 unstaffed day
           </Text>
 
@@ -174,10 +179,12 @@ const TaskCard = ({ task }: { task: Task }) => (
   </Card>
 )
 
+
 const SlideCard = ({ slide }: { slide: Slide }) => (
+
   <div className={"cleaner"}>
-    <img src={slide.image} alt="Slide 1" />
-    <Text fontSize={16}>
+    <img src={slide.image} alt="Slide 1" width={44} height={44} margin={0} / >
+    <Text fontSize={14} color="#363A63 font-weight:{400}">
       {slide.name}
     </Text>
   </div>
@@ -187,7 +194,7 @@ const SlideCard = ({ slide }: { slide: Slide }) => (
     dots: false,
     infinite: true,
     speed: 1000,
-    slidesToShow: 5,
+    slidesToShow: 4,
     slidesToScroll: 1,
   };
 
@@ -238,6 +245,12 @@ const AssignCleaner = () => {
       stroke-linejoin="round"
     />
   </svg>
+)
+
+  const rightarrow = (
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" color="red" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M5 12h14M12 5l7 7-7 7"/>
+</svg>
 )
 
   const plusIcon = (
@@ -331,7 +344,7 @@ const AssignCleaner = () => {
                 alignItems="center"
               >
                 
-                <Text fontSize={16}>
+                <Text fontSize={16} color="#111860" fontWeight="500" lineheight="16">
                   Available Shifts
                 </Text>
                 <Button onPress={() => router.replace('addjob')} unstyled={true}>
