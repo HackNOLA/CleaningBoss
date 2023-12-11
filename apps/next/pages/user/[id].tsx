@@ -207,7 +207,7 @@ const UserProfile = () => {
           <TopBar title={`${employee.first_name} ${employee.last_name}`} page={4} />
           <YStack space="$4" paddingTop={100} justifyContent="center" alignItems="center">
             <UserCard user={employee} onClick={() => {}} />
-            <AvailabilityCard availability={employee.availability} />
+            {employee.availability && <AvailabilityCard availability={employee.availability} />}
           </YStack>
           <YStack alignItems="flex-start" justifyContent="flex-start">
             <Text fontSize={20} fontWeight={'400'} paddingLeft={20} paddingTop={20}>
