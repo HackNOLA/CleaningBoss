@@ -186,7 +186,6 @@ const TaskCard = ({ task }: { task: Task }) => (
 
             <Text
               fontSize={16}
-              color={'slategray'}
               fontWeight="400"
               width={250}
               paddingRight={12}
@@ -197,18 +196,12 @@ const TaskCard = ({ task }: { task: Task }) => (
               {task.day}
             </Text>
           </YStack>
-          <YStack
-            space="$0"
-            alignItems="center"
-            direction="column"
-            paddingRight={10}
-            alignItems="flex-end"
-          >
+          <YStack space="$0" alignItems="center" paddingRight={10}>
             <YStack>
               <Text
                 fontSize={14}
                 color={'slategray'}
-                color="#3A4ADF"
+                // color="#3A4ADF"
                 lineHeight="1.68"
                 fontWeight="400"
               >
@@ -219,7 +212,7 @@ const TaskCard = ({ task }: { task: Task }) => (
               <Text
                 fontSize={14}
                 color={'slategray'}
-                color="#3A4ADF"
+                // color="#3A4ADF"
                 lineHeight="1.68"
                 fontWeight="400"
               >
