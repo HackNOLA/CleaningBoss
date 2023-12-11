@@ -1,16 +1,17 @@
 import { useContext, useEffect, useState } from 'react'
-import { Input, Card, XStack, YStack, Text, View, Button, Image } from '@my/ui'
+import { Input, XStack, YStack, Text, View, Button } from '@my/ui'
 import { useRouter } from 'next/router'
 import { createClient } from '@supabase/supabase-js'
 import { OrgContext } from 'context/orgcontext'
 import Map from 'components/map'
+import { LocationCard } from '../../components/locationCard'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
 )
 
-interface Location {
+export interface Location {
   id: number
   address: string
   name: string
@@ -76,57 +77,6 @@ const locations = [
     image: 'https://source.unsplash.com/random',
   },
 ]
-
-const LocationCard = ({ location }: { location: Location }) => (
-  <Card className="load-hidden" backgroundColor={'white'}>
-    <XStack>
-      <Image
-        zIndex={0}
-        source={{
-          uri: 'https://source.unsplash.com/random',
-        }}
-        width={80}
-        height={80}
-        borderTopLeftRadius={10}
-        borderBottomLeftRadius={10}
-        alt="avatar"
-      />
-      <Card.Header></Card.Header>
-      <YStack top={16}>
-        <XStack width={250} justifyContent="space-between">
-          <Text fontSize={14} fontWeight="bold">
-            {`${location.name}`}
-          </Text>
-          <XStack space="$0" alignItems="center" justifyContent="space-evenly" paddingRight={12}>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 14 15"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M1.75 12.1667C3.11254 10.7215 4.96243 9.83333 7 9.83333C9.03757 9.83333 10.8875 10.7215 12.25 12.1667M9.625 4.875C9.625 6.32475 8.44975 7.5 7 7.5C5.55025 7.5 4.375 6.32475 4.375 4.875C4.375 3.42525 5.55025 2.25 7 2.25C8.44975 2.25 9.625 3.42525 9.625 4.875Z"
-                stroke="#3A4ADF"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            <Text color={'blue'} fontSize={14}>
-              {`${location.staffAmount || 0}`}
-            </Text>
-          </XStack>
-
-          {/* <Text color={'blue'} fontSize={14}>
-          </Text> */}
-        </XStack>
-        <Text fontSize={14} color={'slategray'} width={250} paddingRight={12} numberOfLines={2}>
-          {location.address1}
-        </Text>
-      </YStack>
-    </XStack>
-  </Card>
-)
 
 const Locations = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -228,7 +178,13 @@ const Locations = () => {
         </XStack>
         <YStack space="$4">
           {filteredLocations.map((location) => (
-            <LocationCard key={location.id} location={location} />
+            <LocationCard
+              key={location.id}
+              location={location}
+              onClick={() => {
+                router.push(`/locations/${location.id}`)
+              }}
+            />
           ))}
         </YStack>
       </YStack>
