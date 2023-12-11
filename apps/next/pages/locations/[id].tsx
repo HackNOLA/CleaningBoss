@@ -100,7 +100,7 @@ const LocationProfile = () => {
       const getLoc = async () => {
         const { data: foundLoc } = await supabase.from('location').select().eq('id', id)
         if (!foundLoc) return
-        // console.log(foundLoc)
+        console.log(foundLoc)
         setLocation(foundLoc[0])
       }
 
@@ -115,6 +115,27 @@ const LocationProfile = () => {
           <TopBar title={`${location.name}`} page={4} />
           <YStack space="$4" paddingTop={100} justifyContent="center" alignItems="center">
             <LocationCard location={location} onClick={() => {}} />
+          </YStack>
+          <YStack space="$4" paddingTop={20} justifyContent="center" alignItems="center">
+            <Card className="load-hidden" backgroundColor={'white'} width={350} height={120}>
+              <YStack space="$4" padding={10} alignItems="flex-start">
+                <Text fontWeight={'bold'}>Building Photos</Text>
+              </YStack>
+            </Card>
+            <Card className="load-hidden" backgroundColor={'white'} width={350} height={120}>
+              <YStack space="$4" padding={10} alignItems="flex-start">
+                <Text fontWeight={'bold'}>Note for Admin</Text>
+                <Text>{location.admin_note}</Text>
+              </YStack>
+            </Card>
+            <Card className="load-hidden" backgroundColor={'white'} width={350} height={180}>
+              <YStack space="$4" padding={10} alignItems="flex-start">
+                <Text fontWeight={'bold'}>Building Sections</Text>
+                {location.sections.map((section) => (
+                  <Text>{section}</Text>
+                ))}
+              </YStack>
+            </Card>
           </YStack>
           <YStack alignItems="flex-start" justifyContent="flex-start">
             <XStack
