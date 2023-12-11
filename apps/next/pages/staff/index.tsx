@@ -16,8 +16,8 @@ interface User {
   phone: string
 }
 
-const UserCard = ({ user }: { user: User }) => (
-  <Card className="load-hidden" backgroundColor={'white'} width={350}>
+const UserCard = ({ user, onClick }: { user: User; onClick: any }) => (
+  <Card onPress={onClick} className="load-hidden" backgroundColor={'white'} width={350}>
     <XStack>
       <Card.Header>
         <Image
@@ -141,7 +141,7 @@ const StaffPage = () => {
       </YStack>
       <YStack space="$4" paddingTop={60}>
         {filteredUsers.map((user) => (
-          <UserCard key={user.id} user={user} />
+          <UserCard onClick={() => router.replace(`user/${user.id}`)} key={user.id} user={user} />
         ))}
       </YStack>
     </YStack>
