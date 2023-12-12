@@ -8,6 +8,7 @@ import { CurrentToast } from 'components/CurrentToast'
 import { useSignUp } from '@clerk/nextjs'
 import { useRouter } from 'next/router'
 import { OrgContext } from 'context/orgcontext'
+import { UserContext } from 'context/usercontext'
 import { CldUploadWidget } from 'next-cloudinary';
 
 const supabase = createClient(
@@ -21,6 +22,7 @@ const AddAUser: NextPage = () => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [emailAddress, setEmailAddress] = useState('')
+  const [userAvi, setUserAvi] = useState('')
   const [photo, setPhoto] = useState('')
   const [language, setLanguage] = useState('')
   const [password, setPassword] = useState('')
@@ -246,19 +248,28 @@ const AddAUser: NextPage = () => {
             <Text fontSize={16}>Photo</Text>
             <XStack space="$2" alignItems="flex-start">
               <YStack space="$2" alignItems="flex-start">
-                <Image width={100} height={100} source={{ uri: '/photo.svg' }} />
+                <Image width={100} height={100} source={{ uri: userAvi ? userAvi : '/photo.svg' }} />
               </YStack>
               <YStack space="$2" alignItems="flex-start">
                 <XStack space="$2">
                   <Image width={32} height={32} source={{ uri: '/plus.svg' }} />
-                  <CldUploadWidget uploadPreset="y31wzwjk">
-                    {({ open }) => {
-                      return (
-                        <button onClick={() => open()}>
-                          <Text fontSize={16}>Upload Photo</Text>
-                        </button>
-                      );
+                  <CldUploadWidget
+                    uploadPreset="y31wzwjk"
+                    onSuccess={(results: any) => {
+                      console.log('Public ID', results.info);
+                      setUserAvi(results.info.url);
                     }}
+                    options={{
+                      tags: ["user_avatar"],
+                      folder: "CleaningBoss",
+                      publicId: `${Date.now()}`,
+                    }}
+                  >
+                    {({ cloudinary, widget, open }) => (
+                      <button onClick={() => open()}>
+                        <Text fontSize={16}>Upload Photo</Text>
+                      </button>
+                    )}
                   </CldUploadWidget>
 
                 </XStack>
