@@ -76,10 +76,12 @@ const Options = () => {
 }
 
 const AssignJob = () => {
+  const router = useRouter()
   return (
     <div
       onClick={() => {
         console.log('clicked')
+        router.replace('/assigncleaner')
       }}
     >
       <svg
