@@ -131,8 +131,8 @@ const LocationProfile = () => {
             <Card className="load-hidden" backgroundColor={'white'} width={350} height={180}>
               <YStack space="$4" padding={10} alignItems="flex-start">
                 <Text fontWeight={'bold'}>Building Sections</Text>
-                {location.sections.map((section) => (
-                  <Text>{section}</Text>
+                {location.sections.map((section, i) => (
+                  <Text key={`${i}`}>{section}</Text>
                 ))}
               </YStack>
             </Card>

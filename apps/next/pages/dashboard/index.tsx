@@ -29,8 +29,7 @@ export default function Page() {
     const getUserInfo = async () => {
       const activeUser = getCookie('activeUser')
       const clerkId = getCookie('clerkId')
-      console.log('activeUser', JSON.parse(activeUser))
-      console.log('clerkId', clerkId)
+
       if (activeUser) {
         setActiveUser(JSON.parse(activeUser))
         return

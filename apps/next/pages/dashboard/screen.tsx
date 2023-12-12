@@ -46,7 +46,7 @@ export default function Dashboard() {
       deleteCookie('activeUser')
       setCookie('activeUser', activeUser, {
         maxAge: 30 * 24 * 60 * 60,
-        // domain: 'cleaningboss-dev.vercel.app',
+        domain: 'cleaningboss-dev.vercel.app',
       })
       checkOrg(activeUser)
       return
