@@ -339,8 +339,9 @@ const AssignCleaner = () => {
   return (
     <>
       <div
+
         style={{ zIndex: 99 }}
-        className="fixed bottom-0 left-0 right-0 h-24 bg-white  shadow-lg flex items-center justify-around"
+        className="fixed bottom-0 left-0 right-0 h-24 bg-white  shadow-lg flex items-center justify-around bottomdashboard"
       >
         <Link href="#">
           <div className="flex flex-col items-center justify-center text-center z-2">
@@ -354,20 +355,20 @@ const AssignCleaner = () => {
               <svg
                 className={` w-6 h-6 text-${page === 0 ? 'white' : 'black'}`}
                 fill="none"
-                height="24"
-                stroke="currentColor"
+                height="18"
+                stroke="#24662E"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
                 viewBox="0 0 24 24"
-                width="24"
+                width="20"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                 <polyline points="9 22 9 12 15 12 15 22" />
               </svg>
             </div>
-            <span className="mt-1 text-xs">Dashboard</span>
+            <span className="mt-1 text-xs" color="#1A4C22" >Dashboard</span>
           </div>
         </Link>
         <Link href="#">
@@ -382,13 +383,13 @@ const AssignCleaner = () => {
               <svg
                 className={` w-6 h-6 text-${page === 1 ? 'white' : 'black'}`}
                 fill="none"
-                height="24"
-                stroke="currentColor"
+                height="18"
+                stroke="#24662E"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
                 viewBox="0 0 24 24"
-                width="24"
+                width="20"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <rect height="18" rx="2" ry="2" width="18" x="3" y="4" />
@@ -412,13 +413,13 @@ const AssignCleaner = () => {
               <svg
                 className={` w-6 h-6 text-${page === 2 ? 'white' : 'black'}`}
                 fill="none"
-                height="24"
-                stroke="currentColor"
+                height="18"
+                stroke="#24662E"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
                 viewBox="0 0 24 24"
-                width="24"
+                width="20"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <rect height="20" rx="2" ry="2" width="16" x="4" y="2" />
@@ -449,13 +450,13 @@ const AssignCleaner = () => {
               <svg
                 className={` w-6 h-6 text-${page === 3 ? 'white' : 'black'}`}
                 fill="none"
-                height="24"
-                stroke="currentColor"
+                height="18"
+                stroke="#24662E"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
                 viewBox="0 0 24 24"
-                width="24"
+                width="20"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -516,10 +517,13 @@ const AssignCleaner = () => {
         {scrollPosition < 30 && (
         <div
           style={{ zIndex: 99 }}
-          className="fixed bottom-0 left-0 right-0 h-24 bg-white  shadow-lg flex items-center justify-around"
+          className="fixed bottom-0 left-0 right-0 h-24 bg-white  shadow-lg flex items-center justify-around slick_sliderr"
         >
 
-          <YStack space="$2" width={'100%'} alignItems="center">
+          <YStack space="$2" width={'320'} alignItems="center">
+            <Text fontSize={16} className="slick_text"color="#111860" lineHeight="1.6" fontWeight="500" textAlign="left">
+                Available Cleaners
+            </Text>
             <Slider 
             style={{width:'100%'}}
             width={'100%'}
@@ -531,8 +535,10 @@ const AssignCleaner = () => {
           </YStack>
         </div>
       )}
-      <AdminBottomNav page={page} setPage={setPage} />
-        </YStack>
+      <YStack>
+           <AdminBottomNav page={page} setPage={setPage} />
+     </YStack>
+  </YStack>
 
   )
 }
