@@ -22,3 +22,24 @@
     padding-left: 10px !important;
     margin-left: 0px !important;
 }
+.bottomdashboard {
+    width: 348px;
+    padding: 0px 8px 0px 8px;
+    margin: auto;
+    height: 84px;
+    gap: 8px;
+    border-radius: 0px 0px 15px 15px;
+}
+span.mt-1.text-xs {
+	letter-spacing:0.5px;
+    font-weight:600;
+	font-size:12px;
+	color:#1A4C22;
+}
+.slick_sliderr {
+	box-shadow: 0px 0px 0px 0px;
+    margin-bottom: 50px;
+}
+.slick_text {
+    width: 320px;
+}

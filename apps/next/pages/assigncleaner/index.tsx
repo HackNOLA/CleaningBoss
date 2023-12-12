@@ -259,11 +259,193 @@ const AssignCleaner = () => {
   )
 
   function AdminBottomNav({ page, setPage }) {
+<<<<<<< HEAD
+  return (
+    <>
+      <div
+
+        style={{ zIndex: 99 }}
+        className="fixed bottom-0 left-0 right-0 h-24 bg-white  shadow-lg flex items-center justify-around bottomdashboard"
+      >
+        <Link href="#">
+          <div className="flex flex-col items-center justify-center text-center z-2">
+            <div
+              style={{ backgroundColor: page === 0 ? '#33CC4B' : 'transparent' }}
+              onClick={() => setPage(0)}
+              className={`w-10 h-10 rounded-full bg-[${
+                page === 0 ? '#33CC4B' : 'transparent'
+              }] flex items-center justify-center  z-4`}
+            >
+              <svg
+                className={` w-6 h-6 text-${page === 0 ? 'white' : 'black'}`}
+                fill="none"
+                height="18"
+                stroke="#24662E"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+            </div>
+            <span className="mt-1 text-xs" color="#1A4C22" >Dashboard</span>
+          </div>
+        </Link>
+        <Link href="#">
+          <div className="flex flex-col items-center justify-center text-center">
+            <div
+              onClick={() => setPage(1)}
+              style={{ backgroundColor: page === 1 ? '#33CC4B' : 'transparent' }}
+              className={`w-10 h-10 rounded-full bg-[${
+                page === 1 ? '#33CC4B' : 'transparent'
+              }] flex items-center justify-center`}
+            >
+              <svg
+                className={` w-6 h-6 text-${page === 1 ? 'white' : 'black'}`}
+                fill="none"
+                height="18"
+                stroke="#24662E"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect height="18" rx="2" ry="2" width="18" x="3" y="4" />
+                <line x1="16" x2="16" y1="2" y2="6" />
+                <line x1="8" x2="8" y1="2" y2="6" />
+                <line x1="3" x2="21" y1="10" y2="10" />
+              </svg>
+            </div>
+            <span className="mt-1 text-xs">Calendar</span>
+          </div>
+        </Link>
+        <Link href="#">
+          <div className="flex flex-col items-center justify-center text-center">
+            <div
+              onClick={() => setPage(2)}
+              style={{ backgroundColor: page === 2 ? '#33CC4B' : 'transparent' }}
+              className={`w-10 h-10 rounded-full bg-[${
+                page === 2 ? '#33CC4B' : 'transparent'
+              }] flex items-center justify-center`}
+            >
+              <svg
+                className={` w-6 h-6 text-${page === 2 ? 'white' : 'black'}`}
+                fill="none"
+                height="18"
+                stroke="#24662E"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect height="20" rx="2" ry="2" width="16" x="4" y="2" />
+                <path d="M9 22v-4h6v4" />
+                <path d="M8 6h.01" />
+                <path d="M16 6h.01" />
+                <path d="M12 6h.01" />
+                <path d="M12 10h.01" />
+                <path d="M12 14h.01" />
+                <path d="M16 10h.01" />
+                <path d="M16 14h.01" />
+                <path d="M8 10h.01" />
+                <path d="M8 14h.01" />
+              </svg>
+            </div>
+            <span className="mt-1 text-xs">Locations</span>
+          </div>
+        </Link>
+        <Link href="#">
+          <div className="flex flex-col items-center justify-center text-center">
+            <div
+              style={{ backgroundColor: page === 3 ? '#33CC4B' : 'transparent' }}
+              onClick={() => setPage(3)}
+              className={`w-10 h-10 rounded-full bg-[${
+                page === 3 ? '#33CC4B' : 'transparent'
+              }] flex items-center justify-center`}
+            >
+              <svg
+                className={` w-6 h-6 text-${page === 3 ? 'white' : 'black'}`}
+                fill="none"
+                height="18"
+                stroke="#24662E"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <span className="mt-1 text-xs">Users</span>
+          </div>
+        </Link>
+      </div>
+    </>
+  )
+}
+
+  return (
+    <YStack justifyContent="center" alignItems="center">
+      <View width={'100%'}>{scrollPosition < 20 && <TopBar title="Assign Cleaners" />}</View>
+      <CurrentToast bgColor={bgColor} />
+        <View backgroundColor={'#F2F2F2'}>
+          <YStack display="flex" justifyContent="center" alignItems="center" paddingBottom={0}>
+            <View paddingTop={80}>
+              {/* <Map /> */}
+            </View>
+            <XStack
+              className={scrollPosition > 20 ? 'fade' : 'item'}
+              justifyContent="space-between"
+              alignItems="baseline"
+              width={340}
+            >
+              <XStack
+                paddingBottom={20}
+                paddingTop={20}
+                paddingLeft={20}
+                fontColor={'#33CC4B'}
+                space="$2"
+                justifyContent="space-between"
+                width={'100%'}
+                alignItems="center"
+              >
+                
+                <Text fontSize={16} color="#111860" fontWeight="500" lineheight="16">
+                  Available Shifts
+                </Text>
+                <Button onPress={() => router.replace('addjob')} unstyled={true}>
+                  {plusIcon}
+                </Button>
+              </XStack>
+            </XStack>
+            <YStack space="$4">
+              {filteredTasks.map((task) => (
+                <TaskCard key={task.id} task={task} />
+              ))}
+            </YStack>
+          </YStack>
+        </View>
+        {scrollPosition < 30 && (
+=======
     return (
       <>
+>>>>>>> ff652a7cde7c3e4b7680483a8bf1c1f1910463e9
         <div
           style={{ zIndex: 99 }}
-          className="fixed bottom-0 left-0 right-0 h-24 bg-white  shadow-lg flex items-center justify-around"
+          className="fixed bottom-0 left-0 right-0 h-24 bg-white  shadow-lg flex items-center justify-around slick_sliderr"
         >
           <Link href="#">
             <div className="flex flex-col items-center justify-center text-center z-2">
@@ -395,6 +577,17 @@ const AssignCleaner = () => {
     )
   }
 
+<<<<<<< HEAD
+          <YStack space="$2" width={'320'} alignItems="center">
+            <Text fontSize={16} className="slick_text"color="#111860" lineHeight="1.6" fontWeight="500" textAlign="left">
+                Available Cleaners
+            </Text>
+            <Slider 
+            style={{width:'100%'}}
+            width={'100%'}
+            {...slider_settings}>
+            {slides.map((slide) => (
+=======
   return (
     <YStack justifyContent="center" alignItems="center" backgroundColor={'#F2F2F2'}>
       <View width={'100%'}>{scrollPosition < 20 && <TopBar title="Assign Cleaners" />}</View>
@@ -441,6 +634,7 @@ const AssignCleaner = () => {
           <YStack space="$2" width={'100%'} alignItems="center">
             <Slider style={{ width: '100%' }} width={'100%'} {...slider_settings}>
               {slides.map((slide) => (
+>>>>>>> ff652a7cde7c3e4b7680483a8bf1c1f1910463e9
                 <SlideCard key={slide.id} slide={slide} />
               ))}
             </Slider>
@@ -448,7 +642,15 @@ const AssignCleaner = () => {
           </YStack>
         </div>
       )}
+<<<<<<< HEAD
+      <YStack>
+           <AdminBottomNav page={page} setPage={setPage} />
+     </YStack>
+  </YStack>
+
+=======
     </YStack>
+>>>>>>> ff652a7cde7c3e4b7680483a8bf1c1f1910463e9
   )
 }
 
