@@ -204,7 +204,7 @@ const UserProfile = () => {
     <>
       {employee && (
         <YStack height={'100ch'} backgroundColor={'#F2F2F2'} width={'100wh'}>
-          <TopBar title={`${employee.first_name} ${employee.last_name}`} page={4} />
+          <TopBar title={`${employee.first_name} ${employee.last_name}`} page={7} />
           <YStack space="$4" paddingTop={100} justifyContent="center" alignItems="center">
             <UserCard user={employee} onClick={() => {}} />
             {employee.availability && <AvailabilityCard availability={employee.availability} />}
