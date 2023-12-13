@@ -27,22 +27,22 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 
+
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
 )
 
-const AddJob: NextPage = () => {
+const AddShift: NextPage = () => {
   const { isLoaded, signUp, setActive } = useSignUp()
   const [scrollPosition, setScrollPosition] = useState(0)
-  const [JobDescription, setJobDescription] = useState('')
   const [shiftHours, onSelectShiftHours] = useState('')
   const [location, setLocation] = useState('')
-  const [shiftTimeline, setShiftTimeline] = useState('')
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
   const [shiftInTime, setShiftInTime] = useState('')
   const [shiftOutTime, setShiftOutTime] = useState('')
-  const [assignCleaners, setAssignCleaners] = useState('')
-  const [notes, setNotes] = useState('')
+  const [addShift, setaddShift] = useState('')
   const [joinCode, setJoinCode] = useState('' as any)
   const [pendingVerification, setPendingVerification] = useState(false)
   const [code, setCode] = useState('')
@@ -50,6 +50,26 @@ const AddJob: NextPage = () => {
   const toast = useToastController()
   const router = useRouter()
   const { org } = useContext(OrgContext)
+  const [availabilityQuantity, setAvailabilityQuantity] = useState(0)
+  const [locations, setLocations] = useState([])
+  const [availability, setAvailability] = useState([
+    { day: 'Mon', selected: false, from: '', to: '' },
+    { day: 'Tue', selected: false, from: '', to: '' },
+    { day: 'Wed', selected: false, from: '', to: '' },
+    { day: 'Thu', selected: false, from: '', to: '' },
+    { day: 'Fri', selected: false, from: '', to: '' },
+    { day: 'Sat', selected: false, from: '', to: '' },
+    { day: 'Sun', selected: false, from: '', to: '' },
+  ])
+  const setAvailabilitySlot = (day: string) => {
+    const newAvailability = availability.map((slot) => {
+      if (slot.day === day) {
+        slot.selected = !slot.selected
+      }
+      return slot
+    })
+    setAvailability(newAvailability)
+  }
 
   useEffect(() => {
     //if a day is selected, make input field appear to select time range for that day
@@ -118,7 +138,7 @@ const AddJob: NextPage = () => {
       shiftTimeline: shiftTimeline,
       shiftInTime: shiftInTime,
       shiftOutTime: shiftOutTime,
-      assignCleaners: assignCleaners,
+      addShift: addShift,
       notes: notes,
       //time_trialed: timeTrialOption === 'Yes' ? true : false,
     }
@@ -165,65 +185,91 @@ const AddJob: NextPage = () => {
 
   return (
     <YStack justifyContent="center" alignItems="center">
-      <View width={'100%'}>{scrollPosition < 20 && <TopBar title="Add a Job" />}</View>
+      <View width={'100%'}>{scrollPosition < 20 && <TopBar title="Add a Shift" />}</View>
       <CurrentToast bgColor={bgColor} />
       {!pendingVerification && (
-        <YStack space="$6" top={160} justifyContent="center" alignItems="center">
+        <YStack space="$6" top={80} backgroundColor="#f2f2f2" padding={16} justifyContent="center" alignItems="center" borderRadius={15}>
           <YStack space="$2" width={'100%'}>
-            <Text fontSize={16} style={{ color: '#111860' }}>
-              Job Description
+            <Text fontSize={16} style={{ color: '#111860', fontWeight:'500', lineHeight:'1.6'}}>
+              Shift label
             </Text>
             <Input
-              onChangeText={setJobDescription}
-              value={JobDescription}
               width={320}
-              borderColor={'#111860'}
-              placeholder="Job Description"
+              borderColor={'#9497B8'}
+              placeholder="Add a Shift"
             />
           </YStack>
 
-          <YStack space="$2" alignItems="flex-start" width={320}>
-            <Text fontSize={16} style={{ color: '#111860' }}>
+          <YStack space="$2" alignItems="flex-start" width={320} className="locationselect">
+            <Text fontSize={16} style={{ color: '#111860', fontWeight:'500', lineHeight:'1.6' }}>
               Location
             </Text>
             <Selection
               items={['One time', 'Espanol', 'Francios']}
               width={320}
-              borderColor={'#111860'}
+              borderColor={'#9497B8'}
               onChange={onSelectLocation}
               value={location}
               placeholder="Select Location"
             />
           </YStack>
 
-          <YStack space="$2" alignItems="flex-start" width={320}>
-            <Text fontSize={16} style={{ color: '#111860' }}>
-              Prevent check in outside shift hours?
-            </Text>
-            <Radiogroup
-              items={['One time', 'Daily', 'Weekly', 'Monthly', 'Yearly']}
-              width={320}
-              onChange={onSelectShiftHours}
-              value={shiftHours}
-            />
+          <YStack space="$2" alignItems="flex-start" width={320} className="servicedays">
+              <Text fontSize={16} color="#111860" fontWeight="500" lineHeight="1.6">Service Days</Text>
+              <XStack space="$2" justifyContent="center" paddingBottom={0}>
+                {availability.map((slot, i) => (
+                  <Button
+                    onPress={() => {
+                      setAvailabilitySlot(slot.day)
+                      setAvailabilityQuantity(availabilityQuantity + 1)
+                    }}
+                    key={`${i}`}
+                    width={40}
+                    height={40}
+                    circular={true}
+                    borderColor={slot.selected ? '#3373CC' : '#000000'}
+                    borderWidth={slot.selected ? 3 : 1}
+                    >
+                    <Text color="black">{slot.day}</Text>
+                    </Button>
+                  ))}
+                </XStack>
+                {dayTimeSetter(availabilityQuantity)}
           </YStack>
 
-          <YStack space="$2" width={320}>
-            <Text fontSize={16} style={{ color: '#111860' }}>
-              Shift Timeline
-            </Text>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                borderColor={'#111860'}
-                value={shiftTimeline}
-                onChange={setShiftTimeline}
-              />
-            </LocalizationProvider>
-          </YStack>
+          <XStack space="$2" padding={0} width={320} justifyContent="space-between">
+            <YStack space="$2" width={155} className="datepickerbgshift">
+              <Text fontSize={16} style={{ color: '#111860', fontWeight:'500', lineHeight:'1.6' }}>
+                Start Date
+              </Text>
+
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  borderColor={'#9497B8'}
+                  value={startDate}
+                  onChange={setStartDate}
+                />
+              </LocalizationProvider>
+            </YStack>
+
+            <YStack space="$2" width={155} className="datepickerbgshift">
+              <Text fontSize={16} style={{ color: '#111860', fontWeight:'500', lineHeight:'1.6' }}>
+                End Date
+              </Text>
+
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  borderColor={'#9497B8'}
+                  value={endDate}
+                  onChange={setEndDate}
+                />
+              </LocalizationProvider>
+            </YStack>
+          </XStack>
 
           <XStack space="$2" padding={0} width={320}>
-            <YStack space="$1" width={155}>
-              <Text fontSize={16} style={{ color: '#111860' }}>
+            <YStack space="$1" width={155} className="datepickerbg">
+              <Text fontSize={16} style={{ color: '#111860', fontWeight:'500', lineHeight:'1.6' }}>
                 Check In Time
               </Text>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -232,13 +278,13 @@ const AddJob: NextPage = () => {
                   className="uppercase"
                   value={shiftInTime}
                   onChange={setShiftInTime}
-                  borderColor={'#111860'}
+                  borderColor={'#9497B8'}
                   format="hh:mm"
                 />
               </LocalizationProvider>
             </YStack>
-            <YStack space="$1" width={155}>
-              <Text fontSize={16} style={{ color: '#111860' }}>
+            <YStack space="$1" width={155} className="datepickerbg">
+              <Text fontSize={16} style={{ color: '#111860', fontWeight:'500', lineHeight:'1.6' }}>
                 Check Out Time
               </Text>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -247,40 +293,51 @@ const AddJob: NextPage = () => {
                   className="uppercase"
                   value={shiftOutTime}
                   onChange={setShiftOutTime}
-                  borderColor={'#111860'}
+                  borderColor={'#9497B8'}
                   format="hh:mm"
                 />
               </LocalizationProvider>
             </YStack>
           </XStack>
+          
+          <YStack space="$2" alignItems="flex-start" width={320} className="Preventradio">
+            <Text fontSize={16} style={{ color: '#111860', fontWeight:'500', lineHeight:'1.6' }}>
+              Prevent check in outside shift hours?
+            </Text>
+            <Radiogroup
+              items={['Yes', 'No',]}
+              onChange={onSelectShiftHours}
+              value={shiftHours}
+            />
+          </YStack>
 
           <YStack space="$2" alignItems="flex-start" width={320}>
-            <Text fontSize={16} style={{ color: '#111860' }}>
+            <Text fontSize={16} style={{ color: '#111860', fontWeight:'500', lineHeight:'1.6' }}>
+              Cleaners Per Shifts
+            </Text>
+            <Input type="" name=""
+              width={160}
+              border={1}
+              borderColor={'#9497B8'}
+              onChange={setaddShift}
+              value={addShift}
+              placeholder="Number"
+            />
+          </YStack>
+
+
+          <YStack space="$2" alignItems="flex-start" width={320} className="assignselect">
+            <Text fontSize={16} style={{ color: '#111860', fontWeight:'500', lineHeight:'1.6' }}>
               Assign cleaners
             </Text>
             <Selection
               items={['Yes', 'No']}
-              width={160}
-              borderColor={'#111860'}
-              onChange={setAssignCleaners}
-              value={assignCleaners}
-              placeholder="Subject"
-            />
-          </YStack>
-
-          <YStack space="$2" width={320}>
-            <Text fontSize={16} style={{ color: '#111860' }}>
-              Notes
-            </Text>
-            <textarea
-              className="border border-solid  rounded-lg"
-              width={320}
-              height={320}
+              width={200}
               border={1}
-              rows={8}
-              borderColor={'#111860'}
-              onChange={setNotes}
-              value={notes}
+              borderColor={'#9497B8'}
+              onChange={setaddShift}
+              value={addShift}
+              placeholder="Subject"
             />
           </YStack>
         </YStack>
@@ -302,7 +359,7 @@ const AddJob: NextPage = () => {
               </Button>
               <Button onPress={submitUser} width={150} backgroundColor={'#33CC4B'}>
                 <Text color="white" fontSize={16}>
-                  Add Job
+                  Add Shift
                 </Text>
               </Button>
             </XStack>
@@ -313,4 +370,4 @@ const AddJob: NextPage = () => {
   )
 }
 
-export default AddJob
+export default AddShift
