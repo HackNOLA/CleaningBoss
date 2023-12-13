@@ -29,7 +29,7 @@ const supabase = createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
 )
 
-const AddAUser: NextPage = () => {
+const EditLocation: NextPage = () => {
   const { isLoaded, signUp, setActive } = useSignUp()
   const [scrollPosition, setScrollPosition] = useState(0)
   const [address1, setAddress1] = useState('')
@@ -364,4 +364,4 @@ const AddAUser: NextPage = () => {
   )
 }
 
-export default AddAUser
+export default EditLocation
