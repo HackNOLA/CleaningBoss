@@ -100,7 +100,7 @@ const LocationProfile = () => {
       const getLoc = async () => {
         const { data: foundLoc } = await supabase.from('location').select().eq('id', id)
         if (!foundLoc) return
-        console.log(foundLoc)
+        console.log(foundLoc[0].id)
         setLocation(foundLoc[0])
       }
 
@@ -112,7 +112,7 @@ const LocationProfile = () => {
     <>
       {location && (
         <YStack height={'100ch'} backgroundColor={'#F2F2F2'} width={'100wh'}>
-          <TopBar title={`${location.name}`} page={4} />
+          <TopBar title={`${location.name}`} page={6} id={location.id} />
           <YStack space="$4" paddingTop={100} justifyContent="center" alignItems="center">
             <LocationCard location={location} onClick={() => {}} />
           </YStack>
