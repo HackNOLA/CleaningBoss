@@ -92,7 +92,6 @@ const Locations = () => {
   useEffect(() => {
     const fetchLocations = async () => {
       const { data } = await supabase.from('location').select().eq('id_company', org?.id)
-      console.log(data)
       setLocations(data)
     }
     fetchLocations()
@@ -122,7 +121,7 @@ const Locations = () => {
     <View backgroundColor={'#F2F2F2'}>
       <YStack display="flex" justifyContent="center" alignItems="center" paddingBottom={0}>
         <View paddingTop={80} paddingBottom={40}>
-          <Map markers={locations} />
+          <Map locations={locations} />
         </View>
         <XStack
           space="$3"

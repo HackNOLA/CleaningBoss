@@ -83,8 +83,8 @@ const EditUser = ({ id }) => {
 
 const Options = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const handleClick = (event) => {
     // console.log(event.currentTarget)
     setIsOpen(!isOpen)
     setAnchorEl(event.currentTarget)

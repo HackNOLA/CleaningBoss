@@ -5,28 +5,7 @@ import mapboxgl from 'mapbox-gl'
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-const markers: Marker[] = [
-  {
-    city: 'Sydney',
-    country: 'Australia',
-    latCoord: -33.8688,
-    longCoord: 151.2093,
-  },
-  {
-    city: 'Amsterdam',
-    country: 'Netherlands',
-    latCoord: 52.3676,
-    longCoord: 4.9041,
-  },
-  {
-    city: 'Seoul',
-    country: 'South Korea',
-    latCoord: 37.5665,
-    longCoord: 126.978,
-  },
-]
-
-const Map = ({ address }) => {
+const Map = ({ locations = [] }) => {
   const [viewport, setViewport] = useState({
     latitude: 0,
     longitude: 0,
@@ -45,51 +24,50 @@ const Map = ({ address }) => {
       zoom: 10.8,
     })
 
-    map.current.addControl(
-      new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl,
-      })
-    )
-
     const geojson = {
-      type: 'Feature',
-      features: markers.map((marker) => ({
-        properties: {
-          city: marker.city,
-          country: marker.country,
-          iconSize: [30, 42],
-        },
+      type: 'FeatureCollection',
+      features: locations.map((location) => ({
+        type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: {
-            lat: marker.latCoord,
-            lng: marker.longCoord,
-          },
+        },
+        properties: {
+          title: location.name,
+          description: location.address1,
         },
       })),
     }
+
     map.current.on('load', () => {
-      geojson.features.forEach((marker) => {
-        // create a DOM element for the marker
+      locations.forEach(async (location) => {
+        await handleCoordinates(location.address1)
+        // Use the Mapbox GL Geocoder to geocode addresses
+      })
+    })
+  }, [locations])
+
+  const handleCoordinates = async (address) => {
+    const geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl,
+      showSearchButton: false, // Set to false to hide the search box
+    })
+
+    map.current.addControl(geocoder)
+
+    await geocoder.query(address, (result) => {
+      if (result && result.features && result.features.length > 0) {
+        const coordinates = result.features[0].geometry.coordinates
         const markerIcon = document.createElement('div')
         markerIcon.className = 'location-marker'
         markerIcon.style.backgroundImage = 'url(/location_marker.png)'
-        markerIcon.style.width = marker.properties.iconSize[0] + '.99px'
-        markerIcon.style.height = marker.properties.iconSize[1] + 'px'
-
-        new mapboxgl.Marker(markerIcon)
-          .setLngLat(marker.geometry.coordinates) // add marker to map
-          .setPopup(
-            // add pop out to map
-            new mapboxgl.Popup({ offset: 25 }).setHTML(
-              `<p>${marker.properties.city}, ${marker.properties.country}</p>`
-            )
-          )
-          .addTo(map.current)
-      })
+        markerIcon.style.width = '80px'
+        markerIcon.style.height = '80px'
+        // Create a marker for each location
+        new mapboxgl.Marker(markerIcon).setLngLat(coordinates).addTo(map.current)
+      }
     })
-  }, [])
+  }
 
   return (
     <>
