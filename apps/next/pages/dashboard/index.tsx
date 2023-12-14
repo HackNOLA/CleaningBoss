@@ -63,22 +63,23 @@ export default function Page() {
         default:
           setTitle('Cleaning Boss')
       }
-    }
-    switch (page) {
-      case 0:
-        setTitle('Cleaning Boss')
-        break
-      case 1:
-        setTitle('Shifts')
-        break
-      case 2:
-        setTitle('My Time Entries')
-        break
-      case 3:
-        setTitle('Messages')
-        break
-      default:
-        setTitle('Cleaning Boss')
+    } else {
+      switch (page) {
+        case 0:
+          setTitle('Cleaning Boss')
+          break
+        case 1:
+          setTitle('Shifts')
+          break
+        case 2:
+          setTitle('My Time Entries')
+          break
+        case 3:
+          setTitle('Messages')
+          break
+        default:
+          setTitle('Cleaning Boss')
+      }
     }
   }
 
@@ -98,11 +99,10 @@ export default function Page() {
             opacity: 0; /* Adjust the opacity value to control the fading effect */
           }
 
-          .mapboxgl-ctrl-geocoder  {
-            display: flex !important;
-            // position: fixed !important;
-            align-items: center !important;
+          .mapboxgl-ctrl {
+            display: none !important;
           }
+         
 
           li {
             list-style: none;
@@ -114,21 +114,7 @@ export default function Page() {
             width: 32px !important;
           }
 
-          .mapboxgl-ctrl-geocoder--input {
-            width: 100% !important;
-            border-radius: 0.375rem !important;
-            border: 1px solid #E5E5E5 !important;
-            padding: 0.5rem !important;
-            font-size: 0.875rem !important;
-            line-height: 1.25rem !important;
-            color: #4B5563 !important;
-            background-color: #F9FAFB !important;
-          }
-
-          .mapboxgl-ctrl-geocoder--pin-right {
-            display: flex !important;
-            justify-content: center !important;
-          }
+          
           `}
         </style>
       </Head>

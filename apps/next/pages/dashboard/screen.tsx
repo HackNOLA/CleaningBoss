@@ -1,7 +1,7 @@
 'use client'
 
 import { createClient } from '@supabase/supabase-js'
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { YStack, View, XStack, Toast } from '@my/ui'
 import Card from 'components/card'
 import SegmentedControl from 'components/segmentedcontrol'
@@ -38,7 +38,7 @@ export default function Dashboard() {
         deleteCookie('userId')
         setCookie('userId', clerkId, {
           maxAge: 30 * 24 * 60 * 60,
-          domain: 'cleaningboss-dev.vercel.app',
+          // domain: 'cleaningboss-dev.vercel.app',
         })
       }
     }
@@ -46,7 +46,7 @@ export default function Dashboard() {
       deleteCookie('activeUser')
       setCookie('activeUser', activeUser, {
         maxAge: 30 * 24 * 60 * 60,
-        domain: 'cleaningboss-dev.vercel.app',
+        // domain: 'cleaningboss-dev.vercel.app',
       })
       checkOrg(activeUser)
       return
