@@ -87,3 +87,36 @@ span.mt-1.text-xs {
 .css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root {
     color: #646896c2 !important;
 }
+.loaction_pagemap ._fos-14px._fow-bold {
+    font-size: 16px;
+    color: #111860;
+    font-weight: 600;
+    line-height: 19.2px;
+}
+.loaction_pagemap :root ._col-blue {
+    color: #3A4ADF;
+    line-height: 16.8px;
+    font-size: 14px;
+    font-weight: 400;
+}
+.loaction_pagemap .is_Card._ai-stretch._dsp-flex._fd-column {
+    box-shadow: 0px 0px 10px 0px #ccc;
+    border-radius: 8px;
+}
+.loaction_pagemap span.font_body._ff-299667014._dsp-inline._bxs-border-box._ww-break-word._mt-0px._mr-0px._mb-0px._ml-0px._col-blue._fos-14px {
+    font-size: 14px;
+    color: #3A4ADF;
+    line-height: 16.8px;
+    font-weight: 400;
+    padding-left: 3px;
+    margin-top: 1px;
+}
+.addlocationmap ._brs-solid.fade {
+    width: 100%;
+    border: 2px solid #9497B8;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #646896;
+    line-height: 24px;
+    font-weight: 400;
+}

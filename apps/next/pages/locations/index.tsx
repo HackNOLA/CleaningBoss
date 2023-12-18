@@ -146,7 +146,6 @@ const Locations = () => {
           </svg>
           <input
             value={searchTerm}
-            // borderColor={'transparent'}
             placeholder="Search Location"
             onChange={handleSearchChange}
           />

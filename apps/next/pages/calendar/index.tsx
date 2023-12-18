@@ -85,9 +85,6 @@ const TaskCard = ({ task }: { task: Task }) => (
           <Text fontSize={14} fontWeight="bold">
             {`${task.location}`}
           </Text>
-
-          {/* <Text color={'blue'} fontSize={14}>
-          </Text> */}
         </XStack>
         <XStack width={250} justifyContent="space-between">
           <YStack>
