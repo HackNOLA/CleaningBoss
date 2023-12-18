@@ -131,29 +131,29 @@ const AddShift: NextPage = () => {
   }
 
   const submitUser = async () => {
-    const user = {
-      job_description: JobDescription,
-      shiftHours: shiftHours,
-      location: location,
-      shiftTimeline: shiftTimeline,
-      shiftInTime: shiftInTime,
-      shiftOutTime: shiftOutTime,
-      addShift: addShift,
-      notes: notes,
-      //time_trialed: timeTrialOption === 'Yes' ? true : false,
-    }
+    // const user = {
+    //   job_description: JobDescription,
+    //   shiftHours: shiftHours,
+    //   location: location,
+    //   shiftTimeline: shiftTimeline,
+    //   shiftInTime: shiftInTime,
+    //   shiftOutTime: shiftOutTime,
+    //   addShift: addShift,
+    //   notes: notes,
+    //   //time_trialed: timeTrialOption === 'Yes' ? true : false,
+    // }
 
-    console.log(user)
-    //submit user to database
-    const { error } = await supabase.from('users').insert(user)
+    // console.log(user)
+    // //submit user to database
+    // const { error } = await supabase.from('users').insert(user)
 
-    console.log(error)
-    toast?.show('Success!', {
-      title: 'Success',
-      message: 'You have successfully added a user!',
-      duration: 4000,
-      viewport: 'screen',
-    })
+    // console.log(error)
+    // toast?.show('Success!', {
+    //   title: 'Success',
+    //   message: 'You have successfully added a user!',
+    //   duration: 4000,
+    //   viewport: 'screen',
+    // })
 
     router.replace('dashboard')
   }
@@ -195,8 +195,9 @@ const AddShift: NextPage = () => {
             </Text>
             <Input
               width={320}
+              height={56}
               borderColor={'#9497B8'}
-              placeholder="Add a Shift"
+              placeholder="Shift label"
             />
           </YStack>
 
@@ -205,8 +206,9 @@ const AddShift: NextPage = () => {
               Location
             </Text>
             <Selection
-              items={['One time', 'Espanol', 'Francios']}
+              items={['First baptist churchme', 'Andrew’s Insurance', 'Sunshine Nursing Home']}
               width={320}
+              height={56}
               borderColor={'#9497B8'}
               onChange={onSelectLocation}
               value={location}
@@ -237,8 +239,8 @@ const AddShift: NextPage = () => {
                 {dayTimeSetter(availabilityQuantity)}
           </YStack>
 
-          <XStack space="$2" padding={0} width={320} justifyContent="space-between">
-            <YStack space="$2" width={155} className="datepickerbgshift">
+          <XStack space="$2" padding={0} width={320}>
+            <YStack space="$1" width={155} className="datepickerbgshift">
               <Text fontSize={16} style={{ color: '#111860', fontWeight:'500', lineHeight:'1.6' }}>
                 Start Date
               </Text>
@@ -252,7 +254,7 @@ const AddShift: NextPage = () => {
               </LocalizationProvider>
             </YStack>
 
-            <YStack space="$2" width={155} className="datepickerbgshift">
+            <YStack space="$1" width={155} className="datepickerbgshift">
               <Text fontSize={16} style={{ color: '#111860', fontWeight:'500', lineHeight:'1.6' }}>
                 End Date
               </Text>
@@ -318,9 +320,8 @@ const AddShift: NextPage = () => {
             <Input type="" name=""
               width={160}
               border={1}
+              height={56}
               borderColor={'#9497B8'}
-              onChange={setaddShift}
-              value={addShift}
               placeholder="Number"
             />
           </YStack>
@@ -334,6 +335,7 @@ const AddShift: NextPage = () => {
               items={['Yes', 'No']}
               width={200}
               border={1}
+              height={56}
               borderColor={'#9497B8'}
               onChange={setaddShift}
               value={addShift}
