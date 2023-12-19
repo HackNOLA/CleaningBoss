@@ -120,3 +120,27 @@ span.mt-1.text-xs {
     line-height: 24px;
     font-weight: 400;
 }
+.addlocationmap ._WebkitBoxOrient-vertical._ox-hidden._oy-hidden {
+    color: #363A63;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.8px;
+    padding-top: 5px;
+}
+.dashbaord_btm .flex.items-center.justify-around {
+    width: 400px;
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    transform: translateX(-50%);
+}
+._ai-stretch._dsp-flex._fd-column._fb-auto._bxs-border-box._pos-relative._mih-0px._miw-0px._fs-0._bg-f2f2f235._pt-25px._pr-16px._pb-16px._pl-16px.addlocationmap {
+    border-radius: 0px 0px 8px 8px;
+    width: 400px;
+    margin: auto;
+}
+.vector_bgc\[\#33CC4B\].flex.items-center.justify-center {
+    width: 44px;
+    height: 44px;
+}
