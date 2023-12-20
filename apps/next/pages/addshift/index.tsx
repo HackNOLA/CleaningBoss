@@ -187,8 +187,8 @@ const AddShift: NextPage = () => {
 
     if (startDate && endDate && shiftInTime && shiftOutTime && amount) {
       const shift = {
-        start_date: JSON.stringify(startDate.$d).slice(3, 11),
-        end_date: JSON.stringify(endDate.$d).slice(3, 11),
+        start_date: JSON.stringify(startDate.$d).slice(1, 25),
+        end_date: JSON.stringify(endDate.$d).slice(1, 25),
         check_in_time: JSON.stringify(shiftInTime).slice(1, 25),
         check_out_time: JSON.stringify(shiftOutTime).slice(1, 25),
         service_days: availability,

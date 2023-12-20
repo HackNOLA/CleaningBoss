@@ -82,7 +82,7 @@ const LocationProfile = () => {
 
   const [scrollPosition, setScrollPosition] = useState(0)
 
-  const [users, setUsers] = useState([])
+  const [shifts, setShifts] = useState([])
 
   const [location, setLocation] = useState(null)
 
@@ -99,9 +99,13 @@ const LocationProfile = () => {
       //grab user with id
       const getLoc = async () => {
         const { data: foundLoc } = await supabase.from('location').select().eq('id', id)
+        const { data: shifts } = await supabase.from('shifts').select().eq('id_location', id)
+
         if (!foundLoc) return
         console.log(foundLoc[0].id)
         setLocation(foundLoc[0])
+        if (!shifts) return
+        setShifts(shifts)
       }
 
       getLoc()
@@ -147,24 +151,28 @@ const LocationProfile = () => {
               <Text fontSize={20} fontWeight={'400'} paddingLeft={20} paddingTop={20}>
                 Scheduled Shifts
               </Text>
-              <XStack>
-                {plusIcon}
+              <XStack space="$2">
+                <Button onPress={() => router.replace('/addshift')} unstyled={true}>
+                  {plusIcon}
+                </Button>
                 <Text>Add shift</Text>
               </XStack>
             </XStack>
           </YStack>
-          <YStack
-            space="$4"
-            paddingTop={20}
-            justifyContent="center"
-            alignItems="center"
-            paddingBottom={100}
-            backgroundColor={'#F2F2F2'}
-          >
-            {tasks.map((task) => (
-              <TaskCard key={task.id} task={task} />
-            ))}
-          </YStack>
+          {shifts && (
+            <YStack
+              space="$4"
+              paddingTop={20}
+              justifyContent="center"
+              alignItems="center"
+              paddingBottom={100}
+              backgroundColor={'#F2F2F2'}
+            >
+              {shifts.map((task) => (
+                <TaskCard key={task.id} task={task} />
+              ))}
+            </YStack>
+          )}
         </YStack>
       )}
       {!location && (

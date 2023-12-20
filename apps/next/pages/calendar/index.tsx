@@ -83,16 +83,37 @@ const TaskCard = ({ task }: { task: Task }) => (
       <YStack top={16}>
         <XStack width={250} justifyContent="space-between">
           <Text fontSize={14} fontWeight="bold">
-            {`${task.location}`}
+            {`${task.location_name}`}
           </Text>
         </XStack>
         <XStack width={250} justifyContent="space-between">
           <YStack>
             <Text fontSize={14} color={'slategray'} width={250} paddingRight={12} numberOfLines={2}>
-              {task.time}
+              {`${
+                new Date(task.check_in_time)
+                  .toLocaleDateString('en-US', {
+                    hour: 'numeric',
+                    minute: 'numeric',
+                  })
+                  .split(',')[1]
+              } -
+                  ${
+                    new Date(task.check_out_time)
+                      .toLocaleDateString('en-US', {
+                        hour: 'numeric',
+                        minute: 'numeric',
+                      })
+                      .split(',')[1]
+                  }`}
             </Text>
             <Text fontSize={14} color={'slategray'} width={250} paddingRight={12} numberOfLines={2}>
-              {task.day}
+              {new Date(task.check_in_time).toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour12: true,
+              })}
             </Text>
           </YStack>
           <XStack space="$0" alignItems="center" justifyContent="space-evenly" paddingRight={12}>
@@ -105,7 +126,7 @@ const TaskCard = ({ task }: { task: Task }) => (
               alignItems="center"
             >
               <Text fontSize={14} color={'slategray'}>
-                {`${task.activeCleaners}/${task.totalCleaners}`}
+                {`${task.active_cleaners}/${task.cleaner_amount}`}
               </Text>
             </View>
           </XStack>
@@ -115,10 +136,12 @@ const TaskCard = ({ task }: { task: Task }) => (
   </Card>
 )
 
-const Locations = () => {
+const Tasks = () => {
   const [searchTerm, setSearchTerm] = useState('')
 
   const [scrollPosition, setScrollPosition] = useState(0)
+
+  const [shifts, setShifts] = useState([])
 
   const [users, setUsers] = useState([])
 
@@ -127,11 +150,11 @@ const Locations = () => {
   const router = useRouter()
 
   useEffect(() => {
-    // const fetchOrg = async () => {
-    //   const { data } = await supabase.from('users').select().eq('id_company', org?.id)
-    //   setUsers(data)
-    // }
-    // fetchOrg()
+    const fetchShifts = async () => {
+      const { data } = await supabase.from('shifts').select().eq('id_company', org?.id)
+      setShifts(data)
+    }
+    fetchShifts()
     // const handleScroll = () => {
     //   const position = window.scrollY
     //   setScrollPosition(position)
@@ -146,16 +169,17 @@ const Locations = () => {
     setSearchTerm(event.target.value)
   }
 
-  const filteredTasks = tasks.filter((task) =>
-    task.location.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-
+  if (shifts) {
+    var filteredTasks = shifts.filter((task) =>
+      task.location_name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  }
   return (
     <View backgroundColor={'#F2F2F2'}>
       <YStack display="flex" justifyContent="center" alignItems="center" paddingBottom={0}>
         <View paddingTop={80}>
           {/* <Map /> */}
-          <Calendar />
+          <Calendar shifts={shifts} />
         </View>
         <XStack
           className={scrollPosition > 20 ? 'fade' : 'item'}
@@ -269,4 +293,4 @@ const plusIcon = (
   </svg>
 )
 
-export default Locations
+export default Tasks
