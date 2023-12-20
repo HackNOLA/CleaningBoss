@@ -151,7 +151,7 @@ const AddAUser: NextPage = () => {
         backgroundColor: '#F09797',
       })
       return
-    } 
+    }
 
     console.log(error)
     toast?.show('Success!', {

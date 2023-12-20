@@ -251,6 +251,7 @@ const AddShift: NextPage = () => {
             <Selection
               items={locations.map((location) => location.name)}
               width={320}
+              height={56}
               borderColor={'#9497B8'}
               onChange={onSelectLocation}
               placeholder="Select Location"
