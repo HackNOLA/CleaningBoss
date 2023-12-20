@@ -60,7 +60,6 @@ span.mt-1.text-xs {
     min-height: 40px !important;
     min-width: 40px !important;
     box-shadow: 0px 1px 3px 0px #1018281A !important;
-    border: none !important;
 }
 .Preventradio button#Yesradio-item, .Preventradio button#Noradio-item {
     width: 18px;
@@ -68,79 +67,9 @@ span.mt-1.text-xs {
 	border: 1px solid #9497B8;
 }
 .locationselect li {
-	height: 56px;
-	color: #646896;
     border: 1px solid #9497B8;
 }
 .assignselect li {
     border: 1px solid #9497B8;
-	height: 56px;
-	color: #646896;
     width: 180px !important;
-}
-._dsp-flex input::placeholder {
-    color: #646896 !important;
-}
-.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
-    color: #646896 !important;
-}
-.css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root {
-    color: #646896c2 !important;
-}
-.loaction_pagemap ._fos-14px._fow-bold {
-    font-size: 16px;
-    color: #111860;
-    font-weight: 600;
-    line-height: 19.2px;
-}
-.loaction_pagemap :root ._col-blue {
-    color: #3A4ADF;
-    line-height: 16.8px;
-    font-size: 14px;
-    font-weight: 400;
-}
-.loaction_pagemap .is_Card._ai-stretch._dsp-flex._fd-column {
-    box-shadow: 0px 0px 10px 0px #ccc;
-    border-radius: 8px;
-}
-.loaction_pagemap span.font_body._ff-299667014._dsp-inline._bxs-border-box._ww-break-word._mt-0px._mr-0px._mb-0px._ml-0px._col-blue._fos-14px {
-    font-size: 14px;
-    color: #3A4ADF;
-    line-height: 16.8px;
-    font-weight: 400;
-    padding-left: 3px;
-    margin-top: 1px;
-}
-.addlocationmap ._brs-solid.fade {
-    width: 100%;
-    border: 2px solid #9497B8;
-    border-radius: 8px;
-    font-size: 16px;
-    color: #646896;
-    line-height: 24px;
-    font-weight: 400;
-}
-.addlocationmap ._WebkitBoxOrient-vertical._ox-hidden._oy-hidden {
-    color: #363A63;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 16.8px;
-    padding-top: 5px;
-}
-.dashbaord_btm .flex.items-center.justify-around {
-    width: 400px;
-    margin: auto;
-    position: absolute;
-    left: 0;
-    right: 0;
-    transform: translateX(-50%);
-}
-._ai-stretch._dsp-flex._fd-column._fb-auto._bxs-border-box._pos-relative._mih-0px._miw-0px._fs-0._bg-f2f2f235._pt-25px._pr-16px._pb-16px._pl-16px.addlocationmap {
-    border-radius: 0px 0px 8px 8px;
-    width: 400px;
-    margin: auto;
-}
-.vector_bgc\[\#33CC4B\].flex.items-center.justify-center {
-    width: 44px;
-    height: 44px;
 }

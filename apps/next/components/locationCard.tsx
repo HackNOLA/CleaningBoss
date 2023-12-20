@@ -45,7 +45,7 @@ export const LocationCard = ({ location, onClick }: { location: Location; onClic
         </Text> */}
         </XStack>
         <Text fontSize={14} color={'slategray'} width={250} paddingRight={12} numberOfLines={2}>
-          {location.address}
+          {location.address1}
         </Text>
       </YStack>
     </XStack>
