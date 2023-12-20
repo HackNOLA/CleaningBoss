@@ -60,7 +60,6 @@ span.mt-1.text-xs {
     min-height: 40px !important;
     min-width: 40px !important;
     box-shadow: 0px 1px 3px 0px #1018281A !important;
-    border: none !important;
 }
 .Preventradio button#Yesradio-item, .Preventradio button#Noradio-item {
     width: 18px;

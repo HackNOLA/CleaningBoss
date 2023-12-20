@@ -46,6 +46,7 @@ export interface Task {
 
 export const TaskCard = ({ task }: { task: Task }) => (
   <Card width={350} className="load-hidden" backgroundColor={'white'}>
+    {console.log(task)}
     <XStack>
       <YStack
         borderTopLeftRadius={10}
@@ -59,7 +60,7 @@ export const TaskCard = ({ task }: { task: Task }) => (
         <XStack width={250} justifyContent="space-between" alignItems="center">
           <YStack width={200}>
             <Text fontSize={16} fontWeight="600" color="#111860" lineHeight="1.92">
-              {`${task.location}`}
+              {`${task.location_name}`}
             </Text>
 
             <Text
@@ -71,7 +72,7 @@ export const TaskCard = ({ task }: { task: Task }) => (
               color="#363A63"
               line-height="19.2"
             >
-              {task.day}
+              {task.label}
             </Text>
           </YStack>
           <YStack space="$0" alignItems="center" paddingRight={10}>
@@ -83,7 +84,11 @@ export const TaskCard = ({ task }: { task: Task }) => (
                 lineHeight="1.68"
                 fontWeight="400"
               >
-                From: {task.time_from}
+                From:{' '}
+                {new Date('20' + task.check_in_time.substring(2)).toLocaleTimeString([], {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
               </Text>
             </YStack>
             <YStack>
@@ -94,7 +99,11 @@ export const TaskCard = ({ task }: { task: Task }) => (
                 lineHeight="1.68"
                 fontWeight="400"
               >
-                To: {task.time_to}
+                To:{' '}
+                {new Date('20' + task.check_out_time.substring(2)).toLocaleTimeString([], {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
               </Text>
             </YStack>
           </YStack>
@@ -110,7 +119,7 @@ export const TaskCard = ({ task }: { task: Task }) => (
             gap={10}
             alignItems="center"
           >
-            {svgviewerOutput} There is 1 unstaffed day
+            {svgviewerOutput} There is {task.cleaner_amount - task.active_cleaners} unstaffed day
           </Text>
           <YStack>{rightarrow}</YStack>
 

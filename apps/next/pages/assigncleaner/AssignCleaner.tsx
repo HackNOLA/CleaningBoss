@@ -1,147 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Input, XStack, YStack, Text, View, Button, Image } from '@my/ui'
+import { XStack, YStack, Text, View, Button } from '@my/ui'
 import { useRouter } from 'next/router'
-import { createClient } from '@supabase/supabase-js'
 import { OrgContext } from 'context/orgcontext'
-import Calendar from 'components/calendar'
 import TopBar from 'components/topbar'
 import { CurrentToast } from 'components/CurrentToast'
-import type { NextPage } from 'next'
 import Slider from 'react-slick'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
-import { Link } from 'solito/link'
 import { TaskCard } from 'components/taskCard'
+import { supabase, tasks, slider_settings, slides, SlideCard } from '.'
 
-const supabase = createClient(
-  'https://jqlnugxsnwftfvzsqfvv.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
-)
-
-const slides = [
-  {
-    id: 1,
-    image: './Photocleint.png',
-    name: 'John Smith',
-  },
-  {
-    id: 2,
-    image: './Photocleint.png',
-    name: 'John Smith',
-  },
-  {
-    id: 3,
-    image: './Photocleint.png',
-    name: 'John Smith',
-  },
-  {
-    id: 4,
-    image: './Photocleint.png',
-    name: 'John Smith',
-  },
-  {
-    id: 5,
-    image: './Photocleint.png',
-    name: 'John Smith',
-  },
-  {
-    id: 6,
-    image: './Photocleint.png',
-    name: 'John Smith',
-  },
-  {
-    id: 7,
-    image: './Photocleint.png',
-    name: 'John Smith',
-  },
-  {
-    id: 8,
-    image: './Photocleint.png',
-    name: 'John Smith',
-  },
-
-  {
-    id: 9,
-    image: './/Photocleint.png',
-    name: 'John Smith',
-  },
-]
-
-const tasks = [
-  {
-    id: 1,
-    time_from: '8:00 am',
-    time_to: '3:30 pm',
-    location: "Andrew's Insurance",
-    day: 'Evening Shft',
-    activeCleaners: 5,
-    totalCleaners: 5,
-  },
-  {
-    id: 2,
-    time_from: '8:00 am',
-    time_to: '3:30 pm',
-    location: 'Sunshine Nursing Home',
-    day: 'Morning Shift',
-    activeCleaners: 5,
-    totalCleaners: 5,
-  },
-  {
-    id: 3,
-    time_from: '8:00 am',
-    time_to: '3:30 pm',
-    location: 'Sunshine Nursing Home',
-    day: 'Evening Shft',
-    activeCleaners: 5,
-    totalCleaners: 5,
-  },
-  {
-    id: 4,
-    time_from: '8:00 am',
-    time_to: '8:00 am',
-    location: 'Sunshine Nursing Home',
-    day: 'Evening Shft',
-    activeCleaners: 5,
-    totalCleaners: 5,
-  },
-  {
-    id: 5,
-    time_from: '8:00 am',
-    time_to: '3:30 pm',
-    location: 'Main Office',
-    day: 'Evening Shft',
-    activeCleaners: 5,
-    totalCleaners: 5,
-  },
-  {
-    id: 6,
-    time_from: '8:00 am',
-    time_to: '3:30 pm',
-    location: 'Main Office',
-    day: 'Evening Shft',
-    activeCleaners: 5,
-    totalCleaners: 5,
-  },
-]
-
-const SlideCard = ({ slide }: { slide: Slide }) => (
-  <div className={'cleaner'}>
-    <img src={slide.image} alt="Slide 1" width={44} height={44} margin={0} />
-    <Text fontSize={14} color="#363A63">
-      {slide.name}
-    </Text>
-  </div>
-)
-
-const slider_settings = {
-  dots: false,
-  infinite: true,
-  speed: 1000,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-}
-
-const AssignCleaner = () => {
+export const AssignCleaner = () => {
   const [searchTerm, setSearchTerm] = useState('')
 
   const [scrollPosition, setScrollPosition] = useState(0)
@@ -158,8 +25,8 @@ const AssignCleaner = () => {
 
   useEffect(() => {
     const fetchShifts = async () => {
-      const { data: shifts } = await supabase.from('shifts').select().eq('id_company', org?.id)
-      setShifts(shifts)
+      const { data } = await supabase.from('shifts').select().eq('id_company', org?.id)
+      setShifts(data)
     }
     fetchShifts()
     const handleScroll = () => {
@@ -176,11 +43,9 @@ const AssignCleaner = () => {
     setSearchTerm(event.target.value)
   }
 
-  if (shifts) {
-    var filteredTasks = shifts.filter((shift) =>
-      shift.label.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  }
+  const filteredTasks = tasks.filter((task) =>
+    task.location.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   const plusIcon = (
     <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -279,18 +144,11 @@ const AssignCleaner = () => {
               </Button>
             </XStack>
           </XStack>
-          {shifts && (
-            <YStack space="$4">
-              {filteredTasks.map((task) => (
-                <TaskCard key={task.id} task={task} />
-              ))}
-            </YStack>
-          )}
-          {!shifts && (
-            <Text fontSize={16} color="#111860" fontWeight="500" lineheight="16">
-              No shifts available
-            </Text>
-          )}
+          <YStack space="$4">
+            {filteredTasks.map((task) => (
+              <TaskCard key={task.id} task={task} />
+            ))}
+          </YStack>
         </YStack>
       </View>
       {scrollPosition < 30 && (
@@ -311,5 +169,3 @@ const AssignCleaner = () => {
     </YStack>
   )
 }
-
-export default AssignCleaner
