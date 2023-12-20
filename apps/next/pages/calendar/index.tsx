@@ -107,7 +107,7 @@ const TaskCard = ({ task }: { task: Task }) => (
                   }`}
             </Text>
             <Text fontSize={14} color={'slategray'} width={250} paddingRight={12} numberOfLines={2}>
-              {new Date(task.check_in_time).toLocaleDateString('en-US', {
+              {new Date(task.start_date).toLocaleDateString('en-US', {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',

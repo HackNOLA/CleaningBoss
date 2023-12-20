@@ -21,6 +21,7 @@ export default function Dashboard() {
   const segments = ['Yesterday', 'Today', 'Tomorrow', 'Custom'] // Define your segments
 
   const [selectedSegment, setSelectedSegment] = useState(0)
+  const [locations, setLocations] = useState([])
 
   const { email, activeUser, setActiveUser, setClerkId } = useContext(UserContext)
   const { orgName, setOrg } = useContext(OrgContext)
@@ -62,6 +63,15 @@ export default function Dashboard() {
         .eq('id', activeUser?.id_company)
 
       setOrg(foundOrg[0])
+      const fetchLocations = async () => {
+        const { data: locations } = await supabase
+          .from('location')
+          .select()
+          .eq('id_company', foundOrg[0]?.id)
+        if (!locations) return
+        setLocations(locations)
+      }
+      fetchLocations()
       return
     }
     await updateOrg(activeUser?.id)
@@ -92,7 +102,7 @@ export default function Dashboard() {
         <Toast />
         {/* <CurrentToast bgColor={'green'} /> */}
         <View justifyContent="center" alignItems="center">
-          <Map />
+          <Map locations={locations} />
         </View>
         <View height={15} />
         <SegmentedControl segments={segments} onChange={handleSegmentChange} />
