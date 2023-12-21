@@ -274,7 +274,7 @@ const AssignCleaner = () => {
               <Text fontSize={16} color="#111860" fontWeight="500" lineheight="16">
                 Available Shifts
               </Text>
-              <Button onPress={() => router.replace('/addshift')} unstyled={true}>
+              <Button onPress={() => router.replace('/shift/add')} unstyled={true}>
                 {plusIcon}
               </Button>
             </XStack>

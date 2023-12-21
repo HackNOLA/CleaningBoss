@@ -152,7 +152,7 @@ const LocationProfile = () => {
                 Scheduled Shifts
               </Text>
               <XStack space="$2">
-                <Button onPress={() => router.replace('/addshift')} unstyled={true}>
+                <Button onPress={() => router.replace('/shift/add')} unstyled={true}>
                   {plusIcon}
                 </Button>
                 <Text>Add shift</Text>

@@ -33,6 +33,7 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
+    deleteCookie('activeUser')
     const getUserInfo = async () => {
       if (clerkId) {
         console.log('clerkId', clerkId)
@@ -44,7 +45,6 @@ export default function Dashboard() {
       }
     }
     if (activeUser) {
-      deleteCookie('activeUser')
       setCookie('activeUser', activeUser, {
         maxAge: 30 * 24 * 60 * 60,
         // domain: 'cleaningboss-dev.vercel.app',
