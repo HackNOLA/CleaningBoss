@@ -164,3 +164,73 @@ input.serchloca_tion {
 ._ai-stretch._dsp-flex._fd-column._fb-auto._bxs-border-box._pos-relative._mih-0px._miw-0px._fs-0._t-16px {
     top: 12px;
 }
+.Preventradio label {
+    color: #47454C;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    font-family: 'Inter';
+}
+.Preventradio ._fos-16px._fow-500._lh-1d0t646 {
+    color: #111860;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+}
+.filter_modal li {
+    border: 1px solid #9497B8;
+    color: #646896;
+    height: 56px;
+}
+.filter_modal .MuiBox-root.css-1wnsr1i {
+    background: #fff;
+    padding: 24px 20px 24px 20px;
+    width: 345px;
+    border-radius: 8px;
+    border: none;
+}
+.filter_modal button#Yesradio-item, .filter_modal button#Noradio-item {
+    width: 16px;
+    height: 16px;
+}
+.Require_box {
+    padding-top: 30px;
+}
+.modaltop .h-20.fixed.w-full {
+    left: 3px;
+    top: -5px;
+    border-radius: 8px 8px 0px 0px;
+    border: none;
+    background: transparent;
+}
+.select_box .text-black.dark\:text-white {
+    font-size: 18px;
+    color: #111860;
+    line-height: 21.6px;
+    font-weight: 600;
+}
+.modal_filterbtn button {
+    letter-spacing: 0.1px;
+    font-family: "inter";
+}
+.css-79ws1d-MuiModal-root {
+    z-index: 999 !important;
+}
+.cros_btn_top button {
+    position: absolute !important;
+    right: -10px;
+    top: -13px;
+}
+.cros_btn_top {
+    position: relative;
+}
+.filter_modal ._mih-1316330145._miw-1316330145._fs-0._pe-none._w-1316330145._h-1316330145 {
+    display: none;
+}
+.filter_modal ._whiteSpace-nowrap._pe-none {
+    font-size: 16px;
+    color: #646896;
+    font-weight: 400;
+    line-height: 24px;
+}
