@@ -146,7 +146,7 @@ const AssignCleaner = () => {
 
   const [scrollPosition, setScrollPosition] = useState(0)
 
-  const [users, setUsers] = useState([])
+  const [shifts, setShifts] = useState([])
 
   const [bgColor, setBgColor] = useState('green' as any)
 
@@ -157,11 +157,11 @@ const AssignCleaner = () => {
   const [page, setPage] = useState(0)
 
   useEffect(() => {
-    // const fetchOrg = async () => {
-    //   const { data } = await supabase.from('users').select().eq('id_company', org?.id)
-    //   setUsers(data)
-    // }
-    // fetchOrg()
+    const fetchShifts = async () => {
+      const { data: shifts } = await supabase.from('shifts').select().eq('id_company', org?.id)
+      setShifts(shifts)
+    }
+    fetchShifts()
     const handleScroll = () => {
       const position = window.scrollY
       setScrollPosition(position)
@@ -176,9 +176,11 @@ const AssignCleaner = () => {
     setSearchTerm(event.target.value)
   }
 
-  const filteredTasks = tasks.filter((task) =>
-    task.location.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  if (shifts) {
+    var filteredTasks = shifts.filter((shift) =>
+      shift.label.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  }
 
   const plusIcon = (
     <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -272,16 +274,23 @@ const AssignCleaner = () => {
               <Text fontSize={16} color="#111860" fontWeight="500" lineheight="16">
                 Available Shifts
               </Text>
-              <Button onPress={() => router.replace('addjob')} unstyled={true}>
+              <Button onPress={() => router.replace('/addshift')} unstyled={true}>
                 {plusIcon}
               </Button>
             </XStack>
           </XStack>
-          <YStack space="$4">
-            {filteredTasks.map((task) => (
-              <TaskCard key={task.id} task={task} />
-            ))}
-          </YStack>
+          {shifts && (
+            <YStack space="$4">
+              {filteredTasks.map((task) => (
+                <TaskCard key={task.id} task={task} />
+              ))}
+            </YStack>
+          )}
+          {!shifts && (
+            <Text fontSize={16} color="#111860" fontWeight="500" lineheight="16">
+              No shifts available
+            </Text>
+          )}
         </YStack>
       </View>
       {scrollPosition < 30 && (

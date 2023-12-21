@@ -61,7 +61,6 @@ span.mt-1.text-xs {
     min-height: 40px !important;
     min-width: 40px !important;
     box-shadow: 0px 1px 3px 0px #1018281A !important;
-    border: none !important;
 }
 .Preventradio button#Yesradio-item, .Preventradio button#Noradio-item {
     width: 18px;
@@ -69,14 +68,10 @@ span.mt-1.text-xs {
 	border: 1px solid #9497B8;
 }
 .locationselect li {
-	height: 56px;
-	color: #646896;
     border: 1px solid #9497B8;
 }
 .assignselect li {
     border: 1px solid #9497B8;
-	height: 56px;
-	color: #646896;
     width: 180px !important;
 }
 ._dsp-flex input::placeholder {
