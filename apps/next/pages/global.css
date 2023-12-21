@@ -32,9 +32,10 @@
 }
 span.mt-1.text-xs {
 	letter-spacing:0.5px;
-    font-weight:600;
+    font-weight:700;
 	font-size:12px;
 	color:#1A4C22;
+    margin: 0px;
 }
 .slick_sliderr {
 	box-shadow: 0px 0px 0px 0px;
@@ -97,10 +98,11 @@ span.mt-1.text-xs {
     color: #3A4ADF;
     line-height: 16.8px;
     font-size: 14px;
+    font-family: 'Inter';
     font-weight: 400;
 }
 .loaction_pagemap .is_Card._ai-stretch._dsp-flex._fd-column {
-    box-shadow: 0px 0px 10px 0px #ccc;
+    box-shadow: 0px 2px 4px -2px #10182850;
     border-radius: 8px;
 }
 .loaction_pagemap span.font_body._ff-299667014._dsp-inline._bxs-border-box._ww-break-word._mt-0px._mr-0px._mb-0px._ml-0px._col-blue._fos-14px {
@@ -109,32 +111,37 @@ span.mt-1.text-xs {
     line-height: 16.8px;
     font-weight: 400;
     padding-left: 3px;
+    font-family: 'Inter';
     margin-top: 1px;
 }
 .addlocationmap ._brs-solid.fade {
     width: 100%;
-    border: 2px solid #9497B8;
+    border: 1px solid #9497B8;
     border-radius: 8px;
     font-size: 16px;
     color: #646896;
     line-height: 24px;
     font-weight: 400;
+    background: #fff;
+    padding: 8px 16px 8px 12px;
+    box-shadow: 0px 1px 2px 0px #10182825;
 }
 .addlocationmap ._WebkitBoxOrient-vertical._ox-hidden._oy-hidden {
     color: #363A63;
     font-size: 14px;
     font-weight: 400;
+    font-family: 'Inter';
     line-height: 16.8px;
     padding-top: 5px;
 }
 .dashbaord_btm .flex.items-center.justify-around {
-    width: 400px;
+    width: 415px;
     margin: auto;
-    position: absolute;
-    left: 0;
-    right: 0;
-    transform: translateX(-50%);
 }
+.dashbaord_btm .shadow-lg {
+    box-shadow: 0px 0px 0px 0px #10182825;
+}
+
 ._ai-stretch._dsp-flex._fd-column._fb-auto._bxs-border-box._pos-relative._mih-0px._miw-0px._fs-0._bg-f2f2f235._pt-25px._pr-16px._pb-16px._pl-16px.addlocationmap {
     border-radius: 0px 0px 8px 8px;
     width: 400px;
@@ -143,4 +150,22 @@ span.mt-1.text-xs {
 .vector_bgc\[\#33CC4B\].flex.items-center.justify-center {
     width: 44px;
     height: 44px;
+}
+input.serchloca_tion {
+    font-family: 'Inter';
+}
+.addlocationmap ._brs-solid.item {
+    width: 100%;
+    border: 1px solid #9497B8;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #646896;
+    line-height: 24px;
+    font-weight: 400;
+    background: #fff;
+    padding: 8px 16px 8px 12px;
+    box-shadow: 0px 1px 2px 0px #10182825;
+}
+._ai-stretch._dsp-flex._fd-column._fb-auto._bxs-border-box._pos-relative._mih-0px._miw-0px._fs-0._t-16px {
+    top: 12px;
 }
