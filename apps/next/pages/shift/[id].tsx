@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation'
 import TopBar from 'components/topbar'
 import { ShiftProfileCard } from 'components/shiftProfileCard'
 import { LocationCard } from 'components/locationCard'
+import AssignModal from 'components/assignmodal'
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
@@ -122,6 +123,10 @@ const Shift = () => {
 
   const [location, setLocation] = useState(null)
 
+  const [staff, setStaff] = useState(null)
+
+  const [showModal, setShowModal] = useState(false)
+
   const { org } = useContext(OrgContext)
   const params = useParams()
 
@@ -167,6 +172,16 @@ const Shift = () => {
     })
 
     return formattedDate
+  }
+
+  const toggleModal = () => {
+    setShowModal(!showModal)
+  }
+
+  const getStaff = async () => {
+    const { data: foundStaff } = await supabase.from('users').select().eq('id_org', org.id)
+    if (!foundStaff) return
+    setStaff(foundStaff)
   }
 
   return (
@@ -241,7 +256,7 @@ const Shift = () => {
                                   </Text>
                                 </View>
                               </XStack>
-                              <Button onPress={() => console.log('open modal')} unstyled={true}>
+                              <Button onPress={() => toggleModal()} unstyled={true}>
                                 {plusIcon}
                               </Button>
                             </XStack>
@@ -259,6 +274,21 @@ const Shift = () => {
                 </YStack>
               </YStack>
             </Card>
+          </YStack>
+          <YStack space="$4" paddingTop={50} alignItems="center">
+            {
+              <AssignModal
+                showModal={showModal}
+                onClose={() => setShowModal(false)}
+                onAssign={() => {}}
+                staff={staff}
+                shift={shift}
+                selectedDay={''}
+                location={location}
+                start_time={shift.check_in_time}
+                end_time={shift.check_out_time}
+              />
+            }
           </YStack>
         </YStack>
       )}
