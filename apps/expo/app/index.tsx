@@ -53,7 +53,6 @@ export default function Screen() {
       // This indicates the user is signed in
       await setActive({ session: completeSignIn.createdSessionId })
     } catch (err: any) {
-      console.log(JSON.stringify(err, null, 2))
       toast.show('Wait!', {
         title: 'Error',
         message: err.errors[0].message,

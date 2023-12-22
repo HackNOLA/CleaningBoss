@@ -102,7 +102,6 @@ const LocationProfile = () => {
         const { data: shifts } = await supabase.from('shifts').select().eq('id_location', id)
 
         if (!foundLoc) return
-        console.log(foundLoc[0].id)
         setLocation(foundLoc[0])
         if (!shifts) return
         setShifts(shifts)

@@ -48,7 +48,6 @@ const AddAUser: NextPage = () => {
       // Code using query
 
       const { id } = router.query
-      //   console.log(id)
       //grab user with id
       if (!foundUser) {
         const getUser = async () => {
@@ -185,7 +184,6 @@ const AddAUser: NextPage = () => {
       id_company: org?.id,
     }
 
-    console.log(user)
     //submit user to database
     const { error } = await supabase.from('users').update(user).eq('id', foundUser.id)
 

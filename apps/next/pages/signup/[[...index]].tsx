@@ -101,7 +101,6 @@ export default function Screen() {
         password,
       })
 
-      // console.log({ user, organization })
       // send the email.
       await signUp.prepareEmailAddressVerification({ strategy: 'email_code' })
       setBgColor('green')

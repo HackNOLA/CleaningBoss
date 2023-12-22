@@ -129,12 +129,10 @@ const CheckListCard = ({ checkList }: { checkList: CheckList }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    // console.log(event.currentTarget)
     setIsOpen(!isOpen)
     setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
-    console.log(isOpen)
     setIsOpen(false)
   }
 
@@ -148,7 +146,6 @@ const CheckListCard = ({ checkList }: { checkList: CheckList }) => {
           <XStack space="$0" alignItems="center" justifyContent="space-evenly" paddingRight={12}>
             <div
               onClick={(e) => {
-                console.log('clicked')
                 setIsOpen(true)
                 handleClick(e)
               }}

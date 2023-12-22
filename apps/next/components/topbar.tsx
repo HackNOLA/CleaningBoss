@@ -85,19 +85,16 @@ const Options = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const handleClick = (event) => {
-    // console.log(event.currentTarget)
     setIsOpen(!isOpen)
     setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
-    console.log(isOpen)
     setIsOpen(false)
   }
 
   return (
     <div
       onClick={(e) => {
-        console.log('clicked')
         setIsOpen(true)
         handleClick(e)
       }}
@@ -127,7 +124,6 @@ const AssignJob = () => {
   return (
     <div
       onClick={() => {
-        console.log('clicked')
         router.replace('/assigncleaner')
       }}
     >

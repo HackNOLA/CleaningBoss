@@ -96,22 +96,6 @@ const TabButton = (props) => {
 function Screen() {
   const { width, height } = Dimensions.get('window')
 
-  // useEffect(() => {
-  //   const fetchCities = async () => {
-  //     const { data, error } = await supabase
-  //       .from('users')
-  //       .select('id')
-  //       .eq('email', 'akin@operationspark.org')
-  //     console.log(data)
-  //   }
-  //   // check to see if user's org exist
-  //   // if not, create org
-  //   // if so,
-  //   // check to see if user's role is admin
-
-  //   fetchCities()
-  // }, [])
-
   return (
     <>
       <YStack

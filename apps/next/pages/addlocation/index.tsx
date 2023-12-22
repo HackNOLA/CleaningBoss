@@ -58,9 +58,6 @@ const AddAUser: NextPage = () => {
 
   useEffect(() => {
     //if a day is selected, make input field appear to select time range for that day
-    if (org && activeUser) {
-      console.log(org, activeUser)
-    }
 
     const handleScroll = () => {
       const position = window.scrollY
@@ -138,7 +135,6 @@ const AddAUser: NextPage = () => {
       id_company: org?.id,
     }
 
-    console.log(location)
     //submit user to database
     const { error } = await supabase.from('location').insert(location)
 

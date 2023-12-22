@@ -63,7 +63,6 @@ const AddShift: NextPage = () => {
   useEffect(() => {
     const fetchLocations = async () => {
       const { data } = await supabase.from('location').select().eq('id_company', org?.id)
-      // console.log(data)
       setLocations(data)
     }
     fetchLocations()
@@ -80,15 +79,12 @@ const AddShift: NextPage = () => {
   }, [scrollPosition, availability])
 
   const onSelectLocation = (location: string) => {
-    console.log(location)
     for (let myLocation of locations) {
       if (location === myLocation.name) {
-        // console.log(myLocation.id)
         setLocationId(myLocation.id)
         setLocationName(myLocation.name)
       }
     }
-    // console.log(locationId)
   }
 
   const setAvailabilitySlot = (day: string) => {
@@ -114,7 +110,6 @@ const AddShift: NextPage = () => {
     }
 
     if (!locationId) {
-      console.log(locationId)
       toast?.show('Error!', {
         title: 'Error',
         message: 'Please select a location',
@@ -200,8 +195,6 @@ const AddShift: NextPage = () => {
         location_name: locationName,
         active_cleaners: 0,
       }
-
-      // console.log(shift)
 
       //submit user to database
       const { error } = await supabase.from('shifts').insert(shift)

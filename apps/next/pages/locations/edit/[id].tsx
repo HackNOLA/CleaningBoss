@@ -64,7 +64,6 @@ const EditLocation: NextPage = () => {
       // Code using query
 
       const { id } = router.query
-      //   console.log(id)
       //grab user with id
       if (!foundLocation) {
         const getLoc = async () => {
@@ -165,7 +164,6 @@ const EditLocation: NextPage = () => {
       id_company: org?.id,
     }
 
-    console.log(location)
     //submit user to database
     const { error } = await supabase.from('location').update(location).eq('id', foundLocation.id)
 

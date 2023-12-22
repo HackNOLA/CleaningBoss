@@ -36,7 +36,6 @@ export default function Dashboard() {
     deleteCookie('activeUser')
     const getUserInfo = async () => {
       if (clerkId) {
-        console.log('clerkId', clerkId)
         deleteCookie('userId')
         setCookie('userId', clerkId, {
           maxAge: 30 * 24 * 60 * 60,
@@ -91,8 +90,6 @@ export default function Dashboard() {
 
       setOrg(data[0])
     }
-
-    // console.log(activeUser, orgName)
   }
 
   return (

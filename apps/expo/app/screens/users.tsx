@@ -17,7 +17,6 @@ export default function Users() {
         .from('users')
         .select('id')
         .eq('email', 'akin@operationspark.org')
-      console.log(data)
     }
     // check to see if user's org exist
     // if not, create org

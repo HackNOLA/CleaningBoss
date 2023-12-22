@@ -63,7 +63,6 @@ export function HomeScreen({ setEmail, setActiveUser }) {
 
     const { data } = await supabase.from('users').select().eq('email', emailAddress)
     if (data[0] && !hasPassword && !userFound) {
-      console.log(data)
       const hasPassword = data[0].has_password
       setHasPassword(hasPassword)
       setActiveUser(data[0])
@@ -85,7 +84,6 @@ export function HomeScreen({ setEmail, setActiveUser }) {
         password: newPassword,
       })
 
-      // console.log({ user, organization })
       // send the email.
       await signUp.prepareEmailAddressVerification({ strategy: 'email_code' })
       setPendingVerification(true)

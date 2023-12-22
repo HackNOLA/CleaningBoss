@@ -164,7 +164,6 @@ const AddAUser: NextPage = () => {
       id_company: org?.id,
     }
 
-    console.log(user)
     //submit user to database
     const { error } = await supabase.from('users').insert(user)
 

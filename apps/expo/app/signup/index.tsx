@@ -94,7 +94,6 @@ export default function Screen() {
         password,
       })
 
-      // console.log({ user, organization })
       // send the email.
       await signUp.prepareEmailAddressVerification({ strategy: 'email_code' })
       setBgColor('green')
@@ -108,7 +107,6 @@ export default function Screen() {
         duration: 4000,
         viewport: 'screen',
       })
-      console.log(JSON.stringify(err, null, 2))
     }
   }
 

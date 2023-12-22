@@ -54,7 +54,6 @@ const ShiftCard = ({ shift }: { user: User; onClick: any }) => (
 )
 
 const AvailabilityCard = (availability) => {
-  console.log(availability.availability)
   return (
     <>
       <Card
@@ -158,7 +157,6 @@ const Shift = () => {
           .select()
           .eq('id', foundShift[0].id_location)
         if (!foundLocation) return
-        // console.log(foundShift)
         setShift(foundShift[0])
         setLocation(foundLocation[0])
         if (!Object.keys(org).length) return
@@ -197,7 +195,6 @@ const Shift = () => {
   }
 
   const toggleModal = (day = null) => {
-    console.log(day)
     if (day) {
       setSelectedDay(day)
     }
@@ -235,8 +232,6 @@ const Shift = () => {
       setSelectedCleaners([])
     }
 
-    // console.log(selectedCleaners)
-    // return
     if (selectedCleaners.length) {
       const { data: job, error } = await supabase.from('jobs').insert(selectedCleaners)
       if (error) {

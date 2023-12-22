@@ -20,7 +20,6 @@ function fakeFetch(date: Dayjs, { signal }: { signal: AbortSignal }) {
     const timeout = setTimeout(() => {
       const daysInMonth = date.daysInMonth()
       const daysToHighlight = [1, 2, 3].map(() => getRandomNumber(1, daysInMonth))
-      console.log('daysToHighlight', daysToHighlight)
       resolve({ daysToHighlight })
     }, 500)
 
@@ -58,7 +57,6 @@ export default function DateCalendarServerRequest({ shifts }) {
   const [highlightedDays, setHighlightedDays] = React.useState([])
 
   const fetchHighlightedDays = (highlightedDays) => {
-    console.log('daysToHighlight', highlightedDays)
     setHighlightedDays(highlightedDays)
     setIsLoading(false)
   }
@@ -66,12 +64,9 @@ export default function DateCalendarServerRequest({ shifts }) {
   React.useEffect(() => {
     if (!shifts) return
     if (!shifts.length) return
-    // console.log('shifts', dayjs(shifts[0].start_date))
-    // console.log('initialValue', initialValue)
     const highlightedDays = shifts.map((shift) => dayjs(shift.start_date).date())
     fetchHighlightedDays(highlightedDays)
     //
-    console.log('highlightedDays', highlightedDays)
     // abort request on unmount
     return () => requestAbortController.current?.abort()
   }, [shifts])

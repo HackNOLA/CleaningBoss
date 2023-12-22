@@ -28,14 +28,6 @@ const ExpandableCalendarScreen = (props: Props) => {
     todayButtonTextColor: themeColor,
   })
 
-  // const onDateChanged = useCallback((date, updateSource) => {
-  //   console.log('ExpandableCalendarScreen onDateChanged: ', date, updateSource);
-  // }, []);
-
-  // const onMonthChange = useCallback(({dateString}) => {
-  //   console.log('ExpandableCalendarScreen onMonthChange: ', dateString);
-  // }, []);
-
   const renderItem = useCallback(({ item }: any) => {
     return <AgendaItem item={item} />
   }, [])

@@ -108,7 +108,6 @@ const UserCard = ({ user, onClick }: { user: User; onClick: any }) => (
 )
 
 const AvailabilityCard = (availability) => {
-  console.log(availability.availability)
   return (
     <>
       <Card
@@ -192,7 +191,6 @@ const UserProfile = () => {
       const getUser = async () => {
         const { data: foundUser } = await supabase.from('users').select().eq('id', id)
         if (!foundUser) return
-        // console.log(foundUser)
         setEmployee(foundUser[0])
       }
 

@@ -28,7 +28,6 @@ export default function Dashboard() {
         .from('users')
         .select('id')
         .eq('email', 'akin@operationspark.org')
-      console.log(data)
     }
 
     fetchCities()
