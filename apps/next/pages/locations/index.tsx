@@ -5,12 +5,11 @@ import { createClient } from '@supabase/supabase-js'
 import { OrgContext } from 'context/orgcontext'
 import Map from 'components/map'
 import { LocationCard } from '../../components/locationCard'
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 import Radiogroup from 'components/radiogroup'
 import Selection from 'components/select'
-import { ClassNames } from '@emotion/react'
 import TopBar from 'components/topbar'
 
 const style = {
@@ -23,7 +22,7 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
-};
+}
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -107,13 +106,14 @@ const Locations = () => {
   const { org } = useContext(OrgContext)
 
   const [calculateDriveTimes, setCalculateDriveTimes] = useState('')
-  
+
   const router = useRouter()
 
   const [timeTrialOption, setTimeTrialOption] = useState('')
 
   const [shiftHours, onSelectShiftHours] = useState('')
 
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -148,47 +148,8 @@ const Locations = () => {
     setCalculateDriveTimes(calculateDriveTimes)
   }
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-
-  const submitShift = async () => {
-    //validate fields
-    validateFields()
-
-    if (startDate && endDate && shiftInTime && shiftOutTime && amount) {
-      const shift = {
-        start_date: JSON.stringify(startDate.$d).slice(1, 25),
-        end_date: JSON.stringify(startDate.$d).slice(1, 25),
-        check_in_time: JSON.stringify(shiftInTime).slice(1, 25),
-        check_out_time: JSON.stringify(shiftOutTime).slice(1, 25),
-        service_days: availability,
-        label,
-        cleaner_amount: Number(amount),
-        check_outside: checkOutside,
-        id_location: locationId,
-        id_company: org?.id,
-        location_name: locationName,
-        active_cleaners: 0,
-      }
-
-      // console.log(shift)
-
-      //submit user to database
-      const { error } = await supabase.from('shifts').insert(shift)
-
-      console.log(error)
-      toast?.show('Success!', {
-        title: 'Success',
-        message: 'You have successfully added a shift!',
-        duration: 4000,
-        backgroundColor: 'green',
-      })
-
-      router.replace('/assigncleaner')
-    }
-  }
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   return (
     <View backgroundColor={'#F2F2F2'}>
@@ -217,11 +178,7 @@ const Locations = () => {
           >
             <path d="M 21 3 C 11.601563 3 4 10.601563 4 20 C 4 29.398438 11.601563 37 21 37 C 24.355469 37 27.460938 36.015625 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.679688 27.421875 38 23.878906 38 20 C 38 10.601563 30.398438 3 21 3 Z M 21 7 C 28.199219 7 34 12.800781 34 20 C 34 27.199219 28.199219 33 21 33 C 13.800781 33 8 27.199219 8 20 C 8 12.800781 13.800781 7 21 7 Z"></path>
           </svg>
-          <input
-            value={searchTerm}
-            placeholder="Search Location"
-            onChange={handleSearchChange}
-          />
+          <input value={searchTerm} placeholder="Search Location" onChange={handleSearchChange} />
         </XStack>
         <XStack
           className={scrollPosition > 20 ? 'fade' : 'item'}
@@ -236,7 +193,11 @@ const Locations = () => {
             justifyContent="center"
             alignItems="center"
           >
-            <Button onClick={handleOpen} onPress={() => console.log('Filter users')} unstyled={true}>
+            <Button
+              onClick={handleOpen}
+              onPress={() => console.log('Filter users')}
+              unstyled={true}
+            >
               {filterIcon}
             </Button>
 
@@ -261,42 +222,65 @@ const Locations = () => {
         </YStack>
 
         <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        className='filter_modal'
-      >
-        <Box sx= {style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" className='select_box'> 
-            <YStack className="cros_btn_top">
-                <View className="modaltop" width={'345'}>{scrollPosition < 20 && <TopBar title="Filter Location" />} </View>
-                <Button onClick={handleOpen} onPress={() => console.log('Filter users')} unstyled={true}>
-                {crossIcon}              
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          className="filter_modal"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2" className="select_box">
+              <YStack className="cros_btn_top">
+                <View className="modaltop" width={'345'}>
+                  {scrollPosition < 20 && <TopBar title="Filter Location" />}{' '}
+                </View>
+                <Button
+                  onClick={handleOpen}
+                  onPress={() => console.log('Filter users')}
+                  unstyled={true}
+                >
+                  {crossIcon}
                 </Button>
-            </YStack>
-              
+              </YStack>
 
-              <YStack space="$2" alignItems="flex-start" width={320} className="Preventradio" paddingBottom={16} paddingTop={60}>
-              <Text fontSize={16} style={{ color: '#111860', fontWeight: '500', lineHeight: '1.6' }}>
-                Has Scheduled Shifts?
-              </Text>
-              <Radiogroup items={['Yes', 'No']} onChange={onSelectShiftHours} value={shiftHours} />
-            </YStack>
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                <YStack space="$2" alignItems="flex-start" width={'100%'}>
-                  <Text fontSize={16} color="#111860" fontWeight="500" lineHeight="1.6">Number of Staffed Cleaners</Text>
-                  <Selection
-                    items={['Yes', 'No']}
-                    onChange={onSelectCalculateDriveTimes}
-                    value={calculateDriveTimes}
-                    placeholder="Select"
-                  />
-                </YStack>
-                
-                <YStack space="$2" alignItems="flex-start" width={'100%'} className='Require_box'>
-                <Text fontSize={16} color="#111860" fontWeight="500" lineHeight="1.6">Client since</Text>
+              <YStack
+                space="$2"
+                alignItems="flex-start"
+                width={320}
+                className="Preventradio"
+                paddingBottom={16}
+                paddingTop={60}
+              >
+                <Text
+                  fontSize={16}
+                  style={{ color: '#111860', fontWeight: '500', lineHeight: '1.6' }}
+                >
+                  Has Scheduled Shifts?
+                </Text>
+                <Radiogroup
+                  items={['Yes', 'No']}
+                  onChange={onSelectShiftHours}
+                  value={shiftHours}
+                />
+              </YStack>
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              <YStack space="$2" alignItems="flex-start" width={'100%'}>
+                <Text fontSize={16} color="#111860" fontWeight="500" lineHeight="1.6">
+                  Number of Staffed Cleaners
+                </Text>
+                <Selection
+                  items={['Yes', 'No']}
+                  onChange={onSelectCalculateDriveTimes}
+                  value={calculateDriveTimes}
+                  placeholder="Select"
+                />
+              </YStack>
+
+              <YStack space="$2" alignItems="flex-start" width={'100%'} className="Require_box">
+                <Text fontSize={16} color="#111860" fontWeight="500" lineHeight="1.6">
+                  Client since
+                </Text>
                 <Selection
                   items={['Yes', 'No']}
                   onChange={onSelectTimeTrialOption}
@@ -307,25 +291,34 @@ const Locations = () => {
               <YStack space="$2" alignItems="center" className="modal_filterbtn" paddingTop={40}>
                 <XStack space="$4">
                   <Button
-                    onPress={() => router.replace('/dashboard')}
+                    onPress={handleClose}
                     borderColor={'#33CC4B'}
                     width={152.5}
                     height={48}
                     borderRadius={30}
                     marginRight={4}
                   >
-                    <Text fontSize={16} color="#164E1F" fontWeight="600" lineHeight="1.6">Cancel</Text>
+                    <Text fontSize={16} color="#164E1F" fontWeight="600" lineHeight="1.6">
+                      Cancel
+                    </Text>
                   </Button>
-                  <Button onPress={submitShift} width={152.5} height={48} backgroundColor={'#33CC4B'} borderRadius={30} marginLeft={4}>
-                    <Text color="white" fontSize={16} color="#fff" fontWeight="600" lineHeight="1.6">
+                  <Button
+                    onPress={() => {}}
+                    width={152.5}
+                    height={48}
+                    backgroundColor={'#33CC4B'}
+                    borderRadius={30}
+                    marginLeft={4}
+                  >
+                    <Text color="white" fontSize={16} fontWeight="600" lineHeight={1.6}>
                       Apply Filters
                     </Text>
                   </Button>
                 </XStack>
               </YStack>
-          </Typography>
-        </Box>
-      </Modal>
+            </Typography>
+          </Box>
+        </Modal>
       </YStack>
     </View>
   )
@@ -344,16 +337,21 @@ const filterIcon = (
 )
 
 const crossIcon = (
-<svg xmlns="http://www.w3.org/2000/svg" 
-  fill="none" 
-  viewBox="0 0 24 24" 
-  stroke="#7579A3" 
-  width="24" 
-  height="24">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-</svg>
-
-
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="#7579A3"
+    width="24"
+    height="24"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M6 18L18 6M6 6l12 12"
+    />
+  </svg>
 )
 
 const plusIcon = (
