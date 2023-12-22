@@ -49,7 +49,6 @@ export const ShiftProfileCard = ({ shift }: { shift: Task }) => {
 
   return (
     <Card width={350} className="load-hidden" backgroundColor={'white'}>
-      {console.log(shift)}
       <XStack>
         <YStack
           borderTopLeftRadius={10}

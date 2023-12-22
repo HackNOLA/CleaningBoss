@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Input, Card, XStack, YStack, Text, View, Button, Image } from '@my/ui'
+import { Input, Card, XStack, YStack, Text, View, Button, Image, useToastController } from '@my/ui'
 import { useRouter } from 'next/router'
 import { createClient } from '@supabase/supabase-js'
 import { OrgContext } from 'context/orgcontext'
@@ -8,6 +8,7 @@ import TopBar from 'components/topbar'
 import { ShiftProfileCard } from 'components/shiftProfileCard'
 import { LocationCard } from 'components/locationCard'
 import AssignModal from 'components/assignmodal'
+import { stringify } from 'querystring'
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
@@ -125,12 +126,22 @@ const Shift = () => {
 
   const [staff, setStaff] = useState(null)
 
+  const [jobs, setJobs] = useState(null)
+
   const [showModal, setShowModal] = useState(false)
+
+  const [selectedDay, setSelectedDay] = useState(null)
+
+  const [selectedCleaners, setSelectedCleaners] = useState([])
+
+  const [unassignedStaff, setUnassignedStaff] = useState([])
 
   const { org } = useContext(OrgContext)
   const params = useParams()
 
   const router = useRouter()
+
+  const toast = useToastController()
 
   useEffect(() => {
     if (router.isReady) {
@@ -149,13 +160,22 @@ const Shift = () => {
         // console.log(foundShift)
         setShift(foundShift[0])
         setLocation(foundLocation[0])
+        getStaff()
       }
 
       getUser()
+      getJobs()
     }
-  }, [router.isReady])
+  }, [router.isReady, shift, jobs, staff])
 
-  function getDateForDayOfWeek(shortDay) {
+  const getJobs = async () => {
+    if (!shift) return
+    const { data: foundJobs } = await supabase.from('jobs').select().eq('id_shift', shift.id)
+    if (!foundJobs) return
+    setJobs(foundJobs)
+  }
+
+  const getShortDayOfWeek = (shortDay) => {
     const currentDate = new Date()
     const currentDay = currentDate.getDay() // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -174,14 +194,110 @@ const Shift = () => {
     return formattedDate
   }
 
-  const toggleModal = () => {
+  const toggleModal = (day = null) => {
+    console.log(day)
+    if (day) {
+      setSelectedDay(day)
+    }
     setShowModal(!showModal)
+    setSelectedCleaners([])
   }
 
   const getStaff = async () => {
-    const { data: foundStaff } = await supabase.from('users').select().eq('id_org', org.id)
+    if (!org) return
+    const { data: foundStaff } = await supabase.from('users').select().eq('id_company', org.id)
     if (!foundStaff) return
+
     setStaff(foundStaff)
+  }
+
+  const submit = async () => {
+    if (unassignedStaff.length) {
+      for (let staffMember of unassignedStaff) {
+        const { data: job, error } = await supabase
+          .from('jobs')
+          .delete()
+          .eq('id_user', staffMember.id_user)
+        if (error) {
+          console.log(error)
+          return
+        }
+      }
+
+      toast?.show('Success!', {
+        title: 'Success',
+        message: `Successfully unassigned your cleaners from ${shift.label} on ${selectedDay}`,
+        duration: 4000,
+        backgroundColor: 'green',
+      })
+      setShowModal(false)
+      setSelectedCleaners([])
+    }
+
+    // console.log(selectedCleaners)
+    // return
+    if (selectedCleaners.length) {
+      const { data: job, error } = await supabase.from('jobs').insert(selectedCleaners)
+      if (error) {
+        console.log(error)
+        return
+      }
+      toast?.show('Success!', {
+        title: 'Success',
+        message: `Successfully assigned your cleaners to ${shift.label} on ${selectedDay}`,
+        duration: 4000,
+        backgroundColor: 'green',
+      })
+    }
+    setShowModal(false)
+    setSelectedCleaners([])
+  }
+
+  const unAssign = async (cleanerId) => {
+    if (duplicateCheck(cleanerId, unassignedStaff)) return
+
+    setUnassignedStaff([...unassignedStaff, { id_user: cleanerId }])
+  }
+
+  const onAssign = async (cleanerId) => {
+    // create a new job for the cleaner
+    //make an array of dates from start_date to end_date
+    if (duplicateCheck(cleanerId, selectedCleaners)) return
+
+    setSelectedCleaners([
+      ...selectedCleaners,
+      {
+        id_user: cleanerId,
+        id_shift: shift?.id,
+        date: selectedDay,
+        start_time: shift?.check_in_time,
+        end_time: shift?.check_out_time,
+        completed: false,
+        location_sections: location?.sections,
+      },
+    ])
+  }
+
+  const duplicateCheck = (cleanerId, array) => {
+    let duplicate = false
+    //check if cleanerId is already in selectedCleaners
+    array.forEach((cleaner) => {
+      if (cleaner.id_user === cleanerId) {
+        duplicate = true
+      }
+    })
+
+    if (duplicate) {
+      toast?.show('Success!', {
+        title: 'Error',
+        message: `Cleaner already assigned to this shift.`,
+        duration: 4000,
+        viewport: 'screen',
+        backgroundColor: '#FF0000',
+      })
+    }
+
+    return duplicate
   }
 
   return (
@@ -235,7 +351,7 @@ const Shift = () => {
                             {/*
                         according to each day, display dates for those days in this current week
                         */}
-                            <Text>{getDateForDayOfWeek(JSON.parse(day).day)}</Text>
+                            <Text>{getShortDayOfWeek(JSON.parse(day).day)}</Text>
                             <XStack space="$2">
                               <XStack
                                 space="$0"
@@ -251,12 +367,22 @@ const Shift = () => {
                                   justifyContent="center"
                                   alignItems="center"
                                 >
-                                  <Text fontSize={14} color={'slategray'}>
-                                    {`${shift.active_cleaners}/${shift.cleaner_amount}`}
-                                  </Text>
+                                  {jobs && (
+                                    <Text fontSize={14} color={'slategray'}>
+                                      {`${
+                                        jobs.filter(
+                                          (job) =>
+                                            job.date === getShortDayOfWeek(JSON.parse(day).day)
+                                        ).length
+                                      }/${shift.cleaner_amount}`}
+                                    </Text>
+                                  )}
                                 </View>
                               </XStack>
-                              <Button onPress={() => toggleModal()} unstyled={true}>
+                              <Button
+                                onPress={() => toggleModal(getShortDayOfWeek(JSON.parse(day).day))}
+                                unstyled={true}
+                              >
                                 {plusIcon}
                               </Button>
                             </XStack>
@@ -280,13 +406,18 @@ const Shift = () => {
               <AssignModal
                 showModal={showModal}
                 onClose={() => setShowModal(false)}
-                onAssign={() => {}}
+                onAssign={onAssign}
                 staff={staff}
                 shift={shift}
-                selectedDay={''}
+                selectedDay={selectedDay}
                 location={location}
                 start_time={shift.check_in_time}
                 end_time={shift.check_out_time}
+                submit={submit}
+                selectedCleaners={selectedCleaners}
+                unAssign={unAssign}
+                unassignedStaff={unassignedStaff}
+                jobs={jobs}
               />
             }
           </YStack>
