@@ -149,6 +149,7 @@ const Shift = () => {
 
       const { id } = router.query
       //grab user with id
+      if (!id) return
       const getUser = async () => {
         const { data: foundShift } = await supabase.from('shifts').select().eq('id', id)
         if (!foundShift) return
@@ -160,13 +161,14 @@ const Shift = () => {
         // console.log(foundShift)
         setShift(foundShift[0])
         setLocation(foundLocation[0])
+        if (!Object.keys(org).length) return
         getStaff()
       }
 
       getUser()
       getJobs()
     }
-  }, [router.isReady, shift, jobs, staff])
+  }, [router.isReady, shift])
 
   const getJobs = async () => {
     if (!shift) return
@@ -204,7 +206,6 @@ const Shift = () => {
   }
 
   const getStaff = async () => {
-    if (!org) return
     const { data: foundStaff } = await supabase.from('users').select().eq('id_company', org.id)
     if (!foundStaff) return
 
