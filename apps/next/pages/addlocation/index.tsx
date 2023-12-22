@@ -167,7 +167,7 @@ const AddAUser: NextPage = () => {
 
   return (
     <YStack justifyContent="center" alignItems="center">
-      <View width={'100%'}>{scrollPosition < 20 && <TopBar title="Add a User" />}</View>
+      <View width={'100%'}>{scrollPosition < 20 && <TopBar title="Add a Location" />}</View>
       <CurrentToast bgColor={bgColor} />
 
       <YStack space="$6" top={160} justifyContent="center" alignItems="flex-start">

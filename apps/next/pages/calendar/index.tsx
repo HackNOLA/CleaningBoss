@@ -69,8 +69,8 @@ const tasks = [
   },
 ]
 
-const TaskCard = ({ task }: { task: Task }) => (
-  <Card width={350} className="load-hidden" backgroundColor={'white'}>
+const TaskCard = ({ task, onPress }: { task: Task }) => (
+  <Card onPress={onPress} width={350} className="load-hidden" backgroundColor={'white'}>
     <XStack>
       <YStack
         borderTopLeftRadius={10}
@@ -207,7 +207,13 @@ const Tasks = () => {
         </XStack>
         <YStack space="$4">
           {filteredTasks.map((task) => (
-            <TaskCard key={task.id} task={task} />
+            <TaskCard
+              key={task.id}
+              task={task}
+              onPress={() => {
+                router.replace(`/shift/${task.id}`)
+              }}
+            />
           ))}
         </YStack>
       </YStack>
