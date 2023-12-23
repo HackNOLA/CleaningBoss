@@ -166,7 +166,7 @@ const Shift = () => {
       getUser()
       getJobs()
     }
-  }, [router.isReady, shift])
+  }, [router.isReady])
 
   const getJobs = async () => {
     if (!shift) return
@@ -177,10 +177,10 @@ const Shift = () => {
 
   const getShortDayOfWeek = (shortDay) => {
     const currentDate = new Date()
-    const currentDay = currentDate.getDay() // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
-    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    const currentDay = new Date(shift.start_date).getDay() // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
+    const daysOfWeek = shift.service_days.map((day) => JSON.parse(day).day)
 
-    const daysToCurrentDay = daysOfWeek.indexOf(shortDay) - currentDay
+    const daysToCurrentDay = daysOfWeek.indexOf(shortDay) + 3
     const date = new Date(currentDate)
     date.setDate(currentDate.getDate() + daysToCurrentDay)
 

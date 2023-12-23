@@ -3,6 +3,7 @@ import { Input, Card, XStack, YStack, Text, View, Button, Image } from '@my/ui'
 import { useRouter } from 'next/router'
 import { createClient } from '@supabase/supabase-js'
 import { OrgContext } from 'context/orgcontext'
+import { UserContext } from 'context/usercontext'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -59,24 +60,24 @@ const exampleShifts: Shift[] = [
   //make sure to add more shifts on another day to test scrolling
 ]
 
-const ShiftCard = ({ shift }: { shift: Shift }) => (
+const ShiftCard = ({ job, shift }: { job: any; shift: any }) => (
   <Card className="load-hidden" backgroundColor={'white'} width={350} height={100}>
     <XStack>
       <Card.Header></Card.Header>
       <YStack top={16}>
         <XStack width={250} justifyContent="space-between">
-          <Text fontSize={14} fontWeight="bold">
-            {`${shift.company_name}`}
-          </Text>
+          {/* <Text fontSize={14} fontWeight="bold">
+            {`${job.company_name}`}
+          </Text> */}
 
-          <Text color={'blue'} fontSize={14}>
-            {shift.timeLength} hours
-          </Text>
+          {/* <Text color={'blue'} fontSize={14}>
+            {job.timeLength} hours
+          </Text> */}
         </XStack>
-        <Text color={'slategray'} fontSize={12} fontWeight="bold">
-          {shift.name}
-        </Text>
-        <Text>{shift.phone}</Text>
+        {/* <Text color={'slategray'} fontSize={12} fontWeight="bold">
+          {job.name}
+        </Text> */}
+        {/* <Text>{job.phone}</Text> */}
       </YStack>
     </XStack>
   </Card>
@@ -87,7 +88,9 @@ const StaffPage = () => {
 
   const [scrollPosition, setScrollPosition] = useState(0)
 
-  const [users, setUsers] = useState([])
+  const [jobs, setJobs] = useState([])
+
+  const { activeUser } = useContext(UserContext)
 
   const { org } = useContext(OrgContext)
 
@@ -96,34 +99,30 @@ const StaffPage = () => {
   const router = useRouter()
 
   useEffect(() => {
+    if (activeUser) {
+      console.log(activeUser)
+    }
     const fetchOrg = async () => {
-      const { data } = await supabase.from('users').select().eq('id_company', org?.id)
-      setUsers(data)
+      const { data: jobData } = await supabase.from('jobs').select().eq('id_user', activeUser?.id)
+      if (!jobData) return
+      console.log(jobData)
+      setJobs(jobData)
+
+      const { data: shiftData } = await supabase
+        .from('shifts')
+        .select()
+        .eq('id', jobData[0].id_shift)
+      console.log(shiftData)
+      setShifts(shiftData)
     }
 
     const fetchShifts = async () => {
-      return exampleShifts.reduce((acc, shift) => {
-        //get day of shift
-        //if day of shift is in acc, add shift to acc[day]
-        //else create new key in acc[day] and add shift to acc[day]
-        const day = new Date(shift.time_start).toLocaleDateString('en-US', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        })
-        if (acc[day]) {
-          acc[day].push(shift)
-        } else {
-          acc[day] = [shift]
-        }
-        return acc
-      }, {})
+      if (!jobs) return
     }
 
     const getShifts = async () => {
       const shifts = await fetchShifts()
-      setShifts(shifts)
+      // setShifts(shifts)
     }
 
     getShifts()
@@ -144,20 +143,7 @@ const StaffPage = () => {
     setSearchTerm(event.target.value)
   }
 
-  if (!users) return <div>Loading...</div>
-
-  if (!shifts) return <div>Loading...</div>
-  const filteredShifts = Object.keys(shifts).reduce((acc, day) => {
-    const filteredShifts = shifts[day].filter((shift) => {
-      const name = shift.name.toLowerCase()
-      const searchTermLower = searchTerm.toLowerCase()
-      return name.includes(searchTermLower)
-    })
-    if (filteredShifts.length) {
-      acc[day] = filteredShifts
-    }
-    return acc
-  }, {})
+  if (!jobs) return <div>Loading...</div>
 
   return (
     <YStack height={'100ch'} paddingTop={160}>
@@ -171,7 +157,7 @@ const StaffPage = () => {
           alignItems="baseline"
         >
           <XStack paddingTop={10} space="$4" justifyContent="center" alignItems="flex-end">
-            <Button onPress={() => console.log('Filter users')} unstyled={true}>
+            <Button onPress={() => console.log('Filter jobs')} unstyled={true}>
               {filterIcon}
             </Button>
             <View
@@ -206,15 +192,15 @@ const StaffPage = () => {
         </XStack>
       </YStack>
       <YStack space="$4" paddingTop={60}>
-        {filteredShifts && Object.keys(filteredShifts).length ? (
-          Object.keys(filteredShifts).map((day) => (
-            <YStack space="$4" key={day}>
+        {jobs.length ? (
+          jobs.map((job) => (
+            <YStack space="$4" key={job.id}>
               <Text fontWeight="bold" fontSize={16}>
-                {day}
+                {job.date}
               </Text>
               <YStack space="$4">
-                {filteredShifts[day].map((shift) => (
-                  <ShiftCard shift={shift} key={shift.id} />
+                {jobs.map((job) => (
+                  <ShiftCard job={job} key={job.id} />
                 ))}
               </YStack>
             </YStack>
@@ -278,7 +264,7 @@ const plusIcon = (
         y="0"
         width="38"
         height="38"
-        filterUnits="userSpaceOnUse"
+        filterUnits="jobspaceOnUse"
         color-interpolation-filters="sRGB"
       >
         <feFlood flood-opacity="0" result="BackgroundImageFix" />
