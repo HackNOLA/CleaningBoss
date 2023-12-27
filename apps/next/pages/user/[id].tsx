@@ -224,9 +224,9 @@ const UserProfile = () => {
             paddingBottom={100}
             backgroundColor={'#F2F2F2'}
           >
-            {tasks.map((task) => (
+            {/* {tasks.map((task) => (
               <TaskCard key={task.id} task={task} />
-            ))}
+            ))} */}
           </YStack>
         </YStack>
       )}
