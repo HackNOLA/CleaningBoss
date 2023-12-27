@@ -23,6 +23,7 @@ import { useSignUp } from '@clerk/nextjs'
 import { useRouter } from 'next/router'
 import { OrgContext } from 'context/orgcontext'
 import { UserContext } from 'context/usercontext'
+import { CldUploadWidget } from 'next-cloudinary';
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -184,12 +185,29 @@ const AddAUser: NextPage = () => {
           <Text fontSize={16}>Photo</Text>
           <YStack space="$2" alignItems="flex-start">
             <YStack space="$2" alignItems="flex-start">
-              <Image width={100} height={100} source={{ uri: '/photo.svg' }} />
+              <Image width={100} height={100} source={{ uri: photo ? photo : '/photo.svg' }} />
             </YStack>
             <YStack space="$2" alignItems="flex-start">
               <XStack space="$2">
                 <Image width={32} height={32} source={{ uri: '/plus.svg' }} />
-                <Text fontSize={16}>Add Photo</Text>
+                <CldUploadWidget
+                  uploadPreset="y31wzwjk"
+                  onSuccess={(results: any) => {
+                    console.log('Public ID', results.info);
+                    setPhoto(results.info.url);
+                  }}
+                  options={{
+                    tags: ["user_avatar"],
+                    folder: "CleaningBoss",
+                    publicId: `${Date.now()}`,
+                  }}
+                >
+                  {({ cloudinary, widget, open }) => (
+                    <button onClick={() => open()}>
+                      <Text fontSize={16}>Add Photo</Text>
+                    </button>
+                  )}
+                </CldUploadWidget>
               </XStack>
             </YStack>
           </YStack>

@@ -23,7 +23,6 @@ const AddAUser: NextPage = () => {
   const [lastName, setLastName] = useState('')
   const [emailAddress, setEmailAddress] = useState('')
   const [userAvi, setUserAvi] = useState('')
-  const [photo, setPhoto] = useState('')
   const [language, setLanguage] = useState('')
   const [password, setPassword] = useState('')
   const [userType, setUserType] = useState('')
@@ -156,7 +155,7 @@ const AddAUser: NextPage = () => {
       first_name: firstName,
       last_name: lastName,
       email: emailAddress,
-      profile_pic: photo,
+      profile_pic: userAvi,
       language: language,
       role: userType,
       time_trialed: timeTrialOption === 'Yes' ? true : false,
