@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { createClient } from '@supabase/supabase-js'
 import { OrgContext } from 'context/orgcontext'
 import { UserContext } from 'context/usercontext'
+import ClockInCard from 'components/clockincard'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -20,64 +21,85 @@ interface Shift {
   eta: string
 }
 
-const exampleShifts: Shift[] = [
-  {
-    id: 1,
-    timeLength: 2,
-    name: 'Morning',
-    time_start: '2021-10-04T08:00:00.000Z',
-    time_end: '2021-10-01T10:00:00.000Z',
-    company_name: 'Cleaning Boss',
-    eta: '2021-10-01T08:00:00.000Z',
-  },
-  {
-    id: 2,
-    timeLength: 2,
-    name: 'Afternoon',
-    time_start: '2021-10-04T08:00:00.000Z',
-    time_end: '2021-10-01T10:00:00.000Z',
-    company_name: 'Cleaning Boss',
-    eta: '2021-10-01T08:00:00.000Z',
-  },
-  {
-    id: 3,
-    timeLength: 2,
-    name: 'Evening',
-    time_start: '2021-10-02T08:00:00.000Z',
-    time_end: '2021-10-01T10:00:00.000Z',
-    company_name: 'Cleaning Boss',
-    eta: '2021-10-01T08:00:00.000Z',
-  },
-  {
-    id: 4,
-    timeLength: 2,
-    name: 'Clean XYZ',
-    time_start: '2021-10-01T08:00:00.000Z',
-    time_end: '2021-10-01T10:00:00.000Z',
-    company_name: 'Cleaning Boss',
-    eta: '2021-10-01T08:00:00.000Z',
-  },
-  //make sure to add more shifts on another day to test scrolling
-]
-
-const ShiftCard = ({ job, shift }: { job: any; shift: any }) => (
-  <Card className="load-hidden" backgroundColor={'white'} width={350} height={100}>
+const ShiftCard = ({ job, shift, handleOpen }: { job: any; shift: any }) => (
+  <Card
+    onPress={() => handleOpen(job)}
+    className="load-hidden"
+    backgroundColor={'white'}
+    width={350}
+    height={100}
+  >
     <XStack>
-      <Card.Header></Card.Header>
-      <YStack top={16}>
+      <Card.Header>{}</Card.Header>
+      <YStack top={16} alignItems="flex-start">
         <XStack width={250} justifyContent="space-between">
-          {/* <Text fontSize={14} fontWeight="bold">
-            {`${job.company_name}`}
-          </Text> */}
+          <Text fontSize={14} fontWeight="bold">
+            {`${shift.location_name}`}
+          </Text>
 
-          {/* <Text color={'blue'} fontSize={14}>
-            {job.timeLength} hours
-          </Text> */}
+          <Text color={'blue'} fontSize={14}>
+            {/* calculate difference of hours between job start time and end time */}
+
+            {new Date(job.end_time).getHours() - new Date(job.start_time).getHours()}
+            {' hours'}
+          </Text>
         </XStack>
-        {/* <Text color={'slategray'} fontSize={12} fontWeight="bold">
-          {job.name}
-        </Text> */}
-        {/* <Text>{job.phone}</Text> */}
+        <Text fontSize={14} fontWeight="bold">
+          {`${shift.label}`}
+        </Text>
+
+        <XStack width={270} space="$2" alignItems="center" justifyContent="space-between">
+          <XStack space="$2" alignItems="center" justifyContent="space-evenly">
+            <Text color={'blue'} fontSize={14}>
+              {new Date(job.start_time).toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true,
+              })}
+              {' - '}
+              {new Date(job.end_time).toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true,
+              })}
+            </Text>
+          </XStack>
+          {/* create indicator for has not clocked in*/}
+          {!job.clock_in_time && (
+            <XStack space="$2" alignItems="center" justifyContent="space-evenly">
+              <Text color={'red'} fontSize={14}>
+                {'Not clocked in'}
+              </Text>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="36"
+                height="36"
+                fill="#FF0000"
+              >
+                <path d="M12 1C6.48 1 2 5.48 2 11s4.48 10 10 10 10-4.48 10-10S17.52 1 12 1zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm1-13h-2v6h2zm0 8h-2v2h2z" />
+              </svg>
+            </XStack>
+          )}
+          {/* create indicator for has clocked in*/}
+          {job.clock_in_time && (
+            <XStack space="$2" alignItems="center" justifyContent="space-evenly">
+              <Text color={'green'} fontSize={14}>
+                {!job.clock_out_time ? 'Clocked in' : 'Clocked out'}
+              </Text>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="36"
+                height="36"
+                fill="#00FF00"
+              >
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 18 21 6l-1.41-1.41z" />
+              </svg>
+            </XStack>
+          )}
+        </XStack>
       </YStack>
     </XStack>
   </Card>
@@ -96,24 +118,31 @@ const StaffPage = () => {
 
   const [shifts, setShifts] = useState(null)
 
+  const [open, setOpen] = useState(false)
+
+  const [selectedJob, setSelectedJob] = useState(null)
+
   const router = useRouter()
 
   useEffect(() => {
-    if (activeUser) {
-      console.log(activeUser)
-    }
     const fetchOrg = async () => {
       const { data: jobData } = await supabase.from('jobs').select().eq('id_user', activeUser?.id)
       if (!jobData) return
-      console.log(jobData)
-      setJobs(jobData)
-
       const { data: shiftData } = await supabase
         .from('shifts')
         .select()
         .eq('id', jobData[0].id_shift)
-      console.log(shiftData)
+      if (!shiftData) return
       setShifts(shiftData)
+
+      setJobs(jobData)
+
+      // const { data: shiftData } = await supabase
+      //   .from('shifts')
+      //   .select()
+      //   .eq('id', jobData[0].id_shift)
+      // console.log(shiftData)
+      // setShifts(shiftData)
     }
 
     const fetchShifts = async () => {
@@ -137,10 +166,12 @@ const StaffPage = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
-  }, [])
+  }, [selectedJob])
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value)
+  const handleOpen = (job) => {
+    console.log(job)
+    setSelectedJob(job)
+    setOpen(true)
   }
 
   if (!jobs) return <div>Loading...</div>
@@ -191,22 +222,30 @@ const StaffPage = () => {
           </Button>
         </XStack>
       </YStack>
+
       <YStack space="$4" paddingTop={60}>
-        {jobs.length ? (
+        {jobs && jobs.length ? (
           jobs.map((job) => (
             <YStack space="$4" key={job.id}>
               <Text fontWeight="bold" fontSize={16}>
                 {job.date}
               </Text>
-              <YStack space="$4">
-                {jobs.map((job) => (
-                  <ShiftCard job={job} key={job.id} />
-                ))}
-              </YStack>
+              <ShiftCard handleOpen={handleOpen} shift={shifts[0]} job={job} key={job.id} />
             </YStack>
           ))
         ) : (
           <Text>No shifts found</Text>
+        )}
+      </YStack>
+      <YStack space="$4" paddingTop={40} justifyContent="center" alignItems="center">
+        {shifts && selectedJob && (
+          <ClockInCard
+            handleOpen={handleOpen}
+            job={selectedJob}
+            shift={shifts[0]}
+            open={open}
+            setOpen={setOpen}
+          />
         )}
       </YStack>
     </YStack>

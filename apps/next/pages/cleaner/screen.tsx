@@ -22,6 +22,8 @@ export default function Dashboard() {
 
   const [selectedSegment, setSelectedSegment] = useState(0)
 
+  const [locations, setLocations] = useState([])
+
   const { email, activeUser, setActiveUser, setClerkId } = useContext(UserContext)
   const { orgName, setOrg } = useContext(OrgContext)
   const { userId: clerkId } = useAuth()
@@ -30,22 +32,21 @@ export default function Dashboard() {
   const handleSegmentChange = (index) => {
     setSelectedSegment(index)
   }
-
   useEffect(() => {
+    deleteCookie('activeUser')
     const getUserInfo = async () => {
       if (clerkId) {
         deleteCookie('userId')
         setCookie('userId', clerkId, {
           maxAge: 30 * 24 * 60 * 60,
-          domain: 'cleaningboss-dev.vercel.app',
+          // domain: 'cleaningboss-dev.vercel.app',
         })
       }
     }
     if (activeUser) {
-      deleteCookie('activeUser')
       setCookie('activeUser', activeUser, {
         maxAge: 30 * 24 * 60 * 60,
-        domain: 'cleaningboss-dev.vercel.app',
+        // domain: 'cleaningboss-dev.vercel.app',
       })
       checkOrg(activeUser)
       return
@@ -61,6 +62,15 @@ export default function Dashboard() {
         .eq('id', activeUser?.id_company)
 
       setOrg(foundOrg[0])
+      const fetchLocations = async () => {
+        const { data: locations } = await supabase
+          .from('location')
+          .select()
+          .eq('id_company', foundOrg[0]?.id)
+        if (!locations) return
+        setLocations(locations)
+      }
+      fetchLocations()
       return
     }
     await updateOrg(activeUser?.id)
