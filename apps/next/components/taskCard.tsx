@@ -46,7 +46,6 @@ export interface Task {
 
 export const TaskCard = ({ task }: { task: Task }) => (
   <Card width={350} className="load-hidden" backgroundColor={'white'}>
-    {console.log(task)}
     <XStack>
       <YStack
         borderTopLeftRadius={10}

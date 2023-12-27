@@ -166,7 +166,7 @@ const Shift = () => {
       getUser()
       getJobs()
     }
-  }, [router.isReady])
+  }, [router.isReady, shift])
 
   const getJobs = async () => {
     if (!shift) return
