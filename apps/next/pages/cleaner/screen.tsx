@@ -174,7 +174,7 @@ export default function Dashboard() {
                   icon="users"
                   info={`You completed ${
                     filteredJobs.filter((job) => job.completed).length
-                  } jobs this day`}
+                  } job(s) this day`}
                 />
                 <Card
                   title="Future Shifts"
@@ -200,7 +200,7 @@ export default function Dashboard() {
                   icon="users"
                   info={`You completed ${
                     filteredJobs.filter((job) => job.completed).length
-                  } job this week`}
+                  } job(s) this week`}
                 />
                 <Card
                   title="Future Shifts"
