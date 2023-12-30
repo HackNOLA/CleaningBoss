@@ -177,6 +177,11 @@ const StaffPage = () => {
 
   if (!jobs) return <div>Loading...</div>
 
+  const filteredJobs = jobs.filter((job) => {
+    const jobDate = new Date(job?.date)
+    return jobDate.getDate() >= new Date().getDate()
+  })
+
   return (
     <YStack height={'100ch'} paddingTop={160}>
       <YStack
@@ -226,7 +231,7 @@ const StaffPage = () => {
 
       <YStack space="$4" paddingTop={60}>
         {jobs && jobs.length ? (
-          jobs.map((job) => (
+          filteredJobs.map((job) => (
             <YStack space="$4" key={job.id}>
               <Text fontWeight="bold" fontSize={16}>
                 {job.date}
