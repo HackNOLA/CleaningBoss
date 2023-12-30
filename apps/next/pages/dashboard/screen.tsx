@@ -18,10 +18,17 @@ const supabase = createClient(
 )
 
 export default function Dashboard() {
-  const segments = ['Yesterday', 'Today', 'Tomorrow', 'Custom'] // Define your segments
+  const segments = ['Yesterday', 'Today', 'Tomorrow'] // Define your segments
 
   const [selectedSegment, setSelectedSegment] = useState(0)
   const [locations, setLocations] = useState([])
+  const [jobs, setJobs] = useState([])
+  const [filteredJobs, setFilteredJobs] = useState([])
+  const [completedJobs, setCompletedJobs] = useState(0)
+  const [hoursWorked, setHoursWorked] = useState(0)
+  const [totalHours, setTotalHours] = useState(0)
+  const [activeCleaners, setActiveCleaners] = useState(0)
+  const [shiftStaffAmount, setShiftStaffAmount] = useState(0)
 
   const { email, activeUser, setActiveUser, setClerkId } = useContext(UserContext)
   const { orgName, setOrg } = useContext(OrgContext)
@@ -30,6 +37,44 @@ export default function Dashboard() {
 
   const handleSegmentChange = (index) => {
     setSelectedSegment(index)
+    const filteredJobs = jobs.filter((job) => {
+      const today = new Date()
+      const yesterday = new Date(today)
+      yesterday.setDate(yesterday.getDate() - 1)
+      const tomorrow = new Date(today)
+      tomorrow.setDate(tomorrow.getDate() + 1)
+      const jobDate = new Date(job?.date)
+      if (index === 0) {
+        return jobDate.getDate() === yesterday.getDate()
+      }
+      if (index === 1) {
+        return jobDate.getDate() === today.getDate()
+      }
+      if (index === 2) {
+        return jobDate.getDate() === tomorrow.getDate()
+      }
+    })
+    setFilteredJobs(filteredJobs)
+    const completedJobs = filteredJobs.filter((job) => job?.completed === true)
+    setCompletedJobs(completedJobs.length)
+    const activeCleaners = filteredJobs.filter((job) => job?.clock_in_time || job?.clock_out_time)
+    setActiveCleaners(activeCleaners.length)
+    const hoursWorked = filteredJobs.reduce((acc, job) => {
+      const start = new Date(job?.clock_in_time)
+      const end = new Date(job?.clock_out_time)
+      const diff = end.getTime() - start.getTime()
+      const hours = diff / (1000 * 3600)
+      return acc + hours
+    }, 0)
+    setHoursWorked(hoursWorked)
+    const totalHours = filteredJobs.reduce((acc, job) => {
+      const start = new Date(job?.start_time)
+      const end = new Date(job?.end_time)
+      const diff = end.getTime() - start.getTime()
+      const hours = diff / (1000 * 3600)
+      return acc + hours
+    }, 0)
+    setTotalHours(totalHours)
   }
 
   useEffect(() => {
@@ -62,6 +107,17 @@ export default function Dashboard() {
         .eq('id', activeUser?.id_company)
 
       setOrg(foundOrg[0])
+      const { data: shifts } = await supabase
+        .from('shifts')
+        .select()
+        .eq('id_company', activeUser?.id_company)
+      if (!shifts) return
+      for (let shift of shifts) {
+        setShiftStaffAmount(shiftStaffAmount + shift?.cleaner_amount)
+        const { data: foundJobs } = await supabase.from('jobs').select().eq('id_shift', shift?.id)
+        if (!foundJobs) return
+        setJobs([...foundJobs])
+      }
       const fetchLocations = async () => {
         const { data: locations } = await supabase
           .from('location')
@@ -92,6 +148,10 @@ export default function Dashboard() {
     }
   }
 
+  const decimalToWhole = () => {
+    return Math.round((filteredJobs.length / shiftStaffAmount) * 100)
+  }
+
   return (
     <View>
       <YStack display="flex" justifyContent="center" alignItems="center" paddingBottom={0}>
@@ -106,12 +166,30 @@ export default function Dashboard() {
         <View height={15} />
         <YStack space="$4">
           <XStack space="$4">
-            <Card title="Staffed" icon="users" info="224 of 338 hours scheduled" />
-            <Card title="Completed" icon="check-circle" info="4 out of 6 jobs completed" />
+            <Card
+              title="Staffed"
+              icon="users"
+              info={`${decimalToWhole()}% of jobs are currently staffed`}
+            />
+            {filteredJobs && (
+              <Card
+                title="Completed"
+                icon="check-circle"
+                info={`${completedJobs} out of ${filteredJobs.length} jobs completed`}
+              />
+            )}
           </XStack>
           <XStack space="$4">
-            <Card title="Hours" icon="clock" info="224h worked out of 338h scheduled" />
-            <Card title="Cleaners" icon="user" info="8/10 Cleaners were active" />
+            <Card
+              title="Hours"
+              icon="clock"
+              info={`${hoursWorked} of ${totalHours} hours scheduled`}
+            />
+            <Card
+              title="Cleaners"
+              icon="user"
+              info={`${activeCleaners}/${filteredJobs.length} Cleaners were active`}
+            />
           </XStack>
         </YStack>
       </YStack>

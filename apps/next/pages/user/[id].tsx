@@ -231,7 +231,7 @@ const UserProfile = () => {
             backgroundColor={'#F2F2F2'}
           >
             {jobs.map((job) => (
-              <JobStatusCard job={job} />
+              <JobStatusCard key={job.id} job={job} />
             ))}
           </YStack>
         </YStack>
