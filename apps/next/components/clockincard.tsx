@@ -20,7 +20,7 @@ const modalVariants = {
   },
 }
 
-const ClockInCard = ({ job, cleaner, shift, open, setOpen, handleOpen }) => {
+const ClockInCard = ({ job, open, setOpen, viewOnly = false }) => {
   const [clockInTime, setClockInTime] = useState('')
   const [clockOutTime, setClockOutTime] = useState('')
 
@@ -60,9 +60,9 @@ const ClockInCard = ({ job, cleaner, shift, open, setOpen, handleOpen }) => {
   }
 
   const handleClose = () => {
+    setOpen(!open)
     setClockInTime('')
     setClockOutTime('')
-    setOpen(false)
   }
 
   return (
@@ -100,12 +100,12 @@ const ClockInCard = ({ job, cleaner, shift, open, setOpen, handleOpen }) => {
                   <Button color={'white'} backgroundColor={'#EB4A3C'} onPress={handleClose}>
                     Close
                   </Button>
-                  {!job.clock_in_time && (
+                  {!job.clock_in_time && !viewOnly && (
                     <Button color={'white'} backgroundColor={'#33CC4B'} onPress={handleClockIn}>
                       Clock In
                     </Button>
                   )}{' '}
-                  {job.clock_in_time && !job.clock_out_time && (
+                  {job.clock_in_time && !job.clock_out_time && !viewOnly && (
                     <Button color={'white'} backgroundColor={'#33CC4B'} onPress={handleClockOut}>
                       Clock Out
                     </Button>
