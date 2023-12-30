@@ -21,99 +21,6 @@ interface User {
   phone: string
 }
 
-const ShiftCard = ({ shift }: { user: User; onClick: any }) => (
-  <Card className="load-hidden" backgroundColor={'white'} width={350}>
-    <XStack>
-      <Card.Header>
-        <Image
-          zIndex={0}
-          source={{
-            uri: 'https://source.unsplash.com/random',
-          }}
-          width={50}
-          height={50}
-          borderRadius={40}
-          alt="avatar"
-        />
-      </Card.Header>
-      <YStack top={16}>
-        <XStack width={250} justifyContent="space-between">
-          <Text fontSize={14} fontWeight="bold">
-            {`${user.first_name} ${user.last_name}`}
-          </Text>
-
-          <Text color={'blue'} fontSize={14}>
-            {user.role}
-          </Text>
-        </XStack>
-        <Text>{user.email}</Text>
-        <Text>{user.phone}</Text>
-      </YStack>
-    </XStack>
-  </Card>
-)
-
-const AvailabilityCard = (availability) => {
-  return (
-    <>
-      <Card
-        className="load-hidden"
-        backgroundColor={'white'}
-        width={350}
-        height={270}
-        justifyContent="center"
-        alignItems="flex-start"
-        shadowOffset={{ width: 10, height: 5 }}
-        shadowOpacity={0.2}
-        shadowRadius={10}
-        shadowColor={'black'}
-      >
-        <XStack padding={10} alignItems="flex-start">
-          <svg
-            className={` w-6 h-6 text-'black'}`}
-            fill="none"
-            height="24"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect height="18" rx="2" ry="2" width="18" x="3" y="4" />
-            <line x1="16" x2="16" y1="2" y2="6" />
-            <line x1="8" x2="8" y1="2" y2="6" />
-            <line x1="3" x2="21" y1="10" y2="10" />
-          </svg>
-          <YStack
-            justifyContent="center"
-            alignItems="flex-start"
-            paddingLeft={20}
-            paddingRight={20}
-          >
-            <Text fontSize={16} fontWeight="bold">
-              Availability
-            </Text>
-            {availability.availability.map((day) => {
-              return (
-                <XStack key={day}>
-                  {day.to && day.from && (
-                    <Text>{`${day.day}:
-              ${day.from} - ${day.to}
-              `}</Text>
-                  )}
-                  {!day.from && !day.to && <Text>{`${day.day}: unavailable`}</Text>}
-                </XStack>
-              )
-            })}
-          </YStack>
-        </XStack>
-      </Card>
-    </>
-  )
-}
-
 const Shift = () => {
   const [scrollPosition, setScrollPosition] = useState(0)
 
@@ -126,6 +33,8 @@ const Shift = () => {
   const [staff, setStaff] = useState(null)
 
   const [jobs, setJobs] = useState(null)
+
+  const [selectedJob, setSelectedJob] = useState(null)
 
   const [showModal, setShowModal] = useState(false)
 
@@ -150,6 +59,7 @@ const Shift = () => {
       //grab user with id
       if (!id) return
       const getUser = async () => {
+        if (shift) return
         const { data: foundShift } = await supabase.from('shifts').select().eq('id', id)
         if (!foundShift) return
         const { data: foundLocation } = await supabase
@@ -172,31 +82,37 @@ const Shift = () => {
     if (!shift) return
     const { data: foundJobs } = await supabase.from('jobs').select().eq('id_shift', shift.id)
     if (!foundJobs) return
+    console.log(foundJobs)
     setJobs(foundJobs)
   }
 
-  const getShortDayOfWeek = (shortDay) => {
-    const currentDate = new Date()
-    const currentDay = new Date(shift.start_date).getDay() // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
-    const daysOfWeek = shift.service_days.map((day) => JSON.parse(day).day)
-
-    const daysToCurrentDay = daysOfWeek.indexOf(shortDay) + 3
-    const date = new Date(currentDate)
-    date.setDate(currentDate.getDate() + daysToCurrentDay)
-
-    // Format the date without the year
-    const formattedDate = date.toLocaleDateString(undefined, {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric',
-    })
-
-    return formattedDate
+  const getShortDayOfWeek = (shortDay, i) => {
+    // create array of dates from start_date to end_date
+    const dates = []
+    const startDate = new Date(shift.start_date)
+    const endDate = new Date(shift.end_date)
+    const currentDate = startDate
+    while (currentDate <= endDate) {
+      dates.push(new Date(currentDate))
+      currentDate.setDate(currentDate.getDate() + 1)
+    }
+    // filter the dates array to only include dates that match the day of the week
+    const daysOfWeek = dates.filter((date) => `${date}`.includes(shortDay.day))
+    return daysOfWeek.map((date) =>
+      date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })
+    )
   }
 
   const toggleModal = (day = null) => {
     if (day) {
-      setSelectedDay(day)
+      setSelectedDay(day[0])
+      for (let job of jobs) {
+        if (job.date === day[0]) {
+          setSelectedJob(job)
+        }
+      }
+      // const { data: job r} = supabase.
+      // setSelectedJob(job)
     }
     setShowModal(!showModal)
     setSelectedCleaners([])
@@ -230,6 +146,7 @@ const Shift = () => {
       })
       setShowModal(false)
       setSelectedCleaners([])
+      setUnassignedStaff([])
     }
 
     if (selectedCleaners.length) {
@@ -247,6 +164,7 @@ const Shift = () => {
     }
     setShowModal(false)
     setSelectedCleaners([])
+    setUnassignedStaff([])
   }
 
   const unAssign = async (cleanerId) => {
@@ -347,7 +265,7 @@ const Shift = () => {
                             {/*
                         according to each day, display dates for those days in this current week
                         */}
-                            <Text>{getShortDayOfWeek(JSON.parse(day).day)}</Text>
+                            <Text>{getShortDayOfWeek(JSON.parse(day))}</Text>
                             <XStack space="$2">
                               <XStack
                                 space="$0"
@@ -368,7 +286,7 @@ const Shift = () => {
                                       {`${
                                         jobs.filter(
                                           (job) =>
-                                            job.date === getShortDayOfWeek(JSON.parse(day).day)
+                                            job.date === getShortDayOfWeek(JSON.parse(day))[0]
                                         ).length
                                       }/${shift.cleaner_amount}`}
                                     </Text>
@@ -376,7 +294,7 @@ const Shift = () => {
                                 </View>
                               </XStack>
                               <Button
-                                onPress={() => toggleModal(getShortDayOfWeek(JSON.parse(day).day))}
+                                onPress={() => toggleModal(getShortDayOfWeek(JSON.parse(day)))}
                                 unstyled={true}
                               >
                                 {plusIcon}
@@ -401,7 +319,12 @@ const Shift = () => {
             {
               <AssignModal
                 showModal={showModal}
-                onClose={() => setShowModal(false)}
+                onClose={() => {
+                  setShowModal(false)
+                  setSelectedJob(null)
+                  setSelectedCleaners([])
+                  setUnassignedStaff([])
+                }}
                 onAssign={onAssign}
                 staff={staff}
                 shift={shift}
@@ -413,7 +336,7 @@ const Shift = () => {
                 selectedCleaners={selectedCleaners}
                 unAssign={unAssign}
                 unassignedStaff={unassignedStaff}
-                jobs={jobs}
+                selectedJob={selectedJob}
               />
             }
           </YStack>

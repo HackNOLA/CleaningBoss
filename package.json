@@ -32,7 +32,6 @@
     "@manypkg/cli": "^0.19.2",
     "check-dependency-version-consistency": "^3.3.0",
     "eslint": "^8.53.0",
-    "next-cloudinary": "^5.11.0",
     "node-gyp": "^9.4.1",
     "prettier": "^2.8.8",
     "turbo": "^1.10.16",
