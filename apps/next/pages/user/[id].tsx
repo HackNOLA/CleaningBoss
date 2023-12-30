@@ -6,6 +6,7 @@ import { OrgContext } from 'context/orgcontext'
 import { useParams } from 'next/navigation'
 import TopBar from 'components/topbar'
 import { TaskCard } from 'components/taskCard'
+import { JobStatusCard } from 'components/jobstatuscard'
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
@@ -173,7 +174,9 @@ const UserProfile = () => {
 
   const [scrollPosition, setScrollPosition] = useState(0)
 
-  const [users, setUsers] = useState([])
+  const [jobs, setJobs] = useState([])
+
+  const [shift, setShift] = useState(null)
 
   const [employee, setEmployee] = useState(null)
 
@@ -192,6 +195,9 @@ const UserProfile = () => {
         const { data: foundUser } = await supabase.from('users').select().eq('id', id)
         if (!foundUser) return
         setEmployee(foundUser[0])
+        const { data: jobs } = await supabase.from('jobs').select().eq('id_user', id)
+        if (!jobs) return
+        setJobs(jobs)
       }
 
       getUser()
@@ -224,9 +230,9 @@ const UserProfile = () => {
             paddingBottom={100}
             backgroundColor={'#F2F2F2'}
           >
-            {/* {tasks.map((task) => (
-              <TaskCard key={task.id} task={task} />
-            ))} */}
+            {jobs.map((job) => (
+              <JobStatusCard job={job} />
+            ))}
           </YStack>
         </YStack>
       )}
