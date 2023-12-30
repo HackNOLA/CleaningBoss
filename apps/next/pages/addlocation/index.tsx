@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { NextPage } from 'next'
 import { useState, useEffect, useContext } from 'react'
 import {
@@ -23,7 +24,7 @@ import { useSignUp } from '@clerk/nextjs'
 import { useRouter } from 'next/router'
 import { OrgContext } from 'context/orgcontext'
 import { UserContext } from 'context/usercontext'
-import { CldUploadWidget } from 'next-cloudinary';
+import { CldUploadWidget } from 'next-cloudinary'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -193,12 +194,12 @@ const AddAUser: NextPage = () => {
                 <CldUploadWidget
                   uploadPreset="y31wzwjk"
                   onSuccess={(results: any) => {
-                    console.log('Public ID', results.info);
-                    setPhoto(results.info.url);
+                    console.log('Public ID', results.info)
+                    setPhoto(results.info.url)
                   }}
                   options={{
-                    tags: ["user_avatar"],
-                    folder: "CleaningBoss",
+                    tags: ['user_avatar'],
+                    folder: 'CleaningBoss',
                     publicId: `${Date.now()}`,
                   }}
                 >

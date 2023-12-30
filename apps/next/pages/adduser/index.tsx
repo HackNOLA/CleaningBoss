@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { NextPage } from 'next'
 import { useState, useEffect, useContext } from 'react'
 import { Input, XStack, YStack, Text, View, Button, Image, useToastController } from '@my/ui'
@@ -9,7 +10,7 @@ import { useSignUp } from '@clerk/nextjs'
 import { useRouter } from 'next/router'
 import { OrgContext } from 'context/orgcontext'
 import { UserContext } from 'context/usercontext'
-import { CldUploadWidget } from 'next-cloudinary';
+import { CldUploadWidget } from 'next-cloudinary'
 
 const supabase = createClient(
   'https://jqlnugxsnwftfvzsqfvv.supabase.co',
@@ -247,30 +248,33 @@ const AddAUser: NextPage = () => {
             <Text fontSize={16}>Photo</Text>
             <XStack space="$2" alignItems="flex-start">
               <YStack space="$2" alignItems="flex-start">
-                <Image width={100} height={100} source={{ uri: userAvi ? userAvi : '/photo.svg' }} />
+                <Image
+                  width={100}
+                  height={100}
+                  source={{ uri: userAvi ? userAvi : '/photo.svg' }}
+                />
               </YStack>
               <YStack space="$2" alignItems="flex-start">
                 <XStack space="$2">
-                  <Image width={32} height={32} source={{ uri: '/plus.svg' }} />
                   <CldUploadWidget
                     uploadPreset="y31wzwjk"
                     onSuccess={(results: any) => {
-                      console.log('Public ID', results.info);
-                      setUserAvi(results.info.url);
+                      console.log('Public ID', results.info)
+                      setUserAvi(results.info.url)
                     }}
                     options={{
-                      tags: ["user_avatar"],
-                      folder: "CleaningBoss",
+                      tags: ['user_avatar'],
+                      folder: 'CleaningBoss',
                       publicId: `${Date.now()}`,
                     }}
                   >
                     {({ cloudinary, widget, open }) => (
                       <button onClick={() => open()}>
+                        <Image width={32} height={32} source={{ uri: '/plus.svg' }} />
                         <Text fontSize={16}>Upload Photo</Text>
                       </button>
                     )}
                   </CldUploadWidget>
-
                 </XStack>
               </YStack>
             </XStack>
@@ -318,6 +322,7 @@ const AddAUser: NextPage = () => {
           <YStack space="$2" alignItems="flex-start">
             <XStack space="$2" justifyContent="space-between">
               <Text fontSize={16}>Locations</Text>
+
               <Image
                 width={32}
                 height={32}

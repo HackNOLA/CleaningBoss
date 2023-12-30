@@ -33,14 +33,14 @@ export default function AssignModal({
   selectedCleaners,
   unAssign,
   unassignedStaff,
-  jobs,
+  selectedJob,
 }) {
   useEffect(() => {
     document.body.style.overflow = 'hidden'
     return () => {
       document.body.style.overflow = 'unset'
     }
-  }, [selectedCleaners, unassignedStaff])
+  }, [selectedCleaners, unassignedStaff, selectedJob])
 
   const modalVariants = {
     hidden: {
@@ -53,14 +53,21 @@ export default function AssignModal({
     },
   }
 
-  if (staff && jobs) {
-    var filteredAssignedStaff = staff.filter((s) => {
-      return jobs.find((j) => j.id_user === s.id)
-    })
+  if (staff) {
+    var filteredUnassignedStaff
+    console.log(selectedJob, staff)
+    if (!selectedJob) {
+      filteredUnassignedStaff = staff
+    } else {
+      console.log(selectedJob)
+      var filteredAssignedStaff = staff.filter((s) => {
+        return selectedJob.id_user === s.id
+      })
 
-    var filteredUnassignedStaff = staff.filter((s) => {
-      return !jobs.find((j) => j.id_user !== s.id)
-    })
+      filteredUnassignedStaff = staff.filter((s) => {
+        return selectedJob.id_user !== s.id
+      })
+    }
   }
 
   const timeFormat = (time) => {
@@ -176,70 +183,72 @@ export default function AssignModal({
                 <Text fontSize={14} color="#000000">
                   {'Selected Cleaners:'}
                 </Text>
-                {
-                  <>
-                    {selectedCleaners && (
-                      <XStack space="$2">
-                        {selectedCleaners.map((s) =>
-                          staff.map(
-                            (c) =>
-                              c.id === s.id_user && (
-                                <YStack justifyContent="center" alignItems="center" key={c.id}>
-                                  <Button
-                                    onPress={() => {
-                                      onAssign(c.id)
-                                    }}
-                                    width={800}
-                                    borderRadius={50}
-                                    circular={true}
-                                  >
-                                    <CleanerAvatar cleaner={c} />
-                                  </Button>
-                                  <Text fontSize={12}>
-                                    {c.first_name} {c.last_name}
-                                  </Text>
-                                </YStack>
-                              )
-                          )
-                        )}
-                      </XStack>
-                    )}
-                  </>
-                }
-                {
-                  <>
-                    {unassignedStaff && (
-                      <XStack space="$2">
-                        {unassignedStaff.map((s) =>
-                          staff.map(
-                            (c) =>
-                              c.id === s.id_user && (
-                                <YStack justifyContent="center" alignItems="center" key={c.id}>
-                                  <Button
-                                    onPress={() => {
-                                      onAssign(c.id)
-                                    }}
-                                    width={800}
-                                    borderRadius={50}
-                                    circular={true}
-                                  >
-                                    <CleanerAvatar cleaner={c} />
-                                  </Button>
-                                  <Text fontSize={12}>
-                                    {c.first_name} {c.last_name}
-                                  </Text>
-                                </YStack>
-                              )
-                          )
-                        )}
-                      </XStack>
-                    )}
-                  </>
-                }
+                <XStack space="$2">
+                  {
+                    <XStack>
+                      {selectedCleaners && (
+                        <XStack space="$2">
+                          {selectedCleaners.map((s) =>
+                            staff.map(
+                              (c) =>
+                                c.id === s.id_user && (
+                                  <YStack justifyContent="center" alignItems="center" key={c.id}>
+                                    <Button
+                                      onPress={() => {
+                                        onAssign(c.id)
+                                      }}
+                                      width={800}
+                                      borderRadius={50}
+                                      circular={true}
+                                    >
+                                      <CleanerAvatar cleaner={c} />
+                                    </Button>
+                                    <Text fontSize={12}>
+                                      {c.first_name} {c.last_name}
+                                    </Text>
+                                  </YStack>
+                                )
+                            )
+                          )}
+                        </XStack>
+                      )}
+                    </XStack>
+                  }
+                  {
+                    <XStack>
+                      {unassignedStaff && (
+                        <XStack space="$2">
+                          {unassignedStaff.map((s) =>
+                            staff.map(
+                              (c) =>
+                                c.id === s.id_user && (
+                                  <YStack justifyContent="center" alignItems="center" key={c.id}>
+                                    <Button
+                                      onPress={() => {
+                                        onAssign(c.id)
+                                      }}
+                                      width={800}
+                                      borderRadius={50}
+                                      circular={true}
+                                    >
+                                      <CleanerAvatar cleaner={c} />
+                                    </Button>
+                                    <Text fontSize={12}>
+                                      {c.first_name} {c.last_name}
+                                    </Text>
+                                  </YStack>
+                                )
+                            )
+                          )}
+                        </XStack>
+                      )}
+                    </XStack>
+                  }
+                </XStack>
               </YStack>
             </YStack>
 
-            <YStack top={40} space="$2" alignItems="center">
+            <YStack top={10} space="$2" alignItems="center">
               <XStack space="$4">
                 <Button onPress={onClose} borderColor={'#33CC4B'} width={130} borderRadius={50}>
                   <Text fontSize={16}>Cancel</Text>

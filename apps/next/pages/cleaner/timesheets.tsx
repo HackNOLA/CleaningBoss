@@ -128,6 +128,7 @@ const StaffPage = () => {
     const fetchOrg = async () => {
       const { data: jobData } = await supabase.from('jobs').select().eq('id_user', activeUser?.id)
       if (!jobData) return
+      if (!jobData.length) return
       const { data: shiftData } = await supabase
         .from('shifts')
         .select()

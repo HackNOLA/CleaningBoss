@@ -57,6 +57,18 @@ const plugins = [
 module.exports = function () {
   /** @type {import('next').NextConfig} */
   let config = {
+    webpack: (config, { isServer }) => {
+      // Ignore .mjs files in node_modules during the build
+      if (!isServer) {
+        config.module.rules.push({
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: 'javascript/auto',
+        })
+      }
+
+      return config
+    },
     typescript: {
       ignoreBuildErrors: true,
     },

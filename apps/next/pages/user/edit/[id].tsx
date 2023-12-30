@@ -334,7 +334,7 @@ const AddAUser: NextPage = () => {
             <XStack space="$4">
               <Button
                 onPress={() => {
-                  router.replace('dashboard')
+                  router.replace('/dashboard')
                 }}
                 borderColor={'#33CC4B'}
                 width={150}
