@@ -36,6 +36,7 @@ const initialValue = dayjs()
 function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: number[] }) {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props
 
+  if (!highlightedDays.length) return
   const isSelected = !props.outsideCurrentMonth && highlightedDays.indexOf(props.day.date()) >= 0
 
   return (
@@ -55,6 +56,7 @@ export default function DateCalendarServerRequest({ shifts }) {
   const requestAbortController = React.useRef<AbortController | null>(null)
   const [isLoading, setIsLoading] = React.useState(false)
   const [highlightedDays, setHighlightedDays] = React.useState([])
+  const [currentMonth, setCurrentMonth] = React.useState(null)
 
   const fetchHighlightedDays = (highlightedDays) => {
     setHighlightedDays(highlightedDays)
@@ -64,12 +66,17 @@ export default function DateCalendarServerRequest({ shifts }) {
   React.useEffect(() => {
     if (!shifts) return
     if (!shifts.length) return
-    const highlightedDays = shifts.map((shift) => dayjs(shift.start_date).date())
+    const highlightedDays = shifts.map((shift) => {
+      //if start date is in this month, add it to the highlighted days
+      if (dayjs(shift.start_date).month() == dayjs(currentMonth).month()) {
+        return dayjs(shift.start_date).date()
+      }
+    })
     fetchHighlightedDays(highlightedDays)
     //
     // abort request on unmount
     return () => requestAbortController.current?.abort()
-  }, [shifts])
+  }, [shifts, highlightedDays])
 
   const handleMonthChange = (date: Dayjs) => {
     if (requestAbortController.current) {
@@ -78,6 +85,7 @@ export default function DateCalendarServerRequest({ shifts }) {
       requestAbortController.current.abort()
     }
 
+    setCurrentMonth(date)
     setIsLoading(true)
     setHighlightedDays([])
     fetchHighlightedDays(date)
