@@ -76,7 +76,7 @@ export default function DateCalendarServerRequest({ shifts }) {
     //
     // abort request on unmount
     return () => requestAbortController.current?.abort()
-  }, [shifts, highlightedDays])
+  }, [shifts, currentMonth])
 
   const handleMonthChange = (date: Dayjs) => {
     if (requestAbortController.current) {
