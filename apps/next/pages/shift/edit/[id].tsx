@@ -26,7 +26,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
-import { isNullishCoalesce } from 'typescript'
 import supabase from 'context/supabasecontext'
 
 const AddShift: NextPage = () => {
@@ -46,6 +45,7 @@ const AddShift: NextPage = () => {
   const [locations, setLocations] = useState([])
   const [locationId, setLocationId] = useState(null)
   const [locationName, setLocationName] = useState('')
+  const [foundShift, setFoundShift] = useState(false)
   const [availability, setAvailability] = useState([
     { day: 'Mon', selected: false },
     { day: 'Tue', selected: false },
@@ -57,22 +57,46 @@ const AddShift: NextPage = () => {
   ])
 
   useEffect(() => {
-    const fetchLocations = async () => {
-      const { data } = await supabase.from('location').select().eq('id_company', org?.id)
-      setLocations(data)
-    }
-    fetchLocations()
+    if (router.isReady) {
+      const { id } = router.query
 
-    const handleScroll = () => {
-      const position = window.scrollY
-      setScrollPosition(position)
-    }
+      const fetchShift = async () => {
+        if (foundShift) return
+        const { data } = await supabase.from('shifts').select().eq('id', id)
+        setFoundShift(true)
+        setLabel(data[0].label)
 
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
+        setAmount(data[0].cleaner_amount)
+        setCheckOutside(data[0].check_outside)
+        setLocationName(data[0].location_name)
+        setLocationId(data[0].id_location)
+        setAvailability(
+          data[0].service_days.map((day: string) => ({
+            day: JSON.parse(day).day,
+            selected: JSON.parse(day).selected,
+          }))
+        )
+      }
+
+      fetchShift()
+
+      const fetchLocations = async () => {
+        const { data } = await supabase.from('location').select().eq('id_company', org?.id)
+        setLocations(data)
+      }
+      fetchLocations()
+
+      const handleScroll = () => {
+        const position = window.scrollY
+        setScrollPosition(position)
+      }
+
+      window.addEventListener('scroll', handleScroll)
+      return () => {
+        window.removeEventListener('scroll', handleScroll)
+      }
     }
-  }, [scrollPosition, availability])
+  }, [availability])
 
   const onSelectLocation = (location: string) => {
     for (let myLocation of locations) {
@@ -209,7 +233,7 @@ const AddShift: NextPage = () => {
 
   return (
     <YStack justifyContent="center" alignItems="center">
-      <View width={'100%'}>{scrollPosition < 20 && <TopBar title="Add a Shift" />}</View>
+      <View width={'100%'}>{scrollPosition < 20 && <TopBar title={`Edit ${label}`} />}</View>
       <CurrentToast />
       <YStack
         space="$6"
@@ -225,6 +249,7 @@ const AddShift: NextPage = () => {
             Shift label
           </Text>
           <Input
+            value={label}
             onChangeText={(label) => setLabel(label)}
             width={320}
             borderColor={'#9497B8'}
@@ -338,6 +363,7 @@ const AddShift: NextPage = () => {
             Cleaners Per Shifts
           </Text>
           <Input
+            value={amount}
             width={160}
             borderWidth={1}
             borderColor={'#9497B8'}
@@ -363,7 +389,7 @@ const AddShift: NextPage = () => {
               </Button>
               <Button onPress={submitShift} width={150} backgroundColor={'#33CC4B'}>
                 <Text color="white" fontSize={16}>
-                  Add Shift
+                  Save Changes
                 </Text>
               </Button>
             </XStack>

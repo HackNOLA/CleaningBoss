@@ -12,6 +12,7 @@ import type { SolitoAppProps } from 'solito'
 import { ClerkProvider } from '@clerk/nextjs'
 import UserProvider from 'context/usercontext'
 import OrgProvider from 'context/orgcontext'
+import { SupabaseContext } from 'context/supabasecontext'
 
 if (process.env.NODE_ENV === 'production') {
   require('../public/tamagui.css')

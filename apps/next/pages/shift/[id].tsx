@@ -8,11 +8,7 @@ import TopBar from 'components/topbar'
 import { ShiftProfileCard } from 'components/shiftProfileCard'
 import { LocationCard } from 'components/locationCard'
 import AssignModal from 'components/assignmodal'
-import { stringify } from 'querystring'
-const supabase = createClient(
-  'https://jqlnugxsnwftfvzsqfvv.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbG51Z3hzbndmdGZ2enNxZnZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcxMzc5MTEsImV4cCI6MjAxMjcxMzkxMX0.ziDaVJRdM87tJ08XOf9XH2gTpoSbid4ZXZdSGmEGH18'
-)
+import supabase from 'context/supabasecontext'
 
 interface User {
   id: number
@@ -218,7 +214,7 @@ const Shift = () => {
     <>
       {shift && (
         <YStack height={'100ch'} backgroundColor={'#F2F2F2'} width={'100wh'}>
-          <TopBar title={`${shift.label}`} page={7} id={shift.id} />
+          <TopBar title={`${shift.label}`} page={8} id={shift.id} />
           <YStack space="$4" paddingTop={100} justifyContent="center" alignItems="center">
             <LocationCard location={location} onClick={() => {}} />
             {/* Shift Card */}
