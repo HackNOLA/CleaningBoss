@@ -64,6 +64,7 @@ const StaffPage = () => {
   useEffect(() => {
     const fetchOrg = async () => {
       const { data: users } = await supabase.from('users').select().eq('id_company', org?.id)
+      if (!users) return
       setUsers(users)
       for (let user of users) {
         const { data: jobData } = await supabase.from('jobs').select().eq('id_user', user?.id)
