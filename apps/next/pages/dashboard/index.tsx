@@ -8,6 +8,7 @@ import Calendar from 'pages/calendar'
 import Dashboard from './screen'
 import CleanerDash from 'pages/cleaner/screen'
 import TimeSheet from 'pages/cleaner/timesheets'
+import CleanerCal from 'pages/cleaner/cleanercalendar'
 import { UserContext } from 'context/usercontext'
 import TopBar from 'components/topbar'
 import { getCookie } from 'cookies-next'
@@ -121,63 +122,68 @@ export default function Page() {
       { !signedIn && <>
       </> } */}
       {/* <Dashboard /> */}
-      {scrollPosition < 20 && <TopBar page={page} title={title} />}
       {activeUser && activeUser?.role === 'admin' && (
-        <div
-          style={{ height: '100ch' }}
-          className="flex justify-center	items-center p-4 bg-[#F2F2F2] "
-        >
-          {page === 0 && (
-            <>
+        <>
+          {scrollPosition < 20 && <TopBar page={page} title={title} />}
+          <div
+            style={{ height: '100ch' }}
+            className="flex justify-center	items-center p-4 bg-[#F2F2F2] "
+          >
+            {page === 0 && (
+              <>
+                <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}>
+                  <Dashboard />
+                </div>
+              </>
+            )}
+            {page === 1 && (
+              <>
+                <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}>
+                  <Calendar />
+                </div>
+              </>
+            )}
+            {page === 2 && (
               <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}>
-                <Dashboard />
+                <Locations />
               </div>
-            </>
-          )}
-          {page === 1 && (
-            <>
-              <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}>
-                <Calendar />
-              </div>
-            </>
-          )}
-          {page === 2 && (
-            <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}>
-              <Locations />
-            </div>
-          )}
-          {page === 3 && (
-            <>
-              <StaffPage />
-            </>
-          )}
-        </div>
+            )}
+            {page === 3 && (
+              <>
+                <StaffPage />
+              </>
+            )}
+          </div>
+        </>
       )}
       {activeUser && activeUser?.role === 'cleaner' && (
-        <div
-          style={{ height: '100ch' }}
-          className="flex justify-center	items-center p-4 bg-[#F2F2F2] "
-        >
-          {page === 0 && (
-            <>
+        <>
+          {scrollPosition < 20 && <TopBar page={0} title={title} />}
+          <div
+            style={{ height: '100ch' }}
+            className="flex justify-center	items-center p-4 bg-[#F2F2F2] "
+          >
+            {page === 0 && (
+              <>
+                <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}>
+                  <CleanerDash />
+                </div>
+              </>
+            )}
+            {page === 1 && (
+              <>
+                <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}>
+                  <CleanerCal />
+                </div>
+              </>
+            )}
+            {page === 2 && (
               <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}>
-                <CleanerDash />
+                <TimeSheet />
               </div>
-            </>
-          )}
-          {page === 1 && (
-            <>
-              <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}>
-                <Calendar />
-              </div>
-            </>
-          )}
-          {page === 2 && (
-            <div style={{ backgroundColor: '#F2F2F2', height: '100ch', width: '100wh' }}>
-              <TimeSheet />
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        </>
       )}
       {activeUser && activeUser?.role === 'cleaner' && scrollPosition < 20 && (
         <CleanerBottomNav page={page} setPage={setPage} />
