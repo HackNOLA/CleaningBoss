@@ -10,7 +10,13 @@ import MenuItem from '@mui/material/MenuItem'
  * v0 by Vercel.
  * @see https://v0.dev/t/we15CCHfj08
  */
-export default function TopBar({ title = 'Cleaning Boss', page, id = null }) {
+export default function TopBar({
+  title = 'Cleaning Boss',
+  page,
+  id = null,
+  timesheets = null,
+  onPress = null,
+}) {
   const router = useRouter()
 
   return (
@@ -29,10 +35,52 @@ export default function TopBar({ title = 'Cleaning Boss', page, id = null }) {
         {page === 0 && <Settings />}
         {page === 1 && <AssignJob />}
         {page === 2 && <Options />}
+        {page === 3 && <TimeSheets />}
         {page === 6 && id && <EditLocation id={id} />}
         {page === 7 && id && <EditUser id={id} />}
         {page === 8 && id && <EditShift id={id} />}
+        {page === 9 && <DownloadSheet onPress={onPress} />}
       </div>
+    </div>
+  )
+}
+
+const DownloadSheet = ({ onPress }) => {
+  return (
+    <div onClick={onPress}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        strokeWidth={2}
+        fill="white"
+        class="bi bi-download"
+        viewBox="0 0 16 16"
+      >
+        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+      </svg>
+    </div>
+  )
+}
+
+const TimeSheets = () => {
+  const router = useRouter()
+
+  return (
+    <div onClick={() => router.replace(`/staff/admintimesheet`)}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        strokeWidth={2}
+        fill="white"
+        class="bi bi-download"
+        viewBox="0 0 16 16"
+      >
+        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+      </svg>
     </div>
   )
 }
