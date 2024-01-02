@@ -1,48 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Input, Card, XStack, YStack, Text, View, Button, Image } from '@my/ui'
+import { Input, XStack, YStack, Text, View, Button } from '@my/ui'
 import { useRouter } from 'next/router'
 import { createClient } from '@supabase/supabase-js'
 import { OrgContext } from 'context/orgcontext'
 import supabase from 'context/supabasecontext'
+import { UserCard } from 'components/usercard'
 
-interface User {
+export interface User {
   id: number
   name: string
   email: string
   phone: string
 }
-
-const UserCard = ({ user, onClick }: { user: User; onClick: any }) => (
-  <Card onPress={onClick} className="load-hidden" backgroundColor={'white'} width={350}>
-    <XStack>
-      <Card.Header>
-        <Image
-          zIndex={0}
-          source={{
-            uri: 'https://source.unsplash.com/random',
-          }}
-          width={50}
-          height={50}
-          borderRadius={40}
-          alt="avatar"
-        />
-      </Card.Header>
-      <YStack top={16}>
-        <XStack width={250} justifyContent="space-between">
-          <Text fontSize={14} fontWeight="bold">
-            {`${user.first_name} ${user.last_name}`}
-          </Text>
-
-          <Text color={'blue'} fontSize={14}>
-            {user.role}
-          </Text>
-        </XStack>
-        <Text>{user.email}</Text>
-        <Text>{user.phone}</Text>
-      </YStack>
-    </XStack>
-  </Card>
-)
 
 const StaffPage = () => {
   const [searchTerm, setSearchTerm] = useState('')

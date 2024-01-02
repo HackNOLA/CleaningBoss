@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Card, XStack, YStack, Text, Image } from '@my/ui'
-import { Location } from '../pages/locations'
+import { User } from '../pages/staff'
 import { useSwipeable } from 'react-swipeable'
 
-export const LocationCard = ({ location, onClick }: { location: Location; onClick: any }) => {
+export const UserCard = ({ user, onClick }: { user: User; onClick: any }) => {
   const [inSwiping, setInSwiping] = useState(false)
   const [currentMenuContainerWidth, setCurrentMenuContainerWidth] = useState(0) // 当前偏移量
   const [maxMenuContainerWidth, setMaxMenuContainerWidth] = useState(100) // 最大的偏移量
@@ -23,6 +23,7 @@ export const LocationCard = ({ location, onClick }: { location: Location; onClic
     })
   }
   useEffect(() => {
+    console.log('useEffect')
     const fn = (e) => {
       // 除了菜单按钮之外的点击都要右滑
       if (e.target === menuRef.current || e.target === menuTextRef.current) {
@@ -37,9 +38,10 @@ export const LocationCard = ({ location, onClick }: { location: Location; onClic
       document.addEventListener('mousedown', fn)
       document.addEventListener('touchstart', fn)
     }
-    return () => {}
+    return () => {
+      console.log('hhhhh')
+    }
   }, [menuMode])
-
   const handlers = useSwipeable({
     // onSwipedLeft: () => console.log("hhh"),
     // onSwipedRight: () => console.log("huhuhu"),
@@ -78,58 +80,50 @@ export const LocationCard = ({ location, onClick }: { location: Location; onClic
   }
 
   return (
-    <Card onPress={onClick} {...handlers} className="load-hidden" backgroundColor={'white'}>
+    <Card
+      onPress={onClick}
+      {...handlers}
+      className="load-hidden"
+      backgroundColor={'white'}
+      width={350}
+      height={86}
+    >
       <XStack transform={`translateX(-${currentMenuContainerWidth}px)`}>
-        <Image
-          zIndex={0}
-          source={{
-            uri: location.photo || 'https://source.unsplash.com/random/?building',
-          }}
-          width={80}
-          height={80}
-          borderTopLeftRadius={10}
-          borderBottomLeftRadius={10}
-          alt="avatar"
-        />
-        <Card.Header></Card.Header>
-        <YStack top={16}>
+        <Card.Header>
+          <Image
+            zIndex={0}
+            source={{
+              uri: user.profile_pic || 'https://source.unsplash.com/random',
+            }}
+            width={50}
+            height={50}
+            borderRadius={40}
+            alt="avatar"
+            opacity={menuMode ? '0' : '1'}
+          />
+        </Card.Header>
+        <YStack
+          top={16}
+          transform={`translateX(${-currentMenuContainerWidth + (menuMode ? 30 : 0)}px)`}
+        >
           <XStack width={250} justifyContent="space-between">
             <Text fontSize={14} fontWeight="bold">
-              {`${location.name}`}
+              {`${user.first_name} ${user.last_name}`}
             </Text>
-            <XStack space="$0" alignItems="center" justifyContent="space-evenly" paddingRight={12}>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 14 15"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.75 12.1667C3.11254 10.7215 4.96243 9.83333 7 9.83333C9.03757 9.83333 10.8875 10.7215 12.25 12.1667M9.625 4.875C9.625 6.32475 8.44975 7.5 7 7.5C5.55025 7.5 4.375 6.32475 4.375 4.875C4.375 3.42525 5.55025 2.25 7 2.25C8.44975 2.25 9.625 3.42525 9.625 4.875Z"
-                  stroke="#3A4ADF"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <Text color={'blue'} fontSize={14}>
-                {`${location.staffAmount || 0}`}
-              </Text>
-            </XStack>
 
-            {/* <Text color={'blue'} fontSize={14}>
-        </Text> */}
+            <Text display={menuMode ? 'none' : 'block'} color={'blue'} fontSize={14}>
+              {user.role}
+            </Text>
           </XStack>
-          <Text fontSize={14} color={'slategray'} width={250} paddingRight={12} numberOfLines={2}>
-            {location.address1}
-          </Text>
+          <Text>{user.email}</Text>
+          <Text>{user.phone}</Text>
         </YStack>
         <XStack
           display={menuMode ? 'flex' : 'none'}
           position="absolute"
           right={-50}
           top={0}
-          height={80}
+          height={86}
           width={maxMenuContainerWidth}
           backgroundColor={'red'}
           justifyContent="center"
