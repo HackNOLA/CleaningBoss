@@ -126,17 +126,6 @@ const AddShift: NextPage = () => {
       return
     }
 
-    if (!endDate) {
-      toast?.show('Error!', {
-        title: 'Error',
-        message: 'Please select an end date',
-        duration: 4000,
-        viewport: 'screen',
-        backgroundColor: 'red',
-      })
-      return
-    }
-
     if (!shiftInTime) {
       toast?.show('Error!', {
         title: 'Error',
@@ -175,7 +164,7 @@ const AddShift: NextPage = () => {
     //validate fields
     validateFields()
 
-    if (startDate && endDate && shiftInTime && shiftOutTime && amount) {
+    if (startDate && shiftInTime && shiftOutTime && amount) {
       const shift = {
         start_date: JSON.stringify(startDate.$d).slice(1, 25),
         end_date: JSON.stringify(startDate.$d).slice(1, 25),
@@ -197,7 +186,7 @@ const AddShift: NextPage = () => {
       console.log(error)
       toast?.show('Success!', {
         title: 'Success',
-        message: 'You have successfully added a shift!',
+        message: 'You have successfully added a job!',
         duration: 4000,
         backgroundColor: 'green',
       })

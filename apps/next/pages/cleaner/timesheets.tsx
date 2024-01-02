@@ -163,7 +163,7 @@ const StaffPage = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
-  }, [selectedJob])
+  }, [selectedJob, open])
 
   const handleOpen = (job) => {
     console.log(job)
