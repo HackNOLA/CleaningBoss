@@ -75,15 +75,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     deleteCookie('activeUser')
-    const getUserInfo = async () => {
-      if (clerkId) {
-        deleteCookie('userId')
-        setCookie('userId', clerkId, {
-          maxAge: 30 * 24 * 60 * 60,
-          // domain: 'cleaningboss-dev.vercel.app',
-        })
-      }
-    }
+
     if (activeUser) {
       setCookie('activeUser', activeUser, {
         maxAge: 30 * 24 * 60 * 60,
@@ -92,7 +84,6 @@ export default function Dashboard() {
       checkOrg(activeUser)
       return
     }
-    getUserInfo()
   }, [activeUser])
 
   const checkOrg = async (activeUser) => {
@@ -124,23 +115,6 @@ export default function Dashboard() {
       }
       fetchLocations()
       return
-    }
-    await updateOrg(activeUser?.id)
-  }
-
-  const updateOrg = async (id_user) => {
-    const { data } = await supabase.from('company').select().eq('name', orgName)
-    const foundOrg = data[0]
-
-    if (foundOrg) {
-      const employee_count = foundOrg.employee_count + 1
-      await supabase.from('company').update({ id_creator: id_user, employee_count }).eq('name', org)
-      const { data } = await supabase
-        .from('users')
-        .update({ id_company: foundOrg.id, clerk_id: userId })
-        .eq('email', activeUser)
-
-      setOrg(data[0])
     }
   }
 
