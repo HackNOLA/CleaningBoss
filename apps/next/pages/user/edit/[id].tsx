@@ -299,24 +299,26 @@ const AddAUser: NextPage = () => {
         </YStack>
         <YStack space="$2" alignItems="flex-start">
           <Text fontSize={16}>Availability</Text>
-          <XStack space="$2" justifyContent="center" paddingBottom={50}>
-            {availability.map((slot, i) => (
-              <Button
-                onPress={() => {
-                  setAvailabilitySlot(slot.day)
-                  setAvailabilityQuantity(availabilityQuantity + 1)
-                }}
-                key={`${i}`}
-                width={50}
-                height={50}
-                circular={true}
-                borderColor={slot.selected ? '#3373CC' : '#000000'}
-                borderWidth={slot.selected ? 3 : 1}
-              >
-                <Text color="black">{slot.day}</Text>
-              </Button>
-            ))}
-          </XStack>
+          {availability && (
+            <XStack space="$2" justifyContent="center" paddingBottom={50}>
+              {availability.map((slot, i) => (
+                <Button
+                  onPress={() => {
+                    setAvailabilitySlot(slot.day)
+                    setAvailabilityQuantity(availabilityQuantity + 1)
+                  }}
+                  key={`${i}`}
+                  width={50}
+                  height={50}
+                  circular={true}
+                  borderColor={slot.selected ? '#3373CC' : '#000000'}
+                  borderWidth={slot.selected ? 3 : 1}
+                >
+                  <Text color="black">{slot.day}</Text>
+                </Button>
+              ))}
+            </XStack>
+          )}
           {dayTimeSetter(availabilityQuantity)}
         </YStack>
       </YStack>

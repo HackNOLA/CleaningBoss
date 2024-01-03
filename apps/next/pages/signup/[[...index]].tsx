@@ -39,14 +39,14 @@ export default function Screen() {
   const [native, setNative] = React.useState(false)
   const toast = useToastController()
   const router = useRouter()
-  const { activeUser, setEmail } = useContext(UserContext)
-  const { setOrgName } = useContext(OrgContext)
+  const { activeUser, setActiveUser } = useContext(UserContext)
+  const { setOrg, org } = useContext(OrgContext)
 
-  useEffect(() => {
-    if (isSignedIn) {
-      router.replace('dashboard')
-    }
-  }, [isSignedIn])
+  // useEffect(() => {
+  //   if (isSignedIn) {
+  //     router.replace('dashboard')
+  //   }
+  // }, [isSignedIn])
 
   const reset = () => {
     setEmailAddress('')
@@ -75,6 +75,14 @@ export default function Screen() {
     }
 
     if (lastName && firstName && organization && !stepOneFinished) {
+      const { data, error } = await supabase
+        .from('company')
+        .insert({
+          name: organization,
+          join_code: uuidv4().slice(0, 8),
+        })
+        .select()
+      setOrg(data[0])
       setStepOneFinished(true)
       return
     }
@@ -126,22 +134,33 @@ export default function Screen() {
       })
 
       const role = organization !== '' && joinCode === '' ? 'admin' : 'user'
-      const { error: userError } = await supabase.from('users').insert({
-        first_name: firstName,
-        last_name: lastName,
-        email: emailAddress,
-        role: role,
-        has_password: true,
-      })
-      const { error: orgError } = await supabase.from('company').insert({
-        name: organization,
-        join_code: uuidv4().slice(0, 8),
-      })
+      const { error: userError, data: createdUser } = await supabase
+        .from('users')
+        .insert({
+          first_name: firstName,
+          last_name: lastName,
+          email: emailAddress,
+          role: role,
+          has_password: true,
+          id_company: org?.id,
+        })
+        .select()
+      const { error: orgError } = await supabase
+        .from('company')
+        .update({
+          id_creator: activeUser?.id,
+          employee_count: org?.employee_count + 1,
+        })
+        .eq('id', org?.id)
 
-      setOrgName(organization)
-      setEmail(emailAddress)
+      if (userError || orgError) {
+        console.log(userError, orgError)
+        return
+      }
 
-      router.replace('dashboard')
+      setActiveUser(createdUser[0])
+
+      // router.replace('dashboard')
 
       // const { data } = await supabase.from('users').select() // Correct
       // organization !== '' && joinCode === '' ?
@@ -154,6 +173,7 @@ export default function Screen() {
         message: 'You have successfully signed up!',
         duration: 4000,
         viewport: 'screen',
+        backgroundColor: '#72CE7F',
       })
     } catch (err: any) {
       console.error(JSON.stringify(err, null, 2))
@@ -247,7 +267,7 @@ export default function Screen() {
 
             <XStack space="$2" justifyContent="center">
               <YStack alignItems="center" space="$4" maw={600}>
-                <Paragraph>or</Paragraph>
+                {/* <Paragraph>or</Paragraph> */}
                 <XStack space="$2">
                   <Button padding={5} circular={true}></Button>
                   <View style={{ width: 10 }}></View>

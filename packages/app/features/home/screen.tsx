@@ -117,7 +117,7 @@ export function HomeScreen({ setEmail, setActiveUser, supabase }) {
         code,
       })
 
-      router.replace('dashboard')
+      // router.replace('dashboard')
 
       // const { data } = await supabase.from('users').select() // Correct
       // organization !== '' && joinCode === '' ?
@@ -229,7 +229,7 @@ export function HomeScreen({ setEmail, setActiveUser, supabase }) {
             </Button>
             <XStack space="$2" justifyContent="center">
               <YStack alignItems="center" space="$4" maw={600}>
-                <Paragraph>or</Paragraph>
+                {/* <Paragraph>or</Paragraph> */}
                 <XStack space="$2">
                   <Button padding={5} circular={true}></Button>
                   <View style={{ width: 10 }}></View>

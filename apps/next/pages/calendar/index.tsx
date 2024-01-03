@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Input, Card, XStack, YStack, Text, View, Button, Image } from '@my/ui'
 import { useRouter } from 'next/router'
-import { createClient } from '@supabase/supabase-js'
+import { TaskCard } from 'components/taskCard'
 import { OrgContext } from 'context/orgcontext'
 import Calendar from 'components/calendar'
 import supabase from 'context/supabasecontext'
@@ -14,124 +14,6 @@ interface Task {
   activeCleaners: number
   totalCleaners: number
 }
-
-const tasks = [
-  {
-    id: 1,
-    time: '8:00 am - 3:30 pm',
-    location: 'Main Office',
-    day: 'Monday, November 1st, 2023',
-    activeCleaners: 5,
-    totalCleaners: 5,
-  },
-  {
-    id: 2,
-    time: '8:00 am - 3:30 pm',
-    location: 'Main Office',
-    day: 'Monday, November 1st, 2023',
-    activeCleaners: 5,
-    totalCleaners: 5,
-  },
-  {
-    id: 3,
-    time: '8:00 am - 3:30 pm',
-    location: 'Main Office',
-    day: 'Monday, November 1st, 2023',
-    activeCleaners: 5,
-    totalCleaners: 5,
-  },
-  {
-    id: 4,
-    time: '8:00 am - 3:30 pm',
-    location: 'Main Office',
-    day: 'Monday, November 1st, 2023',
-    activeCleaners: 5,
-    totalCleaners: 5,
-  },
-  {
-    id: 5,
-    time: '8:00 am - 3:30 pm',
-    location: 'Main Office',
-    day: 'Monday, November 1st, 2023',
-    activeCleaners: 5,
-    totalCleaners: 5,
-  },
-  {
-    id: 6,
-    time: '8:00 am - 3:30 pm',
-    location: 'Main Office',
-    day: 'Monday, November 1st, 2023',
-    activeCleaners: 5,
-    totalCleaners: 5,
-  },
-]
-
-const TaskCard = ({ task, onPress }: { task: Task }) => (
-  <Card onPress={onPress} width={350} className="load-hidden" backgroundColor={'white'}>
-    <XStack>
-      <YStack
-        borderTopLeftRadius={10}
-        borderBottomLeftRadius={10}
-        backgroundColor={'blue'}
-        width={10}
-        height={80}
-      ></YStack>
-      <Card.Header></Card.Header>
-      <YStack top={16}>
-        <XStack width={250} justifyContent="space-between">
-          <Text fontSize={14} fontWeight="bold">
-            {`${task.location_name}`}
-          </Text>
-        </XStack>
-        <XStack width={250} justifyContent="space-between">
-          <YStack>
-            <Text fontSize={14} color={'slategray'} width={250} paddingRight={12} numberOfLines={2}>
-              {`${
-                new Date(task.check_in_time)
-                  .toLocaleDateString('en-US', {
-                    hour: 'numeric',
-                    minute: 'numeric',
-                  })
-                  .split(',')[1]
-              } -
-                  ${
-                    new Date(task.check_out_time)
-                      .toLocaleDateString('en-US', {
-                        hour: 'numeric',
-                        minute: 'numeric',
-                      })
-                      .split(',')[1]
-                  }`}
-            </Text>
-            <Text fontSize={14} color={'slategray'} width={250} paddingRight={12} numberOfLines={2}>
-              {new Date(task.start_date).toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour12: true,
-              })}
-            </Text>
-          </YStack>
-          <XStack space="$0" alignItems="center" justifyContent="space-evenly" paddingRight={12}>
-            <View
-              backgroundColor={'#94DAA0'}
-              width={36}
-              height={24}
-              borderRadius={12}
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Text fontSize={14} color={'slategray'}>
-                {`${task.active_cleaners}/${task.cleaner_amount}`}
-              </Text>
-            </View>
-          </XStack>
-        </XStack>
-      </YStack>
-    </XStack>
-  </Card>
-)
 
 const Tasks = () => {
   const [searchTerm, setSearchTerm] = useState('')
