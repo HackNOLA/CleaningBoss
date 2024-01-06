@@ -49,7 +49,7 @@ export default function Component() {
             <YStack justifyContent="center" alignItems="center">
               <div className="grid gap-6 lg:grid-cols-[400px_1fr] lg:gap-12 xl:grid-cols-[600px_1fr]">
                 <Image
-                  className="w-80 lg:w-full"
+                  className="w-80 lg:w-2/3"
                   alt="Hero"
                   height={200}
                   src="/landing_splash.png"
