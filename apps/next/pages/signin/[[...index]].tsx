@@ -1,23 +1,27 @@
-import { SignIn } from '@clerk/nextjs'
+import { HomeScreen } from 'app/features/home/screen'
 import Head from 'next/head'
+import { SignIn, useAuth } from '@clerk/nextjs'
+import Image from 'next/image'
+import { OrgContext } from 'context/orgcontext'
+import { UserContext } from 'context/usercontext'
+import { useContext } from 'react'
+import supabase from 'context/supabasecontext'
 
 export default function Page() {
+  const { signedIn }: any = useAuth()
+  const { setEmail, setActiveUser } = useContext(UserContext)
+
   return (
     <>
       <Head>
-        <title>Sign In</title>
-        <style>{`
-          .cl-internal-phfxlr { 
-            font-family: sans-serif;
-          }
-        `}</style>
+        <title>Cleaning Boss</title>
       </Head>
-      <div className="w-full h-full justify-center grid-cols-2 grid-rows-1">
-        <section className=''>
-          <section className="text-gray-600 body-font">
-             <SignIn />
-          </section>
-        </section>
+      {/* { signedIn && <HomeScreen /> }
+      { !signedIn && <>
+      </> } */}
+      <div className="min-h-screen">
+        <Image src={'/auth_splash.png'} width={600} height={200} />
+        <HomeScreen supabase={supabase} setEmail={setEmail} setActiveUser={setActiveUser} />
       </div>
     </>
   )
