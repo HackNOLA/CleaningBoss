@@ -46,7 +46,7 @@ export function HomeScreen({ setEmail, setActiveUser, supabase }) {
 
   useEffect(() => {
     if (isSignedIn) {
-      router.replace('dashboard')
+      router.replace('/dashboard')
     }
   }, [isSignedIn])
 
@@ -124,7 +124,7 @@ export function HomeScreen({ setEmail, setActiveUser, supabase }) {
 
       console.log(error)
       await signUpActive({ session: completeSignUp.createdSessionId })
-      router.replace('dashboard')
+      router.replace('/dashboard')
 
       toast.show('Success!', {
         title: 'Success',
