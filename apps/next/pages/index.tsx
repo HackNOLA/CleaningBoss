@@ -28,7 +28,7 @@ export default function Component() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-blue-500  to-[#83e289af] ">
-      <header className="fixed top-0 w-full bg-blue-500 dark:bg-gray-800 z-10 border-b-1 border-slate-500 p-4 shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)]">
+      <header className="top-0 w-full bg-blue-500 dark:bg-gray-800 z-10 border-b-1 border-slate-500 p-4 shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)]">
         <div className="container mx-auto px-4 py-2 flex justify-between items-center">
           <Link className="text-2xl font-bold text-gray-100 dark:text-gray-100" href="#">
             {/* Cleaning Boss */}
@@ -52,7 +52,7 @@ export default function Component() {
                   <nav className="flex flex-col px-4 py-2 space-y-4">
                     <NavItem delay={0.2}>
                       <Link
-                        className="text-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 text-2xl"
+                        className="text-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 text-xl"
                         href="#features"
                       >
                         Features
@@ -60,7 +60,7 @@ export default function Component() {
                     </NavItem>
                     <NavItem delay={0.4}>
                       <Link
-                        className="text-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 text-2xl"
+                        className="text-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 text-xl"
                         href="#pricing"
                       >
                         Pricing
@@ -68,7 +68,7 @@ export default function Component() {
                     </NavItem>
                     <NavItem delay={0.6}>
                       <Link
-                        className="text-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 text-2xl"
+                        className="text-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 text-xl"
                         href="/signin"
                       >
                         Login

@@ -33,6 +33,12 @@ export default function Component() {
               <CheckIcon className="w-6 h-6 text-green-500" />
               <span className="ml-3 text-sm text-gray-700 dark:text-gray-300">Free Support</span>
             </li>
+            <li className="flex items-start">
+              <CheckIcon className="w-6 h-6 text-green-500" />
+              <span className="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                Exclusive Features
+              </span>
+            </li>
           </ul>
           <XStack className="mt-8">
             <Button
@@ -72,6 +78,10 @@ export default function Component() {
             <li className="flex items-start">
               <CheckIcon className="w-6 h-6 text-green-500" />
               <span className="ml-3 text-sm text-gray-700 dark:text-gray-300">Free Support</span>
+            </li>
+            <li className="flex items-start">
+              <CheckIcon className="w-6 h-6 text-green-500" />
+              <span className="ml-3 text-sm text-gray-700 dark:text-gray-300">Add More</span>
             </li>
           </ul>
           <XStack className="mt-8">
