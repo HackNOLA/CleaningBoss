@@ -21,7 +21,7 @@ export default function Signout() {
           <Button
             onPress={async () => {
               await signOut()
-              router.replace('/')
+              router.replace('/signin')
             }}
           >
             Sign Out
