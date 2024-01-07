@@ -2,22 +2,42 @@
  * v0 by Vercel.
  * @see https://v0.dev/t/9ImftiM2VaH
  */
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Input, Button, YStack, XStack, H1, Text } from '@my/ui'
-// import { Input } from '@/components/ui/input'
-// import { Button } from '@/components/ui/button'
+import Pricing from 'components/pricing'
+import { motion, AnimatePresence } from 'framer-motion'
+
+const NavItem = ({ children, delay }) => {
+  return (
+    <motion.li
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ delay }}
+    >
+      {children}
+    </motion.li>
+  )
+}
 
 export default function Component() {
+  const [open, setOpen] = useState(false)
+  const [email, setEmail] = useState('')
+
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-blue-500 to-cyan-500 to-[#83e289af] ">
-      <header className="fixed top-0 w-full bg-transparent dark:bg-gray-800 z-10 border-b-1 border-slate-500 mt-8">
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-blue-500  to-[#83e289af] ">
+      <header className="fixed top-0 w-full bg-blue-500 dark:bg-gray-800 z-10 border-b-1 border-slate-500 p-4 shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,255,0.15)]">
         <div className="container mx-auto px-4 py-2 flex justify-between items-center">
           <Link className="text-2xl font-bold text-gray-100 dark:text-gray-100" href="#">
-            Cleaning Boss
+            {/* Cleaning Boss */}
           </Link>
           <div className="md:hidden">
-            <button className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 focus:outline-none">
+            <button
+              onClick={() => setOpen(!open)}
+              className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 focus:outline-none"
+            >
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                 <path
                   clipRule="evenodd"
@@ -26,6 +46,38 @@ export default function Component() {
                 />
               </svg>
             </button>
+            {open && (
+              <AnimatePresence>
+                <div className="absolute top-20 left-0 w-full bg-transparent dark:bg-gray-800">
+                  <nav className="flex flex-col px-4 py-2 space-y-4">
+                    <NavItem delay={0.2}>
+                      <Link
+                        className="text-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 text-2xl"
+                        href="#features"
+                      >
+                        Features
+                      </Link>
+                    </NavItem>
+                    <NavItem delay={0.4}>
+                      <Link
+                        className="text-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 text-2xl"
+                        href="#pricing"
+                      >
+                        Pricing
+                      </Link>
+                    </NavItem>
+                    <NavItem delay={0.6}>
+                      <Link
+                        className="text-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 text-2xl"
+                        href="/signin"
+                      >
+                        Login
+                      </Link>
+                    </NavItem>
+                  </nav>
+                </div>
+              </AnimatePresence>
+            )}
           </div>
           <nav className="hidden md:flex space-x-4">
             <Link
@@ -40,6 +92,12 @@ export default function Component() {
             >
               Pricing
             </Link>
+            <Link
+              className="text-gray-100 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-100"
+              href="/signin"
+            >
+              Login
+            </Link>
           </nav>
         </div>
       </header>
@@ -52,23 +110,18 @@ export default function Component() {
                   className="w-80 lg:w-2/3"
                   alt="Hero"
                   height={200}
-                  src="/landing_splash.png"
+                  src={'/landing_splash.png'}
                   width="550"
+                  style={{ zIndex: 0 }}
                 />
                 <div className="flex flex-col justify-center space-y-4">
                   <YStack className="space-y-2" alignItems="center" justifyContent="center">
                     <XStack className="space-x-2">
                       <Text
-                        letterSpacing={20}
+                        // letterSpacing={10}
                         className="text-xl text-gray-100 font-bold tracking-tighter sm:text-xl xl:text-3xl/none"
                       >
-                        CLEANING
-                      </Text>
-                      <Text
-                        letterSpacing={10}
-                        className="text-xl text-gray-100 font-bold tracking-tighter sm:text-xl xl:text-3xl/none"
-                      >
-                        BOSS
+                        CLEANING BOSS
                       </Text>
                     </XStack>
                     <Text className="text-xl text-gray-100 font-100 tracking-tighter sm:text-xl xl:text-3xl/none">
@@ -97,6 +150,89 @@ export default function Component() {
                   </div>
                 </div>
               </div>
+              <div id="features" className="flex flex-col gap-6 pt-24">
+                <div className="flex gap-4">
+                  <div className="flex flex-col justify-center w-1/2">
+                    <Text
+                      paddingBottom={12}
+                      color={'black'}
+                      className="text-md font-bold lg:text-5xl"
+                    >
+                      Improve Your Operations
+                    </Text>
+                    <Text className="text-[#000] dark:text-gray-400 lg:text-3xl">
+                      Unleash your inner boss with Cleaning Boss; a transformative tool crafted
+                      exclusively for cleaning business owners. Welcome to the future of managing
+                      your cleaning business.
+                    </Text>
+                  </div>
+                  <img
+                    alt="Feature 1"
+                    className="rounded-lg object-cover w-1/2"
+                    height="300"
+                    src="/side.png"
+                    style={{
+                      aspectRatio: '400/300',
+                      objectFit: 'contain',
+                    }}
+                    width="500"
+                  />
+                </div>
+                <div className="flex gap-4">
+                  <img
+                    alt="Feature 2"
+                    className="rounded-lg object-cover w-1/2"
+                    height="300"
+                    src="/tilt.png"
+                    style={{
+                      aspectRatio: '400/300',
+                      objectFit: 'contain',
+                    }}
+                    width="500"
+                  />
+                  <div className="flex flex-col justify-center w-1/2">
+                    <Text
+                      paddingBottom={12}
+                      color={'black'}
+                      className="text-md font-bold lg:text-5xl"
+                    >
+                      GPS Timekeeping & Employee Scheduling at Anytime, Anywhere!
+                    </Text>
+                    <p className="text-[#000] dark:text-gray-400">
+                      GPS Timekeeping & Employee Scheduling at Anytime, Anywhere! Step into the 21st
+                      century. Forget paperwork; manage your work schedules, and monitor your
+                      employees’ in real-time, right as it happens.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="flex flex-col justify-center w-1/2">
+                    <Text
+                      paddingBottom={12}
+                      color={'black'}
+                      className="text-md font-bold lg:text-5xl"
+                    >
+                      Smart Cleaning Checklists for Effective Task Management
+                    </Text>
+                    <p className="text-[#000] dark:text-gray-400">
+                      Ditch the traditional checklist for a smart, interactive one that makes
+                      tracking tasks a breeze. Cleaning has never been made so simple.
+                    </p>
+                  </div>
+                  <img
+                    alt="Feature 3"
+                    className="rounded-lg object-cover w-1/2"
+                    height="300"
+                    src="/front.png"
+                    style={{
+                      aspectRatio: '400/300',
+                      objectFit: 'contain',
+                    }}
+                    width="500"
+                  />
+                </div>
+              </div>
+              <Pricing />
             </YStack>
           </div>
         </section>
