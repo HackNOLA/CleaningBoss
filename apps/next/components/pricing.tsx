@@ -3,6 +3,7 @@
  * @see https://v0.dev/t/dzFmkPdMHEI
  */
 import { Button, XStack } from '@my/ui'
+import Link from 'next/link'
 
 export default function Component() {
   return (
@@ -42,7 +43,7 @@ export default function Component() {
               color={'#fff'}
               alignSelf="center"
             >
-              Join Now!
+              <Link href="/signup">Join Now!</Link>
             </Button>
           </XStack>
         </div>
@@ -82,7 +83,7 @@ export default function Component() {
               color={'#fff'}
               alignSelf="center"
             >
-              Add User Now!
+              <Link href="/signin">Add User Now!</Link>
             </Button>
           </XStack>
         </div>
