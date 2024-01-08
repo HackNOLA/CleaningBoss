@@ -8,6 +8,8 @@ import Image from 'next/image'
 import { Input, Button, YStack, XStack, H1, Text } from '@my/ui'
 import Pricing from 'components/pricing'
 import { motion, AnimatePresence } from 'framer-motion'
+import supabase from 'context/supabasecontext'
+import { useToast } from '@/components/ui/use-toast'
 
 const NavItem = ({ children, delay }) => {
   return (
@@ -25,6 +27,38 @@ const NavItem = ({ children, delay }) => {
 export default function Component() {
   const [open, setOpen] = useState(false)
   const [email, setEmail] = useState('')
+  const { toast } = useToast()
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const { data: existing, error: existing_error } = await supabase
+      .from('waitlist')
+      .select('*')
+      .eq('email', email)
+
+    if (!existing?.length) {
+      console.log(existing_error)
+    } else {
+      toast({
+        title: "You're already on the waitlist!",
+        description: "We'll let you know when we're ready to launch.",
+      })
+      return
+    }
+
+    const { data: new_waitlister, error: new_waitlister_error } = await supabase
+      .from('waitlist')
+      .insert({ email })
+      .select()
+    if (new_waitlister_error) {
+      console.log(new_waitlister_error)
+    } else {
+      toast({
+        title: 'Thanks for joining the waitlist!',
+        description: "We'll let you know when we're ready to launch.",
+      })
+    }
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-blue-500  to-[#83e289af] ">
@@ -142,8 +176,10 @@ export default function Component() {
                         width={'100%'}
                         placeholder="name@email.com"
                         type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                       />
-                      <Button backgroundColor={'#788aff'} color={'white'}>
+                      <Button onPress={handleSubmit} backgroundColor={'#788aff'} color={'white'}>
                         Subscribe
                       </Button>
                     </YStack>

@@ -1,3 +1,4 @@
+import './toast.css'
 import '@tamagui/core/reset.css'
 import '@tamagui/font-inter/css/400.css'
 import '@tamagui/font-inter/css/700.css'
@@ -12,7 +13,7 @@ import type { SolitoAppProps } from 'solito'
 import { ClerkProvider } from '@clerk/nextjs'
 import UserProvider from 'context/usercontext'
 import OrgProvider from 'context/orgcontext'
-import { SupabaseContext } from 'context/supabasecontext'
+import { Toaster } from '@/components/ui/toaster'
 
 if (process.env.NODE_ENV === 'production') {
   require('../public/tamagui.css')
@@ -34,6 +35,7 @@ function MyApp({ Component, pageProps }: SolitoAppProps) {
             </Head>
             <ThemeProvider>
               <Component {...pageProps} />
+              <Toaster />
             </ThemeProvider>
           </ClerkProvider>
         </OrgProvider>
