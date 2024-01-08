@@ -183,7 +183,7 @@ export default function Screen() {
   return (
     <>
       <>
-        <Image src={'/auth_splash.png'} width={600} height={200} alt="splash" />
+        <Image src={'/auth_splash.jpg'} width={600} height={200} alt="splash" />
         {!pendingVerification && (
           <YStack padding={40} space="$4" maw={400}>
             <XStack
@@ -278,7 +278,7 @@ export default function Screen() {
             <YStack alignItems="center" space="$4" maw={600}>
               <Paragraph>
                 Already have an account?{' '}
-                <Anchor style={{ color: 'blue', textDecorationLine: 'underline' }} href="/">
+                <Anchor style={{ color: 'blue', textDecorationLine: 'underline' }} href="/signin">
                   {' '}
                   Log In
                 </Anchor>

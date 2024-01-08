@@ -20,7 +20,7 @@ export default function Page() {
       { !signedIn && <>
       </> } */}
       <div className="min-h-screen">
-        <Image src={'/auth_splash.png'} width={600} height={200} />
+        <Image src={'/auth_splash.jpg'} width={600} height={200} />
         <HomeScreen supabase={supabase} setEmail={setEmail} setActiveUser={setActiveUser} />
       </div>
     </>
