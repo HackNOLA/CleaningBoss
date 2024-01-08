@@ -100,14 +100,14 @@ export default function Component() {
                         Pricing
                       </Link>
                     </NavItem>
-                    <NavItem delay={0.6}>
+                    {/* <NavItem delay={0.6}>
                       <Link
                         className="text-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 text-xl"
                         href="/signin"
                       >
                         Login
                       </Link>
-                    </NavItem>
+                    </NavItem> */}
                   </nav>
                 </div>
               </AnimatePresence>
@@ -126,12 +126,12 @@ export default function Component() {
             >
               Pricing
             </Link>
-            <Link
+            {/* <Link
               className="text-gray-100 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-100"
               href="/signin"
             >
               Login
-            </Link>
+            </Link> */}
           </nav>
         </div>
       </header>
