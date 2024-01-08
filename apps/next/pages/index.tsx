@@ -29,12 +29,27 @@ export default function Component() {
   const [email, setEmail] = useState('')
   const { toast } = useToast()
 
+  const comingSoon = () => {
+    toast({
+      title: 'Coming Soon!',
+      description: 'This feature is not yet available.',
+    })
+  }
+
   const handleSubmit = async (e) => {
+    //if email isn't an email
+    if (!email.includes('@')) {
+      toast({
+        title: 'Invalid Email',
+        description: 'Please enter a valid email address.',
+      })
+      return
+    }
     e.preventDefault()
     const { data: existing, error: existing_error } = await supabase
       .from('waitlist')
       .select('*')
-      .eq('email', email)
+      .eq('email', email.toLowerCase())
 
     if (!existing?.length) {
       console.log(existing_error)
@@ -48,7 +63,7 @@ export default function Component() {
 
     const { data: new_waitlister, error: new_waitlister_error } = await supabase
       .from('waitlist')
-      .insert({ email })
+      .insert({ email: email.toLowerCase() })
       .select()
     if (new_waitlister_error) {
       console.log(new_waitlister_error)
@@ -268,7 +283,7 @@ export default function Component() {
                   />
                 </div>
               </div>
-              <Pricing />
+              <Pricing comingSoon={comingSoon} />
             </YStack>
           </div>
         </section>

@@ -5,7 +5,7 @@
 import { Button, XStack } from '@my/ui'
 import Link from 'next/link'
 
-export default function Component() {
+export default function Component({ comingSoon }) {
   return (
     <div id="pricing" className="grid gap-4 md:gap-8 lg:grid-cols-2 px-4 md:px-6 py-6 md:py-8">
       <div className="flex flex-col bg-white shadow-lg rounded-lg overflow-hidden dark:bg-gray-800">
@@ -48,8 +48,9 @@ export default function Component() {
               className="mt-8 w-full"
               color={'#fff'}
               alignSelf="center"
+              onPress={comingSoon}
             >
-              <Link href="/signup">Join Now!</Link>
+              Join Now!
             </Button>
           </XStack>
         </div>
@@ -92,8 +93,9 @@ export default function Component() {
               className="mt-8 w-full"
               color={'#fff'}
               alignSelf="center"
+              onPress={comingSoon}
             >
-              <Link href="/signin">Add User Now!</Link>
+              Add User Now!
             </Button>
           </XStack>
         </div>
